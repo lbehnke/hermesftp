@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<document>
+	<properties>
+		<title>Hermes FTP Server Project</title>
+		<author email="nospam.AT.larsbehnke.DOT.net">Lars Behnke</author>
+	</properties>
+	<meta
+		name="keyword"
+		content="ftp, java" />
+	<body>
+		<section name="User Management">
+			<p>
+				The default user manager is configured via the file
+				<i>hermesftp-users.xml.</i>
+				This XML file contains the information about all ftp user groups, their resource
+				consumption limits and permissions granted on data folders. It contains also a list
+				of all users known to the system.
+			</p>
+		<subsection name="Group Configuration">
+			<p>
+				Users of the same group share similar permissions and resource constraints. You can
+				configure as many groups as you like. However, we recommend that you configure at
+				least two: users and administrators. A user group contains information about
+				resource consumption limits and access permissions all group members a subjected to.
+			</p>
+			<p>
+			Each resource consumption limit has a name and a value (see code snippet). Currently, there
+			a four limits supported:
+			<ul>
+				<li>Bytes downloaded: Number of bytes the user is allowed to download per day.</li>
+				<li>Bytes uploaded: Number of bytes the user is allowed to upload per day.</li>
+				<li>Files downloaded: Number of files the user is allowed to download per day.</li>
+				<li>Files uploaded: Number of files the user is allowed to upload per day.</li>
+			</ul>
+			</p>
+			<p>
+			Each group contains a list permissions granted on ftp data folders. The folders are
+			specified using ANT style patterns. You can read more about these patterns
+			<a href="http://ant.apache.org/manual/index.html">here</a>.
+			There two placeholders that can be included in path names: ${ftproot} corresponds to
+			the setting <i>ftp.root.dir</i> in the application context file <i>hermesftp-ctx.xml</i> and
+			points to the root ftp folder. The expression ${user} is replaced by the user name dynamically.
+			A permission level is assigned to each of the path patterns:
+			<ul>
+				<li>r: Read only access.</li>
+				<li>rw: Read/writeaccess.</li>
+			</ul>
+			The following code snippet demonstrates a typical group configuration:
+			</p>
+			<source>
+&lt;groups&gt;
+    &lt;group name=&quot;users&quot; &gt;
+        &lt;limits&gt;
+            &lt;limit name=&quot;Bytes downloaded&quot; value=&quot;1000000&quot;/&gt;
+            &lt;limit name=&quot;Bytes uploaded&quot; value=&quot;1000000&quot;/&gt;
+            &lt;limit name=&quot;Files downloaded&quot; value=&quot;100&quot;/&gt;
+            &lt;limit name=&quot;Files uploaded&quot; value=&quot;100&quot;/&gt;
+        &lt;/limits&gt;
+        &lt;permissions&gt;
+            &lt;permission flag=&quot;rw&quot; path=&quot;${ftproot}/${user}/**&quot;/&gt;
+            &lt;permission flag=&quot;rw&quot; path=&quot;${ftproot}/${user}&quot;/&gt;
+            &lt;permission flag=&quot;r&quot; path=&quot;${ftproot}&quot;/&gt;
+        &lt;/permissions&gt;
+    &lt;/group&gt;
+    ...
+&lt;/groups&gt;
+			</source>
+
+		</subsection>
+
+		<subsection name="User Configuration">
+		<p>
+			Only users that are known to the application are granted access to the data folders.
+			Each user is configured along with his/her login name, fullname, and password.
+			A user may be member of different groups.
+
+		</p>
+		<p>
+		    The user's password can be configured in plain text or as hashcode calculated by an supported algorithm.
+		    The name of the algorithm is prepended to a BASE64 encoded string, e.g. "{MD5}Cwz8B/yoHJVquRgdhXb0qA==".
+		    If the password does not start with a curly brace, it is handled as plain text.
+		    Since Hermes FTP servers comes without GUI, the password hash is generated from the command line as follows:
+		    <source>
+java -jar hermesftp-&lt;version&gt;.jar -password &lt;secretpassword&gt; &lt;algorithm&gt;
+		    </source>
+
+		    Example:
+		    <source>
+c:\develop>java -jar hermesftp-0.2.jar -password sec MD5
+Hash: {MD5}dEWco8+FqB35Dalf9ueiBw==
+c:\develop>
+		    </source>
+
+		</p>
+		<p>
+		The following code snippet demonstrates a typical user configuration:
+		</p>
+
+		<source>
+&lt;users default-dir=&quot;${ftproot}/${user}&quot;&gt;
+    &lt;user uid=&quot;user&quot; 
+             fullname=&quot;Test User&quot; 
+             password=&quot;user&quot;&gt;
+        &lt;group-ref name=&quot;users&quot;/&gt;
+    &lt;/user&gt;
+    &lt;user uid=&quot;admin&quot;
+             fullname=&quot;Administrator&quot;
+             adminrole=&quot;true&quot;
+             password=&quot;{MD5}dEWco8+FqB35Dalf9ueiBw==&quot;&gt;
+        &lt;group-ref name=&quot;users&quot;/&gt;
+        &lt;group-ref name=&quot;administrators&quot;/&gt;
+    &lt;/user&gt;
+&lt;/users&gt;</source>
+
+		<p>You can omit the password to enable anonymous login (An email address is expected as password).</p>
+		</subsection>
+
+		</section>
+
+
+	</body>
+</document>

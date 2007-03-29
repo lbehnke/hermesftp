@@ -1,0 +1,22 @@
+<div id="content">
+  <div class="section">
+    <h2>${page.title}</h2>
+   
+    <table class="overview">
+      <tr>
+        <td>Session Count:</td>
+        <td>${session.count}</td>
+        <td>at ${current.date}</td>
+      </tr>
+      <tr>
+        <td>Session Count (High Water Mark):</td>
+        <td>${session.count.hwm}</td>
+        <td>at ${session.count.hwm.date}</td>
+      </tr>
+    </table>
+    <br/>
+     
+    ${session.table}
+    
+  </div>
+</div>

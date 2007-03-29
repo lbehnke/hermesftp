@@ -1,0 +1,175 @@
+<document>
+	<properties>
+		<title>Change History</title>
+		<author email="lbehnke AT users.sourceforge.net">
+			Lars Behnke
+		</author>
+	</properties>
+	<body>
+
+		<!--
+			type: update,fix,remove,add
+		-->
+		<release version="0.13" date="2007-xx-xx"
+			desc="Bugfix release.">
+			<action dev="lbehnke" type="add">
+				Made console servlets and associated resources configurable via spring application context.
+			</action>
+		</release>
+		<release version="0.12" date="2007-03-26"
+			desc="Bugfix release.">
+			<action dev="lbehnke" type="fix">
+				Fixed JDK 1.4 incompatibility that inadvertently stole into release 0.11.
+			</action>
+		</release>
+		<release version="0.11" date="2007-03-25"
+			desc="Administration console.">
+			<action dev="lbehnke" type="add">
+				A web based administration console provides basic
+				statistics about sessions, users, memory consumption
+				etc. The console is disabled by default. It can be
+				enabled by setting the application context option
+				"console.enabled" to true.
+			</action>
+			<action dev="lbehnke" type="add">
+				Handling of client specific extensions to RFC 959 such as
+				LIST -aL.
+			</action>
+		</release>
+		<release version="0.10" date="2006-09-30"
+			desc="Bugfix release.">
+			<action dev="lbehnke" type="fix">
+				On Linux system with more than one network interfaces
+				the loop back address has been used instead of the
+				machine address. Hence, passive mode connections failed.
+			</action>
+		</release>
+		<release version="0.9" date="2006-08-01"
+			desc="Bugfix release.">
+			<action dev="lbehnke" type="fix">
+				Service-Wrapper: version placeholder was not replaced.
+			</action>
+			<action dev="lbehnke" type="add">
+				Usermanager interface changed: Session context is passed
+				to user manager on authentification.
+			</action>
+		</release>
+
+		<release version="0.8" date="2006-07-23"
+			desc="Bugfix release.">
+			<action dev="lbehnke" type="fix">
+				Fixed bug concerning control channel flush.
+			</action>
+			<action dev="lbehnke" type="add">JMeter load tests.</action>
+		</release>
+
+		<release version="0.7" date="2006-06-11"
+			desc="Bugfix release.">
+			<action dev="lbehnke" type="fix">
+				Enforcement of resource consumption limits.
+			</action>
+			<action dev="lbehnke" type="fix">
+				Fixed various bugs concerning record handling.
+			</action>
+			<action dev="lbehnke" type="fix">
+				Fixed issues concerning mulit-byte character sets.
+			</action>
+			<action dev="lbehnke" type="fix">
+				Changed unit test FTP port to 2121 in order to enable
+				non-root Unix users to execute the tests.
+			</action>
+			<action dev="lbehnke" type="update">
+				Modified FtpCmd interface.
+			</action>
+		</release>
+
+		<release version="0.6" date="2006-05-25"
+			desc="Mainframe support.">
+			<action dev="lbehnke" type="add">
+				Support for record Structure.
+			</action>
+			<action dev="lbehnke" type="add">
+				Support for block transmission mode.
+			</action>
+		</release>
+
+		<release version="0.5" date="2006-05-01"
+			desc="Bugfix release.">
+			<action dev="lbehnke" type="fix">
+				Use Locale.US when returning directory to client.
+			</action>
+			<action dev="lbehnke" type="fix">
+				Optimized multithreading.
+			</action>
+			<action dev="lbehnke" type="add">
+				Capability to define session timeout interval.
+			</action>
+			<action dev="lbehnke" type="add">Anonymous login.</action>
+		</release>
+
+		<release version="0.4" date="2006-04-30"
+			desc="Support of common browsers (Firefox, IE).">
+			<action dev="lbehnke" type="fix">
+				Fixed file timestamp format returned by LIST command.
+			</action>
+			<action dev="lbehnke" type="add">
+				Processing OPTS UTF ON (as required by Internet
+				Explorer).
+			</action>
+			<action dev="lbehnke" type="add">
+				Implemented SIZE command.
+			</action>
+			<action dev="lbehnke" type="update">
+				Enforce security check on MDTM command.
+			</action>
+		</release>
+
+		<release version="0.3" date="2006-04-22"
+			desc="Bugfix release.">
+			<action dev="lbehnke" type="update">
+				Changed package names to "net.sf.hermesftp".
+			</action>
+			<action dev="lbehnke" type="remove">
+				Remove keystore from classpath and updated
+				documentation.
+			</action>
+			<action dev="lbehnke" type="fix">
+				Security is enforced on executing RMD command.
+			</action>
+			<action dev="lbehnke" type="fix">
+				Fixed unix/windows path separator issue.
+			</action>
+		</release>
+
+		<release version="0.2" date="2006-03-07"
+			desc="Hermes FTP Server with SSL support.">
+			<action dev="lbehnke" type="add">
+				Security enforced through explicit/implicit SSL/TLS (RFC
+				2228).
+			</action>
+			<action dev="lbehnke" type="add">
+				Test client and unit tests implemented.
+			</action>
+			<action dev="lbehnke" type="add">
+				Extended FTP features, such as FEAT, OPTS implemented
+				(RFC 2389).
+			</action>
+		</release>
+
+		<release version="0.1" date="2006-01-10"
+			desc="Initial version.">
+			<action dev="lbehnke" type="add">
+				Set up project structure, implemented internal
+				infrastructure based on Spring Framework.
+			</action>
+			<action dev="lbehnke" type="add">
+				All basic FTP commands like STOR, RECV, LIST, PORT etc
+				were implemented (RFC 959).
+			</action>
+		</release>
+
+
+
+	</body>
+</document>
+

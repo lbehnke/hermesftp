@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<document>
+	<properties>
+		<title>Hermes FTP Server Project</title>
+		<author email="nospam.AT.larsbehnke.DOT.net">Lars Behnke</author>
+	</properties>
+	<meta
+		name="keyword"
+		content="ftp, java" />
+	<body>
+		<section name="Configuration">
+			<p>To be documented.</p>
+		</section>
+	</body>
+</document>

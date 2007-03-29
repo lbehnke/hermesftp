@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.0//EN"
+    "http://www.puppycrawl.com/dtds/suppressions_1_0.dtd">
+
+<suppressions>
+
+    <!-- Ignoriere Testklassen -->
+    <suppress checks=".*"
+              files="test"
+              />
+        
+    <!-- Ignoriere durch XDoclet generierten Klassen. -->
+    <suppress checks=".*"
+              files="xdoclet"
+              />
+
+    <!-- Ignoriere JavaDoc in Bean-Klassen, da diese nur delegieren. -->
+    <suppress checks="Javadoc"
+              files="Bean\.java"
+              />
+
+</suppressions>

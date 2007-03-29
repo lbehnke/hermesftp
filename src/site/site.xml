@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="hermesftp">
+  <bannerLeft>
+    <name>Hermes FTP Server</name>
+    <src>images/hermes-logo-2.png</src>
+  </bannerLeft>
+
+  <body>
+    <links>
+      <item name="SourceForge" href="http://www.sf.net/" />
+      <item name="RFC 775" href="http://www.ietf.org/rfc/rfc0775.txt" />
+      <item name="RFC 959" href="http://www.ietf.org/rfc/rfc0959.txt" />
+      <item name="RFC 2228" href="http://www.ietf.org/rfc/rfc2228.txt" />
+      <item name="RFC 2389" href="http://www.ietf.org/rfc/rfc2389.txt" />
+    </links>
+
+    <!-- module und parentProject variables do currently not work
+    ${parentProject} -->
+
+
+    <menu name="Hermes FTP Server">
+      <item name="Introduction" href="index.html"/>
+      <item name="Download" href="https://sourceforge.net/project/showfiles.php?group_id=164846"/>
+    </menu>
+
+    <menu name="User Documentation">
+      <item name="Getting Started" href="gettingstarted.html"/>
+      <item name="Installing a Service" href="service.html"/>
+      <item name="Web Console" href="console.html"/>
+      <item name="User Management" href="users.html"/>
+      <item name="Security" href="security.html"/>
+      <item name="FAQ" href="faq.html"/>
+    </menu>
+
+    <!--
+    <menu name="Developer Documentation">
+      <item name="Extending the FTP server" href="extending.html"/>
+      <item name="Packaging" href="packaging.html"/>
+    </menu>
+    -->
+
+    ${reports}
+
+  </body>
+</project>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<document>
+	<properties>
+		<title>Hermes FTP Server Project</title>
+		<author email="nospam.AT.larsbehnke.DOT.net">Lars Behnke</author>
+	</properties>
+	<meta
+		name="keyword"
+		content="ftp, java" />
+	<body>
+		<section name="Web Console">
+		<subsection name="Administration">
+			<p>Hermes FTP Server comes with an embedded web server that allows for
+				monitoring resource consumption, session statistics, user statistics and log files via web browser.</p>
+
+                                <p>If you want to change the port (which is by default 9988) find the bean
+				"console" in the application context hermesftp-ctx.xml and change the port
+				property into a convenient value.</p>
+				<source>
+  &lt;bean id=&quot;console&quot; class=&quot;net.sf.hermesftp.console.ConsoleServer&quot; singleton=&quot;true&quot;&gt;
+    &lt;property name=&quot;port&quot; value=&quot;9988&quot; /&gt;
+    &lt;property name=&quot;userManager&quot; ref=&quot;userManager&quot; /&gt;
+    &lt;property name=&quot;servlets&quot;&gt;
+      &lt;map&gt;
+        &lt;entry key=&quot;/&quot; value-ref=&quot;overviewServlet&quot; /&gt;
+        &lt;entry key=&quot;/overview&quot; value-ref=&quot;overviewServlet&quot; /&gt;
+        &lt;entry key=&quot;/sessions&quot; value-ref=&quot;ftpSessionsServlet&quot; /&gt;
+        &lt;entry key=&quot;/sslsessions&quot; value-ref=&quot;ftpSslSessionsServlet&quot; /&gt;
+        &lt;entry key=&quot;/users&quot; value-ref=&quot;userServlet&quot; /&gt;
+        &lt;entry key=&quot;/log&quot; value-ref=&quot;logServlet&quot; /&gt;
+      &lt;/map&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;</source>
+  
+  <p>In case you let the default settings untouched the console is accessible from your local machine
+  through this URL:</p>
+  <source>http://localhost:9988</source>
+
+  <p>The web console is protected against unauthorized access. Only users
+  holding the administration role have permission to access the console.
+  The administration role is granted in the file hermesftp-users.xml by
+  setting the optional user attribute "adminrole" to true (default is false).
+  </p>
+  <p>By default, only the user "admin" (password "admin") may access the console</p>
+
+<source>
+  &lt;user uid=&quot;admin&quot; fullname=&quot;Administrator&quot; 
+       adminrole=&quot;true&quot; password=&quot;{MD5}dEWco8+FqB35Dalf9ueiBw==&quot;&gt;
+    &lt;group-ref name=&quot;users&quot;/&gt;
+    &lt;group-ref name=&quot;administrators&quot;/&gt;
+  &lt;/user&gt;</source>
+
+   <p>You can disable the web console by setting the property console.enabled (hermesftp-ctx.xml) to false.</p>
+   
+
+<source>
+&lt;prop key="console.enabled"&gt;false&lt;/prop&gt;</source>
+	   </subsection>
+	   <subsection name="Screenshots">
+	   <img alt="screenshot1" src="images/screenshots/hermes2.png"/>
+	   <p>Abb.1: Overview page.</p>
+	   <img alt="screenshot2" src="images/screenshots/hermes1.png"/>
+	   <p>Abb.2: Session statistics.</p>
+	   <img alt="screenshot3" src="images/screenshots/hermes3.png"/>
+	   <p>Abb.3: User statistics.</p>
+	   </subsection>
+
+		</section> 
+	</body>
+</document>

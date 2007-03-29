@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<document>
+	<properties>
+		<title>Hermes FTP Server Project</title>
+		<author email="nospam.AT.larsbehnke.DOT.net">Lars Behnke</author>
+	</properties>
+	<meta
+		name="keyword"
+		content="ftp, java" />
+	<body>
+		<section name="Security">
+		<subsection name="Keystore Usage">
+			<p>
+				The keytool is a utility shipped with your Java SDK. It enables you to manage keys
+				and certificates used for self-authentication or data integrity and authentication
+				services. The security related data is stored in a so-called keystore, which is
+				basically a file in your local file system. Besides your own private/public key
+				pairs also public keys of your communication partners reside in this file. If you
+				like to learn more about the keytool or keystore please visit
+				<a href="http://java.sun.com/j2se/1.4.2/docs/tooldocs/windows/keytool.html">this</a>
+				site.
+			</p>
+			<p>
+				Hermes FTP Server makes use of the keystore implementation provided by Sun
+				Microsystems for negociating secure connections with FTP clients. If you wish to
+				enable SSL security and send your own self-signed certificate to the client, change
+				into the Hermes FTP installation folder and issue the following command from the
+				command line.
+			</p>
+			On unix systems:
+			<source>chmod 755 *.sh
+./create_keystore.sh</source>
+			<p>On windows systems:</p>
+			<source>create_keystore.bat</source>
+			<p>
+				The utility asks for some personal data, which are included with the certificate.
+				Finally, a file called
+				<i>keystore</i>
+				is created in the Hermes FTP home directory. Note that keystore and key share the
+				same password "secret". The certificate is valid for 365 days.
+			</p>
+			<p>
+				If you would like to have more control over the keystore and key parameters you can
+				create the keystore manually:
+			</p>
+			<source>
+keytool -genkey -alias hermes -keyalg DSA -keystore keystore -validity 365
+				-storepass secret -keypass secret
+			</source>
+			<p>
+				Of course, you can choose whatever parameters you like. However, for some reason
+				keystore password and key password have to be equal.
+			</p>
+			<p>
+				Now that the keystore is set up, you may need to modify the configuration file
+				<i>hermes-ctx.xml</i>
+				. Find the following lines and change filename and password:
+				<source>
+... &lt;prop key="ssl.keystore.file"&gt;keystore&lt;/prop&gt;
+    &lt;prop key="ssl.keystore.password"&gt;secret&lt;/prop&gt; ...
+				</source>
+			</p>
+			<p>
+				Please note that the created self-signed certificate is inappropriate in a
+				production environment. If security is essential, you should apply to a certificate
+				authority for a properly signed server certificate, and then import it into the
+				keystore.
+			</p>
+	    </subsection>
+		</section>
+	</body>
+</document>

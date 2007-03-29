@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<user-manager>
+	<groups>
+		<group name="guest" >
+		    <limits>
+		    	<limit name="Bytes downloaded" value="1000000"/>
+		    	<limit name="Bytes uploaded" value="0"/>
+		    	<limit name="Files downloaded" value="100"/>
+		    	<limit name="Files uploaded" value="0"/>
+		    </limits>
+		    <permissions>
+		    	<permission flag="r" path="${ftproot}/guest/**"/>
+			</permissions>
+		</group>
+		<group name="users" >
+		    <limits>
+		    	<limit name="Bytes downloaded" value="-1"/>
+		    	<limit name="Bytes uploaded" value="-1"/>
+		    	<limit name="Files downloaded" value="-1"/>
+		    	<limit name="Files uploaded" value="-1"/>
+		    </limits>
+		    <permissions>
+		    	<permission flag="rw" path="${ftproot}/${user}/**"/>
+		    	<permission flag="r" path="${ftproot}"/>
+			</permissions>
+		</group>
+		<group name="administrators" >
+		    <limits>
+		    	<limit name="Bytes downloaded" value="-1"/>
+		    	<limit name="Bytes uploaded" value="-1"/>
+		    	<limit name="Files downloaded" value="-1"/>
+		    	<limit name="Files uploaded" value="-1"/>
+		    </limits>
+		    <permissions>
+		    	<permission flag="rw" path="${ftproot}/**"/>
+			</permissions>
+		</group>
+	</groups>
+	<users default-dir="${ftproot}/${user}">
+		<user uid="anonymous" fullname="Anonymous User" dir="${ftproot}/guest">
+			<group-ref name="guest"/>
+		</user>
+		<user uid="user" fullname="Test User" password="user">
+			<group-ref name="users"/>
+		</user>
+		<user uid="admin" fullname="Administrator" password="admin" adminrole="true">
+			<group-ref name="users"/>
+			<group-ref name="administrators"/>
+		</user>
+
+        <!-- Example users -->
+		<user uid="dunant" fullname="Jean Henry Dunant" password="user">
+			<group-ref name="users"/>
+		</user>
+		<user uid="passy" fullname="Frederic Passy" password="user">
+			<group-ref name="users"/>
+		</user>
+		<user uid="ducommun" fullname="Elie Ducommun" password="user">
+			<group-ref name="users"/>
+		</user>
+		<user uid="gobat" fullname="Charles Albert Gobat" password="user">
+			<group-ref name="users"/>
+		</user>
+		<user uid="cremer" fullname="Sir William Randal Cremer" password="user">
+			<group-ref name="users"/>
+		</user>
+		<user uid="moneta" fullname="Ernesto Teodoro Moneta" password="user">
+			<group-ref name="users"/>
+		</user>
+		<user uid="arnoldson" fullname="Klas Pontus Arnoldson" password="user">
+			<group-ref name="users"/>
+		</user>
+		<user uid="bajer" fullname="Fredrik Bajer" password="user">
+			<group-ref name="users"/>
+		</user>
+		<user uid="beernaert" fullname="Auguste Beernaert " password="user">
+			<group-ref name="users"/>
+		</user>
+		
+	</users>
+
+</user-manager>
