@@ -56,6 +56,8 @@ import org.apache.commons.logging.LogFactory;
 public class FtpCmdPasv
     extends AbstractFtpCmdSsl {
 
+    private static final int DATA_CHANNEL_TIMEOUT = 10000;
+    
     private static Log log = LogFactory.getLog(FtpCmdPasv.class);
 
     /**
@@ -88,6 +90,7 @@ public class FtpCmdPasv
             int port = sock.getLocalPort();
             String addrPort = createPasvString(ip, port);
             msgOut(MSG227, new Object[] {addrPort.toString()});
+            sock.setSoTimeout(DATA_CHANNEL_TIMEOUT);
             Socket clientModePassiveSocket = sock.accept();
             getCtx().setDataSocket(clientModePassiveSocket);
         } catch (IOException e) {
