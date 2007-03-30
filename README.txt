@@ -30,7 +30,7 @@ Building the Application
 Please make sure the Ports 2121 is not bound already, since test server and client
 make use of this port.
 
-mvn install
+mvn source:jar install
 
 Assembling the application
 -------------------------
