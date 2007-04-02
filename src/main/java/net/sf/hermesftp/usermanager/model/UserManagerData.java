@@ -24,6 +24,7 @@
 package net.sf.hermesftp.usermanager.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class UserManagerData {
      */
     public List getGroupData() {
         if (groupData == null) {
-            groupData = new ArrayList();
+            groupData = Collections.synchronizedList(new ArrayList());
         }
         return groupData;
     }
@@ -58,7 +59,7 @@ public class UserManagerData {
      */
     public List getUserData() {
         if (userData == null) {
-            userData = new ArrayList();
+            userData = Collections.synchronizedList(new ArrayList());
         }
         return userData;
     }

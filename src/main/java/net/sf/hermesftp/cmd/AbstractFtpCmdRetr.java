@@ -208,6 +208,9 @@ public abstract class AbstractFtpCmdRetr
         } catch (IOException e) {
             msgOut(MSG550);
             log.error(e.toString());
+        } catch (RuntimeException e) {
+            msgOut(MSG550);
+            log.error(e.toString());
         } finally {
             IOUtils.closeGracefully(getCtx().getDataSocket());
         }

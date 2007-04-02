@@ -39,10 +39,16 @@
     </license>
   </licenses>
   <scm>
+    <!--
     <connection>scm:cvs:pserver:anonymous@hermesftp.cvs.sourceforge.net:/cvsroot/hermesftp:hermesftp</connection>
     <developerConnection>scm:cvs:ext:developer@hermesftp.cvs.sourceforge.net:22/cvsroot/hermesftp:hermesftp</developerConnection>
     <tag></tag>
     <url>http://hermesftp.cvs.sourceforge.net/hermesftp/</url>
+    -->
+    <connection>scm:svn:https://hermesftp.svn.sourceforge.net/svnroot/hermesftp/hermesftp-server/trunk</connection>
+    <developerConnection>scm:svn:https://hermesftp.svn.sourceforge.net/svnroot/hermesftp/hermesftp-server/trunk</developerConnection>
+    <url>http://svn.sourceforge.net/viewcvs.cgi/hermesftp/hermesftp-server/trunk</url>
+
   </scm>
   <organization>
     <name>Lars Behnke</name>

@@ -89,6 +89,8 @@ public abstract class AbstractFtpCmdList
             msgOut(MSG226);
         } catch (IOException e) {
             msgOut(MSG550);
+        } catch (RuntimeException e) {
+            msgOut(MSG550);
         } finally {
             IOUtils.closeGracefully(dataOut);
             IOUtils.closeGracefully(dataSocket);

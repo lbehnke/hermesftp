@@ -57,49 +57,53 @@ public class SessionsServlet extends AbstractConsoleServlet {
 
         int rowCount = 0;
         getServer().cleanUpSessions();
-        for (Iterator iter = getServer().getSessions().iterator(); iter.hasNext();) {
-            FtpSession session = (FtpSession) iter.next();
-            FtpSessionContext ctx = session.getFtpContext();
-            rowCount++;
-            String band = rowCount % 2 == 0 ? "a" : "b";
-            sb.append("<tr class=\"" + band + "\">");
+        synchronized (getServer()) {
+            for (Iterator iter = getServer().getSessions().iterator(); iter.hasNext();) {
+                FtpSession session = (FtpSession) iter.next();
+                FtpSessionContext ctx = session.getFtpContext();
+                rowCount++;
+                String band = rowCount % 2 == 0 ? "a" : "b";
+                sb.append("<tr class=\"" + band + "\">");
 
-            sb.append("<td>");
-            sb.append(ctx.getClientSocket().getInetAddress().getHostName());
-            sb.append("</td>");
+                sb.append("<td>");
+                sb.append(ctx.getClientSocket().getInetAddress().getHostName());
+                sb.append("</td>");
 
-            sb.append("<td>");
-            sb.append(ctx.getUser());
-            sb.append("</td>");
+                sb.append("<td>");
+                sb.append(ctx.getUser());
+                sb.append("</td>");
 
-            sb.append("<td>");
-            sb.append(session.isTerminated() ? "Terminated" : "Running");
-            sb.append("</td>");
+                sb.append("<td>");
+                sb.append(session.isTerminated() ? "Terminated" : "Running");
+                sb.append("</td>");
 
-            sb.append("<td>");
-            sb.append(formatDate(ctx.getCreationTime()));
-            sb.append("</td>");
+                sb.append("<td>");
+                sb.append(formatDate(ctx.getCreationTime()));
+                sb.append("</td>");
 
-            sb.append("<td class=\"number\">");
-            sb.append(getSessionStat(ctx, FtpConstants.STAT_BYTES_DOWNLOADED));
-            sb.append("</td>");
+                sb.append("<td class=\"number\">");
+                sb.append(getSessionStat(ctx, FtpConstants.STAT_BYTES_DOWNLOADED));
+                sb.append("</td>");
 
-            sb.append("<td class=\"number\">");
-            sb.append(getSessionStat(ctx, FtpConstants.STAT_BYTES_UPLOADED));
-            sb.append("</td>");
+                sb.append("<td class=\"number\">");
+                sb.append(getSessionStat(ctx, FtpConstants.STAT_BYTES_UPLOADED));
+                sb.append("</td>");
 
-            sb.append("<td class=\"number\">");
-            sb.append(getSessionStat(ctx, FtpConstants.STAT_FILES_DOWNLOADED));
-            sb.append("</td>");
+                sb.append("<td class=\"number\">");
+                sb.append(getSessionStat(ctx, FtpConstants.STAT_FILES_DOWNLOADED));
+                sb.append("</td>");
 
-            sb.append("<td class=\"number\">");
-            sb.append(getSessionStat(ctx, FtpConstants.STAT_FILES_UPLOADED));
-            sb.append("</td>");
+                sb.append("<td class=\"number\">");
+                sb.append(getSessionStat(ctx, FtpConstants.STAT_FILES_UPLOADED));
+                sb.append("</td>");
 
-            sb.append("</tr>");
+                sb.append("</tr>");
+            }
+
+            sb.append("</table>");
         }
-
-        sb.append("</table>");
+        
+       
         return sb.toString();
     }
 
