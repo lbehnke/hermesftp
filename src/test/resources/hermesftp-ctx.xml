@@ -111,7 +111,7 @@
 				<prop key="max.connections">20</prop>
 				<prop key="max.idle.seconds">120</prop>
 				<prop key="buffer.size">2048</prop>
-				<prop key="allowed.passive.ports">1026</prop>
+				<prop key="allowed.passive.ports"></prop>
 				<prop key="ftp.port">21</prop>
 				<prop key="ssl.force">false</prop>
 				<prop key="ssl.allow.explicit">true</prop>
@@ -135,7 +135,7 @@
 				<prop key="max.connections">20</prop>
 				<prop key="max.idle.seconds">120</prop>
 				<prop key="buffer.size">2048</prop>
-				<prop key="allowed.passive.ports">1026</prop>
+				<prop key="allowed.passive.ports">12000-12100</prop>
 				<prop key="ftp.port">2121</prop>
 				<prop key="ssl.force">false</prop>
 				<prop key="ssl.allow.explicit">true</prop>

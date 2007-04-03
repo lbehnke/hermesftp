@@ -70,36 +70,58 @@ public class FtpCmdPasv
             }
             InetAddress localIp = NetUtils.getMachineAddress();
             
-            ServerSocket sock;
-            Boolean dataProtection = (Boolean) getCtx().getAttribute(ATTR_DATA_PROT);
-            if (dataProtection != null && dataProtection.booleanValue()) {
-                SSLServerSocketFactory factory = getCtx().getOptions()
-                                                         .getSslContext()
-                                                         .getServerSocketFactory();
-                SSLServerSocket sslServerSocket = (SSLServerSocket) factory.createServerSocket(0,
-                                                                                               1,
-                                                                                               localIp);
-                sslServerSocket.setUseClientMode(false);
-                enableCipherSuites(sslServerSocket);
-                sock = sslServerSocket;
-            } else {
-                sock = ServerSocketFactory.getDefault().createServerSocket(0, 1, localIp);
+            ServerSocket sock = null;
+            int retries = 3;
+            while (retries > 0)
+            {
+                Integer port = getCtx().getNextPassivePort();
+                port = port == null ? new Integer(0) : port;
+                try {
+                    log.debug("Trying to bind server socket to port " + port + ".");
+                    sock = createServerSocket(localIp, port.intValue());
+                    break;
+                } catch (Exception e) {
+                    retries--;
+                    log.debug("Binding server socket to port " + port + " failed.");
+                }
             }
+            if (sock == null) {
+                msgOut(MSG425);
+                return;
+            }
+
             getCtx().setPassiveModeServerSocket(sock);
             String ip = sock.getInetAddress().getHostAddress();
             int port = sock.getLocalPort();
             String addrPort = createPasvString(ip, port);
             msgOut(MSG227, new Object[] {addrPort.toString()});
-            sock.setSoTimeout(DATA_CHANNEL_TIMEOUT);
+            
             Socket clientModePassiveSocket = sock.accept();
             getCtx().setDataSocket(clientModePassiveSocket);
         } catch (IOException e) {
             log.error(e.toString());
             msgOut(MSG425);
-        } catch (FtpConfigException e) {
-            log.error(e.toString());
-            msgOut(MSG425);
         }
+    }
+
+    private ServerSocket createServerSocket(InetAddress localIp, int port) throws FtpConfigException, IOException {
+        ServerSocket sock;
+        Boolean dataProtection = (Boolean) getCtx().getAttribute(ATTR_DATA_PROT);
+        if (dataProtection != null && dataProtection.booleanValue()) {
+            SSLServerSocketFactory factory = getCtx().getOptions()
+                                                     .getSslContext()
+                                                     .getServerSocketFactory();
+            SSLServerSocket sslServerSocket = (SSLServerSocket) factory.createServerSocket(port,
+                                                                                           1,
+                                                                                           localIp);
+            sslServerSocket.setUseClientMode(false);
+            enableCipherSuites(sslServerSocket);
+            sock = sslServerSocket;
+        } else {
+            sock = ServerSocketFactory.getDefault().createServerSocket(port, 1, localIp);
+        }
+        sock.setSoTimeout(DATA_CHANNEL_TIMEOUT);
+        return sock;
     }
 
     private String createPasvString(String ip, int port) {

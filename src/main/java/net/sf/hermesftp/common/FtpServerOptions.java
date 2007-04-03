@@ -24,7 +24,6 @@
 package net.sf.hermesftp.common;
 
 import java.util.Properties;
-import java.util.Set;
 
 import javax.net.ssl.SSLContext;
 
@@ -142,19 +141,7 @@ public interface FtpServerOptions {
      *
      * @return The set.
      */
-    Set getAllowedPorts();
-
-    /**
-     * The free port to bind for a passive data connection.
-     *
-     * @return The port.
-     */
-    int bindPassivePort();
-
-    /**
-     * @param port The port to realease.
-     */
-    void releasePassivePort(int port);
+    Integer[] getAllowedPorts();
 
     /**
      * Returns the SSL context to be used for creating SSL sockets.

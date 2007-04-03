@@ -19,7 +19,7 @@
 			</subsection>
 			<subsection name="Installation">
 				Unzip the file hermesftp-&lt;version&gt;.zip into a target folder of your choice. Change into
-				this folder and open the file hermesftp-ctx.xml with a text editor. Find the entry
+				this folder and open the file <i>hermesftp-ctx.xml</i> with a text editor. Find the entry
 				"ftp.root.dir" and change the corresponding value into your ftp data folder (e.g.
 				c:/ftproot). If this entry is omitted Hermes FTP Server will create a folder <i>hermesftp</i> in the
 				user's home directory and use it as FTP data folder.
@@ -55,6 +55,40 @@
 				Make sure you are still in the installation directory and issue the following
 				command at the command prompt.
 				<source>java -jar hermesftp.jar</source>
+			</subsection>
+			
+			<subsection name="How to avoid firewall issues">
+			 <p>
+			 If you are running the ftp server behind, a firewall ftp clients will possibly experience 
+			 problems transferring files, even though you opened the firewall for connections on port 21 (ftp) or
+			 990 (ftp over ssl) respectively. 
+			 This is because file data is transferred through a separate channel. The port of this data channel 
+			 is defined by the ftp client (active transfer mode) or the ftp server (passive transfer mode).
+			 Most of the firewall issues can be solved by making the clients use the passive transfer mode.
+			 </p>
+			 <p>
+			 Hermes FTP Server supports both transfer modes. Moreover, you are free to 
+			 define the port list available for passive data transfer in the application context
+			 <i>hermesftp-ctx.xml</i>.
+			 
+			 </p>
+			 
+				<source>
+&lt;bean id=&quot;options&quot;
+         class=&quot;net.sf.hermesftp.common.FtpServerOptions&quot;
+         singleton=&quot;true&quot;&gt;
+	&lt;property name=&quot;properties&quot;&gt;
+		&lt;props&gt;
+			...
+			&lt;prop key=&quot;allowed.passive.ports&quot;&gt;9000-9200,12000-12500&lt;/prop&gt;
+			...
+		&lt;/props&gt;
+	&lt;/property&gt;
+&lt;/bean&gt;
+				</source>
+				<p>
+				If you omit this property, Hermes FTP Server decides on which data port to use.
+				</p>
 			</subsection>
 		</section>
 	</body>

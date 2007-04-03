@@ -34,10 +34,9 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -45,7 +44,6 @@ import javax.net.ssl.SSLContext;
 import net.sf.hermesftp.common.FtpConstants;
 import net.sf.hermesftp.common.FtpServerOptions;
 import net.sf.hermesftp.exception.FtpConfigException;
-import net.sf.hermesftp.session.impl.FtpSessionContextImpl;
 import net.sf.hermesftp.utils.IOUtils;
 
 import org.apache.commons.logging.Log;
@@ -53,35 +51,30 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * The FTP server options used throughout the application.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class FtpServerOptionsImpl
-    implements FtpServerOptions, FtpConstants {
+public class FtpServerOptionsImpl implements FtpServerOptions, FtpConstants {
 
-    private static final int DEFAULT_BUFFER_SIZE = 1024;
+    private static final int    DEFAULT_BUFFER_SIZE       = 1024;
 
-    private static final int DEFAULT_FTP_IMPL_SSL_PORT = 990;
+    private static final int    DEFAULT_FTP_IMPL_SSL_PORT = 990;
 
-    private static final int DEFAULT_FTP_PORT = 21;
+    private static final int    DEFAULT_FTP_PORT          = 21;
 
-    private static final String SYS_OPT_VERSION = "version";
+    private static final String SYS_OPT_VERSION           = "version";
 
-    private static final String SYS_OPT_TITLE = "title";
+    private static final String SYS_OPT_TITLE             = "title";
 
-    private static final String SYS_OPT_BUILD_INFO = "info";
+    private static final String SYS_OPT_BUILD_INFO        = "info";
 
- 
-    private static Log log = LogFactory.getLog(FtpServerOptionsImpl.class);
+    private static Log          log                       = LogFactory.getLog(FtpServerOptionsImpl.class);
 
-    private Properties properties;
+    private Properties          properties;
 
-    private Set allowedPassivePorts;
+    private Integer[]           allowedPassivePorts;
 
-    private Set occupiedPassivePorts;
-
-    private SSLContext sslContext;
+    private SSLContext          sslContext;
 
     /**
      * {@inheritDoc}
@@ -206,59 +199,30 @@ public class FtpServerOptionsImpl
     /**
      * {@inheritDoc}
      */
-    public Set getAllowedPorts() {
+    public Integer[] getAllowedPorts() {
         if (allowedPassivePorts == null) {
-            allowedPassivePorts = new HashSet();
-            String[] defaultPorts = new String[] {"8000-9000"};
-            String[] allowedPorts = getStringArray(OPT_ALLOWED_PASSIVE_PORTS, defaultPorts);
-            for (int i = 0; i < allowedPorts.length; i++) {
-                String[] portRange = allowedPorts[i].split("\\-");
-                if (portRange.length > 1) {
-                    int portMin = Integer.parseInt(portRange[0].trim());
-                    int portMax = Integer.parseInt(portRange[1].trim());
-                    for (int port = portMin; port <= portMax; port++) {
-                        allowedPassivePorts.add(new Integer(port));
+            List portList = new ArrayList();
+            String[] allowedPorts = getStringArray(OPT_ALLOWED_PASSIVE_PORTS, null);
+            if (allowedPorts != null && allowedPorts.length > 0 && allowedPorts[0] != null
+                    && allowedPorts[0].trim().length() > 0) {
+                for (int i = 0; i < allowedPorts.length; i++) {
+                    String[] portRange = allowedPorts[i].split("\\-");
+                    if (portRange.length > 1) {
+                        int portMin = Integer.parseInt(portRange[0].trim());
+                        int portMax = Integer.parseInt(portRange[1].trim());
+                        for (int port = portMin; port <= portMax; port++) {
+                            portList.add(new Integer(port));
+                        }
+                    } else {
+                        int port = Integer.parseInt(portRange[0].trim());
+                        portList.add(new Integer(port));
                     }
-                } else {
-                    int port = Integer.parseInt(portRange[0].trim());
-                    allowedPassivePorts.add(new Integer(port));
                 }
             }
+            allowedPassivePorts = (Integer[]) portList.toArray(new Integer[portList.size()]);
+
         }
         return allowedPassivePorts;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public int bindPassivePort() {
-        synchronized (FtpServerOptionsImpl.class) {
-            Set allowedPorts = getAllowedPorts();
-            for (Iterator iter = allowedPorts.iterator(); iter.hasNext();) {
-                Integer allowedPort = (Integer) iter.next();
-                if (!getOccupiedPassivePorts().contains(allowedPort)) {
-                    getOccupiedPassivePorts().add(allowedPort);
-                    return allowedPort.intValue();
-                }
-            }
-            return -1;
-        }
-    }
-
-    private Set getOccupiedPassivePorts() {
-        if (occupiedPassivePorts == null) {
-            occupiedPassivePorts = new HashSet();
-        }
-        return occupiedPassivePorts;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void releasePassivePort(int port) {
-        synchronized (FtpSessionContextImpl.class) {
-            getOccupiedPassivePorts().remove(new Integer(port));
-        }
     }
 
     /**
@@ -331,8 +295,6 @@ public class FtpServerOptionsImpl
         return new FileInputStream(ksFile);
 
     }
-
-
 
     /**
      * {@inheritDoc}

@@ -267,8 +267,14 @@ public interface FtpSessionContext {
     String getCharset();
 
     /**
-     * Authenticates the user based on the given user name and password.
+     * Returns the next available port from a user defined list of passive ports. If no port list
+     * was configured, 0 is returned. The port 0 makes a the system decide which port to use.
      * 
+     * @return The port for passive data transfer.
+     */
+    Integer getNextPassivePort();
+    
+    /**
      * @return True, if successful.
      */
     boolean authenticate();

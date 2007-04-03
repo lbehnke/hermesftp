@@ -66,6 +66,8 @@ public class FtpSessionContextImpl
 
     private static Log log = LogFactory.getLog(FtpSessionContextImpl.class);
 
+    static int portIdx = 0;
+
     private String user;
 
     private String password;
@@ -422,6 +424,28 @@ public class FtpSessionContextImpl
             charset = getOptions().getProperty(key);
         }
         return charset;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public Integer getNextPassivePort() {
+        Integer port;
+        Integer[] allowedPorts = getOptions().getAllowedPorts();
+        if (allowedPorts == null || allowedPorts.length == 0) {
+            
+            /* Let the system decide which port to use. */
+            port = new Integer(0);
+        } else {
+            
+            /* Get the port from the user defined list. */
+            port = allowedPorts[portIdx++];
+            if (portIdx >= allowedPorts.length) {
+                portIdx = 0;
+            }
+        }
+        return port;
+        
     }
     
     /**
