@@ -41,7 +41,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
 
 /**
- * AUTHENTICATION/SECURITY MECHANISM (AUTH):
+ * <b>AUTHENTICATION/SECURITY MECHANISM (AUTH)</b>
  * <p>
  * The argument field is a Telnet string identifying a supported mechanism. This string is
  * case-insensitive. Values must be registered with the IANA, except that values beginning with "X-"

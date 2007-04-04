@@ -27,7 +27,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * PASSWORD (PASS):
+ * <b>PASSWORD (PASS)</b>
  * <p>
  * The argument field is a Telnet string specifying the user's password. This command must be
  * immediately preceded by the user name command, and, for some sites, completes the user's

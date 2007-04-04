@@ -27,7 +27,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * SYSTEM (SYST):
+ * <b>SYSTEM (SYST)</b>
  * <p>
  * This command is used to find out the type of operating system at the server. The reply shall have
  * as its first word one of the system names listed in the current version of the Assigned Numbers

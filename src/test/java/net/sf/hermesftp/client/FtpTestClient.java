@@ -34,10 +34,16 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.net.ServerSocketFactory;
 
 import net.sf.hermesftp.common.FtpConstants;
+import net.sf.hermesftp.utils.NetUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,44 +51,43 @@ import org.apache.commons.logging.LogFactory;
 // CHECKSTYLE:OFF
 /**
  * FTP test client for test purposes.
- *
+ * 
  * @author Lars Behnke
- *
  */
 public class FtpTestClient {
 
     /**
      * On Linux ports below 1024 can only be bound by root.
      */
-    private static final int TEST_FTP_PORT = 2121;
+    private static final int TEST_FTP_PORT   = 2121;
 
     private static final int LOG_LINE_LENGTH = 80;
 
-    private static Log log = LogFactory.getLog(FtpTestClient.class);
+    private static Log       log             = LogFactory.getLog(FtpTestClient.class);
 
-    private PrintWriter out;
+    private PrintWriter      out;
 
-    private BufferedReader in;
+    private BufferedReader   in;
 
-    private String server;
+    private String           server;
 
-    private InputStream transIs;
+    private InputStream      transIs;
 
-    private OutputStream transOut;
+    private OutputStream     transOut;
 
-    private Socket transServer;
+    private Socket           transServer;
 
-    private Socket serverSocket;
+    private Socket           serverSocket;
 
-    private StringBuffer textBuffer;
+    private StringBuffer     textBuffer;
 
-    private byte[] rawBuffer;
+    private byte[]           rawBuffer;
 
-    private Object lock = new Object();
+    private Object           lock            = new Object();
 
     /**
      * Returns the text data.
-     *
+     * 
      * @return The text data.
      */
     public String getTextData() {
@@ -91,7 +96,7 @@ public class FtpTestClient {
 
     /**
      * Returns the raw data.
-     *
+     * 
      * @return The text data.
      */
     public byte[] getRawData() {
@@ -100,7 +105,7 @@ public class FtpTestClient {
 
     /**
      * Opens a anonymous FTP connection.
-     *
+     * 
      * @throws IOException Error on connection.
      */
     public void openConnection() throws IOException {
@@ -109,7 +114,7 @@ public class FtpTestClient {
 
     /**
      * Opens a FTP connection.
-     *
+     * 
      * @param user The user name.
      * @param pass The user password.
      * @throws IOException Error on connection.
@@ -143,7 +148,7 @@ public class FtpTestClient {
 
     /**
      * Opening a connection to the FTP server.
-     *
+     * 
      * @param svr The server name. If null is passed, the local machine is used.
      * @param user The user name.
      * @param pass The user password.
@@ -155,7 +160,7 @@ public class FtpTestClient {
 
     /**
      * Opening a connection to the FTP server.
-     *
+     * 
      * @param svr The server name. If null is passed, the local machine is used.
      * @param user The user name.
      * @param pass The user password.
@@ -177,7 +182,7 @@ public class FtpTestClient {
         sendAndReceive("PASS " + pass);
     }
 
-    private void openPassiveMode() throws IOException {
+    public String openPassiveMode() throws IOException {
         sendCommand("PASV");
         String response = getResponse();
         int parentStart = response.lastIndexOf('(');
@@ -197,12 +202,83 @@ public class FtpTestClient {
         transServer = new Socket(server, port);
         transIs = transServer.getInputStream();
         transOut = transServer.getOutputStream();
+        return response;
+    }
 
+    public String openActiveMode() throws IOException {
+        InetAddress addr = NetUtils.getMachineAddress();
+        String addrStr = addr.getHostAddress();
+        int port = 14444;
+        Pattern pattern = Pattern.compile("^([0-9]+)\\.([0-9]+)\\.([0-9]+)\\.([0-9]+)$");
+        Matcher matcher = pattern.matcher(addrStr);
+        if (!matcher.matches()) {
+            throw new IOException("Invalid address: " + addrStr);
+        }
+        int p1 = (port >>> FtpConstants.BYTE_LENGTH) & FtpConstants.BYTE_MASK;
+        int p2 = port & FtpConstants.BYTE_MASK;
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("PORT ");
+        sb.append(matcher.group(1));
+        sb.append(",");
+        sb.append(matcher.group(2));
+        sb.append(",");
+        sb.append(matcher.group(3));
+        sb.append(",");
+        sb.append(matcher.group(4));
+        sb.append(",");
+        sb.append(p1);
+        sb.append(",");
+        sb.append(p2);
+
+        ServerSocket sock = ServerSocketFactory.getDefault().createServerSocket(port, 1, addr);
+        sock.setSoTimeout(5000);
+
+        sendCommand(sb.toString());
+
+        if (transServer != null) {
+            transServer.close();
+        }
+        try {
+            transServer = sock.accept();
+        } catch (RuntimeException e) {
+            throw new IOException("Accepting data channel failed");
+        }
+
+        String response = getResponse();
+
+        if (transServer != null) {
+            transIs = transServer.getInputStream();
+            transOut = transServer.getOutputStream();
+        }
+
+        return response;
+
+    }
+
+    public String openExtendedPassiveMode() throws IOException {
+        sendCommand("EPSV");
+        String response = getResponse();
+
+        Pattern pattern = Pattern.compile("^.*\\(\\|\\|\\|([0-9]+)\\|\\).*$");
+        Matcher matcher = pattern.matcher(response);
+        int port = 0;
+        if (matcher.matches()) {
+            port = Integer.parseInt(matcher.group(1));
+        }
+
+        if (transServer != null) {
+            transServer.close();
+        }
+        transServer = new Socket(server, port);
+        transIs = transServer.getInputStream();
+        transOut = transServer.getOutputStream();
+        return response;
     }
 
     /**
      * Lists the content of the passed path.
-     *
+     * 
      * @param f The path.
      * @return The content as string.
      * @throws IOException Error on data transfer.
@@ -236,7 +312,7 @@ public class FtpTestClient {
 
     /**
      * Lists the current folder.
-     *
+     * 
      * @return The content.
      * @throws IOException Error on data transfer.
      */
@@ -246,7 +322,7 @@ public class FtpTestClient {
 
     /**
      * Retrieves a text file.
-     *
+     * 
      * @param filename The filename.
      * @return The content of the text file.
      * @throws IOException Error on data transfer.
@@ -276,7 +352,7 @@ public class FtpTestClient {
 
     /**
      * Retrieves a text file.
-     *
+     * 
      * @param filename The filename.
      * @return Size of file.
      * @throws IOException Error on data transfer.
@@ -305,7 +381,7 @@ public class FtpTestClient {
 
     /**
      * Retrieves a raw data file.
-     *
+     * 
      * @param filename The filename.
      * @return The content of the data file.
      * @throws IOException Error on data transfer.
@@ -331,7 +407,7 @@ public class FtpTestClient {
 
     /**
      * Stores a text file on the remote system.
-     *
+     * 
      * @param filename The filename.
      * @param textToStore The text to be stored.
      * @return The response.
@@ -343,7 +419,7 @@ public class FtpTestClient {
 
     /**
      * Appends text to an text file.
-     *
+     * 
      * @param filename The filename.
      * @param textToStore The text to append.
      * @return The server response.
@@ -353,8 +429,7 @@ public class FtpTestClient {
         return storeText(filename, textToStore, true);
     }
 
-    private String storeText(String filename, String textToStore, boolean append)
-            throws IOException {
+    private String storeText(String filename, String textToStore, boolean append) throws IOException {
         String response = null;
         openPassiveMode();
         sendAndReceive("TYPE A");
@@ -383,6 +458,7 @@ public class FtpTestClient {
 
     /**
      * Stores a file of a given size. The content is arbitrary.
+     * 
      * @param filename Filename.
      * @param size Size of the file.
      * @return Response.
@@ -414,7 +490,7 @@ public class FtpTestClient {
 
     /**
      * Stores a data file on the remote system.
-     *
+     * 
      * @param filename The filename.
      * @param data The Data to be stored.
      * @return The response.
@@ -426,7 +502,7 @@ public class FtpTestClient {
 
     /**
      * Appends text to an data file.
-     *
+     * 
      * @param filename The filename.
      * @param data The data to append.
      * @return The server response.
@@ -463,7 +539,7 @@ public class FtpTestClient {
 
     /**
      * Sends a command string to the server.
-     *
+     * 
      * @param cmd The command.
      * @return The server response.
      * @throws IOException Error on data transfer.
@@ -485,9 +561,9 @@ public class FtpTestClient {
             sb.append(line + "\n");
             int idx = 0;
             done = Character.isDigit(line.charAt(idx++)) && Character.isDigit(line.charAt(idx++))
-                && Character.isDigit(line.charAt(idx++)) && line.charAt(idx++) == ' ';
+                    && Character.isDigit(line.charAt(idx++)) && line.charAt(idx++) == ' ';
         } while (!done);
-        return sb.toString();
+        return sb.toString().trim();
     }
 
     /**
@@ -500,22 +576,20 @@ public class FtpTestClient {
 
     /**
      * Listens to server socket.
-     *
+     * 
      * @author Lars Behnke
-     *
      */
-    private class TextReceiver
-        implements Runnable {
+    private class TextReceiver implements Runnable {
 
         private BufferedReader reader;
 
-        private int count;
+        private int            count;
 
-        private boolean countOnly;
+        private boolean        countOnly;
 
         /**
          * Constructor.
-         *
+         * 
          * @param reader The reader.
          * @param countOnly True, if only the text size matters.
          */
@@ -545,7 +619,7 @@ public class FtpTestClient {
                                 if (count >= LOG_LINE_LENGTH) {
 
                                     logLine = logLine.substring(0, LOG_LINE_LENGTH) + " ["
-                                        + (logLine.length() - LOG_LINE_LENGTH) + " chars more]";
+                                            + (logLine.length() - LOG_LINE_LENGTH) + " chars more]";
                                 }
 
                                 log.trace("<==: " + logLine.trim());
@@ -575,21 +649,20 @@ public class FtpTestClient {
 
     /**
      * Sends data to server socket.
-     *
+     * 
      * @author Lars Behnke
      */
-    private class TextSender
-        implements Runnable {
+    private class TextSender implements Runnable {
 
         private BufferedWriter writer;
 
-        private String textToSend;
+        private String         textToSend;
 
-        private int textSize;
+        private int            textSize;
 
         /**
          * Constructor.
-         *
+         * 
          * @param writer The writer.
          * @param textToSend Text to send.
          */
@@ -601,7 +674,7 @@ public class FtpTestClient {
 
         /**
          * Constructor.
-         *
+         * 
          * @param writer The writer.
          * @param size Size of the test string.
          */
@@ -621,7 +694,7 @@ public class FtpTestClient {
                             String x;
                             if (textToSend.length() >= LOG_LINE_LENGTH) {
                                 x = textToSend.substring(0, LOG_LINE_LENGTH) + " ["
-                                    + (textToSend.length() - LOG_LINE_LENGTH) + " chars more]";
+                                        + (textToSend.length() - LOG_LINE_LENGTH) + " chars more]";
                             } else {
                                 x = textToSend;
                             }
@@ -650,19 +723,18 @@ public class FtpTestClient {
 
     /**
      * Sends data to server socket.
-     *
+     * 
      * @author Lars Behnke
      */
-    private class RawSender
-        implements Runnable {
+    private class RawSender implements Runnable {
 
         private BufferedOutputStream os;
 
-        private byte[] dataToSend;
+        private byte[]               dataToSend;
 
         /**
          * Constructor.
-         *
+         * 
          * @param os The output stream.
          * @param dataToSend Data to send.
          */
@@ -692,18 +764,16 @@ public class FtpTestClient {
 
     /**
      * Raw data receiver that listens to server socket.
-     *
+     * 
      * @author Lars Behnke
-     *
      */
-    private class RawReceiver
-        implements Runnable {
+    private class RawReceiver implements Runnable {
 
         private InputStream is;
 
         /**
          * Constructor.
-         *
+         * 
          * @param is The input stream.
          */
         public RawReceiver(InputStream is) {

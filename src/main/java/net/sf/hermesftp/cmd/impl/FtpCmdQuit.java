@@ -28,7 +28,7 @@ import net.sf.hermesftp.exception.FtpCmdException;
 import net.sf.hermesftp.exception.FtpQuitException;
 
 /**
- * LOGOUT (QUIT):
+ * <b>LOGOUT (QUIT)</b>
  *
  * This command terminates a USER and if file transfer is not in progress, the server closes the
  * control connection. If file transfer is in progress, the connection will remain open for result

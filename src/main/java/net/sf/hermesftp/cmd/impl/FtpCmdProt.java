@@ -27,7 +27,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * DATA CHANNEL PROTECTION LEVEL (PROT):
+ * <b>DATA CHANNEL PROTECTION LEVEL (PROT)</b>
  * <p>
  * The argument is a single Telnet character code specifying the data channel protection level.
  * <p>

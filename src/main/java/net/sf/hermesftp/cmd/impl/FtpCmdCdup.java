@@ -29,7 +29,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * CHANGE TO PARENT DIRECTORY (CDUP):
+ * <b>CHANGE TO PARENT DIRECTORY (CDUP)</b>
  * <p>
  * This command is a special case of CWD, and is included to simplify the implementation of programs
  * for transferring directory trees between operating systems having different syntaxes for naming

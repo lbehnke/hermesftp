@@ -27,7 +27,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * ABORT (ABOR)
+ * <b>ABORT (ABOR)</b>
  * <p>
  * This command tells the server to abort the previous FTP service command and any associated
  * transfer of data. The abort command may require "special action", as discussed in the Section on

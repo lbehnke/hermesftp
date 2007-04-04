@@ -30,6 +30,7 @@ import net.sf.hermesftp.cmd.FtpCmd;
 import net.sf.hermesftp.common.FtpConstants;
 import net.sf.hermesftp.common.FtpSessionContext;
 import net.sf.hermesftp.exception.FtpCmdException;
+import net.sf.hermesftp.exception.FtpCmdResponseException;
 import net.sf.hermesftp.exception.FtpQuitException;
 import net.sf.hermesftp.exception.FtpIllegalCmdException;
 import net.sf.hermesftp.parser.FtpCmdReader;
@@ -118,6 +119,8 @@ public class FtpSessionImpl
                         cmd.execute();
                     } catch (FtpQuitException e) {
                         proceed = false;
+                    } catch (FtpCmdResponseException e) {
+                        out(e.getMessage());
                     } finally {
                         cmd.notifyAll();
                     }

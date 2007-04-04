@@ -27,7 +27,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmdStorFile;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * STORE UNIQUE (STOU):
+ * <b>STORE UNIQUE (STOU)</b>
  * <p>
  * This command behaves like STOR except that the resultant file is to be created in the current
  * directory under a name unique to that directory. The 250 Transfer Started response must include

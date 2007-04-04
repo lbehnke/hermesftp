@@ -35,7 +35,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * ALLOCATE (ALLO):
+ * <b>ALLOCATE (ALLO)</b>
  * <p>
  * This command may be required by some servers to reserve sufficient storage to accommodate the new
  * file to be transferred. The argument shall be a decimal integer representing the number of bytes

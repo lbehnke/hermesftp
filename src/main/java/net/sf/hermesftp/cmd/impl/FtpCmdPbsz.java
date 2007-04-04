@@ -27,7 +27,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * PROTECTION BUFFER SIZE (PBSZ)
+ * <b>PROTECTION BUFFER SIZE (PBSZ)</b>
  * <p>
  * The argument is a decimal integer representing the maximum size, in bytes, of the encoded data
  * blocks to be sent or received during file transfer. This number shall be no greater than can be

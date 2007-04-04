@@ -27,7 +27,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * FEAT Command:
+ * <b>FEAT Command</b>
  * <p>
  * It is not to be expected that all servers will necessarily support all of the new commands
  * defined in all future amendments to the FTP protocol. In order to permit clients to determine

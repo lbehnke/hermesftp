@@ -10,6 +10,8 @@
 	<bean id="cmdClnt" class="net.sf.hermesftp.cmd.impl.FtpCmdClnt" singleton="false" />
 	<bean id="cmdCwd" class="net.sf.hermesftp.cmd.impl.FtpCmdCwd" singleton="false" />
 	<bean id="cmdDele" class="net.sf.hermesftp.cmd.impl.FtpCmdDele" singleton="false" />
+	<bean id="cmdEprt" class="net.sf.hermesftp.cmd.impl.FtpCmdEprt" singleton="false" />
+	<bean id="cmdEpsv" class="net.sf.hermesftp.cmd.impl.FtpCmdEpsv" singleton="false" />
 	<bean id="cmdFeat" class="net.sf.hermesftp.cmd.impl.FtpCmdFeat" singleton="false" />
 	<bean id="cmdHelp" class="net.sf.hermesftp.cmd.impl.FtpCmdHelp" singleton="false" />
 	<bean id="cmdList" class="net.sf.hermesftp.cmd.impl.FtpCmdList" singleton="false" />
@@ -61,8 +63,8 @@
 				<entry key="CLNT" value="cmdClnt" />
 				<entry key="CWD" value="cmdCwd" />
 				<entry key="DELE" value="cmdDele" />
-				<entry key="EPSV" value="cmdNotImpl" />
-				<entry key="EPRT" value="cmdNotImpl" />
+				<entry key="EPSV" value="cmdEpsv" />
+				<entry key="EPRT" value="cmdEprt" />
 				<entry key="FEAT" value="cmdFeat" />
 				<entry key="HELP" value="cmdHelp" />
 				<entry key="LIST" value="cmdList" />

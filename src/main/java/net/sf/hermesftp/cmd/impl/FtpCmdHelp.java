@@ -33,7 +33,7 @@ import net.sf.hermesftp.cmd.FtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * HELP (HELP):
+ * <b>HELP (HELP)</b>
  * <p>
  * This command shall cause the server to send helpful information regarding its implementation
  * status over the control connection to the user. The command may take an argument (e.g., any

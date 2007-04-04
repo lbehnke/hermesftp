@@ -27,7 +27,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * OPTS Command:
+ * <b>OPTS Command</b>
  * <p>
  * The OPTS (options) command allows a user-PI to specify the desired behavior of a server-FTP
  * process when another FTP command (the target command) is later issued. The exact behavior, and

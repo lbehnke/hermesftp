@@ -31,7 +31,7 @@ import net.sf.hermesftp.exception.FtpCmdException;
 import org.apache.commons.io.FileUtils;
 
 /**
- * SIZE:
+ * <b>SIZE</b>
  *
  * Returns the size of the passed path in bytes.
  *

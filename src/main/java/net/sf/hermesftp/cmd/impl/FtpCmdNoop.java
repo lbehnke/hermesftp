@@ -27,7 +27,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * NOOP (NOOP):
+ * <b>NOOP (NOOP)</b>
  * <p>
  * This command does not affect any parameters or previously entered commands. It specifies no
  * action other than that the server send an OK reply.

@@ -27,7 +27,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * RESTART (REST)
+ * <b>RESTART (REST)</b>
  * <p>
  * The argument field represents the server marker at which file transfer is to be restarted. This
  * command does not cause file transfer but skips over the file to the specified data checkpoint.

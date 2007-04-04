@@ -32,7 +32,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * MDTM
+ * <b>MDTM</b>
  * <p>
  * Modifies the timestamp of a file or path.
  *

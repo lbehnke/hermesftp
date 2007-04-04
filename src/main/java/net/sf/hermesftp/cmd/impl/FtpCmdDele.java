@@ -32,7 +32,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * DELETE (DELE):
+ * <b>DELETE (DELE)</b>
  * <p>
  * This command causes the file specified in the pathname to be deleted at the server site. If an
  * extra level of protection is desired (such as the query, "Do you really wish to delete?"), it

@@ -27,7 +27,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * FILE STRUCTURE (STRU)
+ * <b>FILE STRUCTURE (STRU)</b>
  * <p>
  * The argument is a single Telnet character code specifying file structure described in the Section
  * on Data Representation and Storage.

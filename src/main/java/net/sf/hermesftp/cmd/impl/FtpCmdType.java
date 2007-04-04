@@ -27,7 +27,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * REPRESENTATION TYPE (TYPE):
+ * <b>REPRESENTATION TYPE (TYPE)</b>
  * <p>
  * The argument specifies the representation type as described in the Section on Data Representation
  * and Storage. Several types take a second parameter. The first parameter is denoted by a single

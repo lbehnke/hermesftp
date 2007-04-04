@@ -40,7 +40,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * RETRIEVE (RETR):
+ * <b>RETRIEVE (RETR)</b>
  * <p>
  * This command causes the server-DTP to transfer a copy of the file, specified in the pathname, to
  * the server- or user-DTP at the other end of the data connection. The status and contents of the

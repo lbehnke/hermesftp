@@ -33,7 +33,7 @@ import net.sf.hermesftp.utils.IOUtils;
 
 /**
  *
- * STATUS (STAT)
+ * <b>STATUS (STAT)</b>
  * <p>
  * This command shall cause a status response to be sent over the control connection in the form of
  * a reply. The command may be sent during a file transfer (along with the Telnet IP and Synch

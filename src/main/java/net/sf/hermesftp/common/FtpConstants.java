@@ -278,6 +278,9 @@ public interface FtpConstants {
     /** FTP response message 227. */
     public static final String MSG227 = "msg227";
 
+    /** FTP response message 229. */
+    public static final String MSG229 = "msg229";
+
     /** FTP response message 230. */
     public static final String MSG230 = "msg230";
 
@@ -344,6 +347,9 @@ public interface FtpConstants {
     /** FTP response message 530. */
     public static final String MSG530 = "msg530";
 
+    /** FTP response message 522. */
+    public static final String MSG522 = "msg522";
+    
     /** FTP response message 530. */
     public static final String MSG530_AUTH = "msg530_auth";
 

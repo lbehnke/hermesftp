@@ -32,7 +32,7 @@ import net.sf.hermesftp.common.FtpSessionContext;
 import net.sf.hermesftp.utils.IOUtils;
 
 /**
- * LIST (LIST):
+ * <b>LIST (LIST)</b>
  * <p>
  * This command causes a list to be sent from the server to the passive DTP. If the pathname
  * specifies a directory or other group of files, the server should transfer a list of files in the

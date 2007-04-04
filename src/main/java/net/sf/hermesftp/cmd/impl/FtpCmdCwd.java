@@ -31,7 +31,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * CHANGE WORKING DIRECTORY (CWD):
+ * <b>CHANGE WORKING DIRECTORY (CWD)</b>
  * <p>
  * This command allows the user to work with a different directory or dataset for file storage or
  * retrieval without altering his login or accounting information. Transfer parameters are similarly

@@ -23,25 +23,10 @@
 
 package net.sf.hermesftp.cmd.impl;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-
-import javax.net.ServerSocketFactory;
-import javax.net.ssl.SSLServerSocket;
-import javax.net.ssl.SSLServerSocketFactory;
-
-import net.sf.hermesftp.cmd.AbstractFtpCmdSsl;
-import net.sf.hermesftp.exception.FtpConfigException;
-import net.sf.hermesftp.exception.FtpCmdException;
-import net.sf.hermesftp.utils.NetUtils;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.sf.hermesftp.cmd.AbstractFtpCmdPasv;
 
 /**
- * PASSIVE (PASV)
+ * <b>PASSIVE (PASV)</b>
  * <p>
  * This command requests the server-DTP to "listen" on a data port (which is not its default data
  * port) and to wait for a connection rather than initiate one upon receipt of a transfer command.
@@ -49,82 +34,15 @@ import org.apache.commons.logging.LogFactory;
  * <p>
  * <i>[Excerpt from RFC-959, Postel and Reynolds]</i>
  * </p>
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class FtpCmdPasv
-    extends AbstractFtpCmdSsl {
-
-    private static final int DATA_CHANNEL_TIMEOUT = 10000;
-    
-    private static Log log = LogFactory.getLog(FtpCmdPasv.class);
+public class FtpCmdPasv extends AbstractFtpCmdPasv {
 
     /**
      * {@inheritDoc}
      */
-    public void execute() throws FtpCmdException {
-        try {
-            if (getCtx().getPassiveModeServerSocket() != null) {
-                getCtx().getPassiveModeServerSocket().close();
-            }
-            InetAddress localIp = NetUtils.getMachineAddress();
-            
-            ServerSocket sock = null;
-            int retries = 3;
-            while (retries > 0)
-            {
-                Integer port = getCtx().getNextPassivePort();
-                port = port == null ? new Integer(0) : port;
-                try {
-                    log.debug("Trying to bind server socket to port " + port + ".");
-                    sock = createServerSocket(localIp, port.intValue());
-                    break;
-                } catch (Exception e) {
-                    retries--;
-                    log.debug("Binding server socket to port " + port + " failed.");
-                }
-            }
-            if (sock == null) {
-                msgOut(MSG425);
-                return;
-            }
-
-            getCtx().setPassiveModeServerSocket(sock);
-            String ip = sock.getInetAddress().getHostAddress();
-            int port = sock.getLocalPort();
-            String addrPort = createPasvString(ip, port);
-            msgOut(MSG227, new Object[] {addrPort.toString()});
-            
-            Socket clientModePassiveSocket = sock.accept();
-            getCtx().setDataSocket(clientModePassiveSocket);
-        } catch (IOException e) {
-            log.error(e.toString());
-            msgOut(MSG425);
-        }
-    }
-
-    private ServerSocket createServerSocket(InetAddress localIp, int port) throws FtpConfigException, IOException {
-        ServerSocket sock;
-        Boolean dataProtection = (Boolean) getCtx().getAttribute(ATTR_DATA_PROT);
-        if (dataProtection != null && dataProtection.booleanValue()) {
-            SSLServerSocketFactory factory = getCtx().getOptions()
-                                                     .getSslContext()
-                                                     .getServerSocketFactory();
-            SSLServerSocket sslServerSocket = (SSLServerSocket) factory.createServerSocket(port,
-                                                                                           1,
-                                                                                           localIp);
-            sslServerSocket.setUseClientMode(false);
-            enableCipherSuites(sslServerSocket);
-            sock = sslServerSocket;
-        } else {
-            sock = ServerSocketFactory.getDefault().createServerSocket(port, 1, localIp);
-        }
-        sock.setSoTimeout(DATA_CHANNEL_TIMEOUT);
-        return sock;
-    }
-
-    private String createPasvString(String ip, int port) {
+    protected String createResponseMessage(int protocolIdx, String ip, int port) {
         StringBuffer addrPort = new StringBuffer();
         String[] ipParts = ip.split("\\.");
         int idx = 0;
@@ -136,7 +54,7 @@ public class FtpCmdPasv
         int p2 = port & BYTE_MASK;
         addrPort.append(p1 + SEPARATOR);
         addrPort.append(p2 + "");
-        return addrPort.toString();
+        return msg (MSG227, new String[]{addrPort.toString()});
     }
 
     /**

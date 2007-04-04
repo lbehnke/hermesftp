@@ -29,7 +29,7 @@ import net.sf.hermesftp.exception.FtpCmdException;
 import org.apache.commons.io.FilenameUtils;
 
 /**
- * PRINT WORKING DIRECTORY (PWD):
+ * <b>PRINT WORKING DIRECTORY (PWD)</b>
  *
  * This command causes the name of the current working directory to be returned in the reply..
  * <p>

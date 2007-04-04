@@ -27,7 +27,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmdStorFile;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * STORE (STOR):
+ * <b>STORE (STOR)</b>
  * <p>
  * This command causes the server-DTP to accept the data transferred via the data connection and to
  * store the data as a file at the server site. If the file specified in the pathname exists at the

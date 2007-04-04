@@ -29,7 +29,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * RENAME FROM (RNFR)
+ * <b>RENAME FROM (RNFR)</b>
  * <p>
  * This command specifies the old pathname of the file which is to be renamed. This command must be
  * immediately followed by a "rename to" command specifying the new file pathname.

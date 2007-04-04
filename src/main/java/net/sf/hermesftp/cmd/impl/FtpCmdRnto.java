@@ -32,7 +32,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * RENAME TO (RNTO)
+ * <b>RENAME TO (RNTO)</b>
  * <p>
  * This command specifies the new pathname of the file specified in the immediately preceding
  * "rename from" command. Together the two commands cause a file to be renamed.

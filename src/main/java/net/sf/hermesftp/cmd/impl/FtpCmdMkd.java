@@ -34,7 +34,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * MAKE DIRECTORY (MKD)
+ * <b>MAKE DIRECTORY (MKD)</b>
  * <p>
  * This command causes the directory specified in the pathname to be created as a directory (if the
  * pathname is absolute) or as a subdirectory of the current working directory (if the pathname is

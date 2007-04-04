@@ -27,7 +27,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * TRANSFER MODE (MODE)
+ * <b>TRANSFER MODE (MODE)</b>
  * <p>
  * The argument is a single Telnet character code specifying the data transfer modes described in
  * the Section on Transmission Modes.

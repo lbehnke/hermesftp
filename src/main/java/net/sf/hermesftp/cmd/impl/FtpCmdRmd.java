@@ -32,7 +32,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * REMOVE DIRECTORY (RMD)
+ * <b>REMOVE DIRECTORY (RMD)</b>
  * <p>
  * This command causes the directory specified in the pathname to be removed as a directory (if the
  * pathname is absolute) or as a subdirectory of the current working directory (if the pathname is

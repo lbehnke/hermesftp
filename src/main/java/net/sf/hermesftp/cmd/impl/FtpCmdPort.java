@@ -23,22 +23,10 @@
 
 package net.sf.hermesftp.cmd.impl;
 
-import java.io.IOException;
-import java.net.Socket;
-
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
-
-import net.sf.hermesftp.cmd.AbstractFtpCmdSsl;
-import net.sf.hermesftp.exception.FtpConfigException;
-import net.sf.hermesftp.exception.FtpCmdException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.sf.hermesftp.cmd.AbstractFtpCmdPort;
 
 /**
- * DATA PORT (PORT):
+ * <b>DATA PORT (PORT)</b>
  * <p>
  * The argument is a HOST-PORT specification for the data port to be used in data connection. There
  * are defaults for both the user and server data ports, and under normal circumstances this command
@@ -50,61 +38,70 @@ import org.apache.commons.logging.LogFactory;
  * <p>
  * <i>[Excerpt from RFC-959, Postel and Reynolds]</i>
  * </p>
- *
+ * 
  * @author Lars Behnke
  */
-public class FtpCmdPort
-    extends AbstractFtpCmdSsl {
+public class FtpCmdPort extends AbstractFtpCmdPort {
 
     private static final String DOT = ".";
 
-    private static Log log = LogFactory.getLog(FtpCmdPort.class);
+    private int                 port;
 
-    /**
-     * {@inheritDoc}
-     */
-    public void execute() throws FtpCmdException {
-        try {
-            String[] args = getArguments().split(",");
-            int idx = 0;
-            String ip = args[idx++].trim() + DOT + args[idx++].trim() + DOT + args[idx++].trim()
-                + DOT + args[idx++].trim();
-            log.debug("IP: " + ip);
-            int p1 = Integer.parseInt(args[idx++].trim()) & BYTE_MASK;
-            int p2 = Integer.parseInt(args[idx++].trim()) & BYTE_MASK;
-            int port = (p1 << BYTE_LENGTH) + p2;
-            log.debug("Port: " + port);
-            Socket dataSocket;
-            Boolean dataProtection = (Boolean) getCtx().getAttribute(ATTR_DATA_PROT);
-            if (dataProtection != null && dataProtection.booleanValue()) {
-                SSLSocketFactory factory = getCtx().getOptions().getSslContext().getSocketFactory();
-                SSLSocket sslSocket = (SSLSocket) factory.createSocket(ip, port);
-                sslSocket.setUseClientMode(false);
-                enableCipherSuites(sslSocket);
-                dataSocket = sslSocket;
-            } else {
-                dataSocket = SocketFactory.getDefault().createSocket(ip, port);
-            }
-            getCtx().setDataSocket(dataSocket);
-            if (isPassive()) {
-                getCtx().getPassiveModeServerSocket().close();
-                getCtx().setPassiveModeServerSocket(null);
-            }
-            msgOut(MSG200);
-        } catch (IOException e) {
-            log.error(e.toString());
-            msgOut(MSG500);
-        } catch (FtpConfigException e) {
-            log.error(e.toString());
-            msgOut(MSG500);
-        }
-    }
+    private String              addr;
+
+    private String              lastArgs;
 
     /**
      * {@inheritDoc}
      */
     public String getHelp() {
         return "Sets port for active transfer.";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected String doReadIPAddr(String args) {
+        if (!paramsParsed(args)) {
+            parseParams(args);
+        }
+        return addr;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected int doReadPort(String args) {
+        if (!paramsParsed(args)) {
+            parseParams(args);
+        }
+        return port;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected int doReadProtocolIdx(String args) {
+        return 1;
+    }
+
+    private boolean paramsParsed(String args) {
+        return lastArgs != null && lastArgs.equals(args);
+    }
+
+    private void parseParams(String args) {
+        try {
+            lastArgs = args;
+            String[] argParts = getArguments().split(",");
+            int idx = 0;
+            addr = argParts[idx++].trim() + DOT + argParts[idx++].trim() + DOT + argParts[idx++].trim() + DOT
+                    + argParts[idx++].trim();
+            int p1 = Integer.parseInt(argParts[idx++].trim()) & BYTE_MASK;
+            int p2 = Integer.parseInt(argParts[idx++].trim()) & BYTE_MASK;
+            port = (p1 << BYTE_LENGTH) + p2;
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid arguments: " + args);
+        }
     }
 
 }

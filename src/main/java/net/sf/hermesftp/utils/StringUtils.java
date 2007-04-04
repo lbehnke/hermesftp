@@ -35,4 +35,28 @@ public class StringUtils {
                 + "[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]$";
         return Pattern.matches(patternStr, email);
     }
+    
+    
+    /**
+     * Quotes the special characters of a given regular expression string.
+     * Example:
+     * <blockquote>
+     * <pre>
+     * This.is.an.example  -->  This\.is\.an\.example
+     * </pre>
+     * </blockquote>
+     * @param s The unencoded string.
+     * @return The encoded string.
+     */
+    public static String encodeRegex(String s) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (".-\\[]{}()".indexOf(c) > -1) {
+                sb.append("\\");
+            }
+            sb.append(c);
+        }
+        return sb.toString();
+    }
 }

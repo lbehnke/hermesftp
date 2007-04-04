@@ -27,7 +27,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
 /**
- * USER NAME (USER):
+ * <b>USER NAME (USER)</b>
  * <p>
  * The argument field is a Telnet string identifying the user. The user identification is that which
  * is required by the server for access to its file system. This command will normally be the first

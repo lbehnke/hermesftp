@@ -15,4 +15,19 @@ public class StringUtilsTest extends TestCase {
         result = StringUtils.validateEmail("lars behnke@users.sourceforge.net");
         assertFalse(result);
     }
+    
+//    public void testRegex() {
+//        boolean result;
+//        
+//
+//        Pattern pattern = Pattern.compile("^.*\\(\\|\\|\\|([0-9]+)\\|\\).*$");
+//        Matcher matcher = pattern.matcher("229 Entering Extended Passive Mode (|||12000|)");
+//   
+//        if (matcher.matches()) {
+//            Integer.parseInt(matcher.group(1));
+//        } else {
+//            fail();
+//        }
+//
+//    }
 }

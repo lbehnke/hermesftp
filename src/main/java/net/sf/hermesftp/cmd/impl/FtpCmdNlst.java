@@ -33,7 +33,7 @@ import net.sf.hermesftp.cmd.AbstractFtpCmdList;
 import net.sf.hermesftp.common.FtpSessionContext;
 
 /**
- * NAME LIST (NLST)
+ * <b>NAME LIST (NLST)</b>
  * <p>
  * This command causes a directory listing to be sent from server to user site. The pathname should
  * specify a directory or other system-specific file group descriptor; a null argument implies the
