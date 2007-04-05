@@ -27,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Collections;
@@ -325,7 +326,7 @@ public class FtpSessionContextImpl
      */
     public void setClientSocket(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
-        this.clientResponseWriter = new LoggingWriter(clientSocket.getOutputStream(), true);
+        this.clientResponseWriter = new LoggingWriter(new OutputStreamWriter (clientSocket.getOutputStream()), true);
         this.clientCmdReader = new LoggingReader(new InputStreamReader(clientSocket.getInputStream()));
     }
 

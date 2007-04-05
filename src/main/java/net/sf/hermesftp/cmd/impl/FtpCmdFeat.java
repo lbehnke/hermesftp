@@ -148,24 +148,33 @@ public class FtpCmdFeat
     public void execute() throws FtpCmdException {
         StringBuffer response = new StringBuffer();
         response.append(msg(MSG211_FEAT, ""));
-
+        response.append("\n");
+        
         // TODO Complete list of additional features.
         appendFeature(response, "UTF8");
         appendFeature(response, "PASV");
         appendFeature(response, "REST STREAM");
         appendFeature(response, "MDTM");
         appendFeature(response, "SIZE");
-        appendFeature(response, "MODE Z");
         if (getCtx().getOptions().getBoolean(OPT_SSL_ALLOW_EXPLICIT, true)) {
             appendFeature(response, "AUTH SSL");
             appendFeature(response, "AUTH TLS");
         }
-        response.append("211 \n");
+        appendFeature(response, "MODE Z", true);
         out(response.toString());
     }
 
     private void appendFeature(StringBuffer response, String string) {
-        response.append("211-");
+        appendFeature(response, string, false);
+    }
+    
+    private void appendFeature(StringBuffer response, String string, boolean lastFeature) {
+        response.append("211");
+        if (lastFeature) {
+            response.append(" ");
+        } else {
+            response.append("-");
+        }
         response.append(string);
         response.append("\n");
     }

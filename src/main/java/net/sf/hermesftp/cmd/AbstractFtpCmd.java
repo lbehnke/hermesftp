@@ -96,12 +96,6 @@ public abstract class AbstractFtpCmd implements FtpCmd, FtpConstants {
      */
     protected void out(String text) {
         responded = !text.startsWith("150");
-
-        try {
-            Thread.sleep(200);
-        } catch (Exception e) {
-        }
-
         getCtx().getClientResponseWriter().println(text);
         getCtx().getClientResponseWriter().flush();
     }

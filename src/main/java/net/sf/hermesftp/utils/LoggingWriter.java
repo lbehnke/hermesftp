@@ -25,6 +25,7 @@ package net.sf.hermesftp.utils;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.Writer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,6 +51,16 @@ public class LoggingWriter
     public LoggingWriter(OutputStream out, boolean flush) {
         super(out, flush);
     }
+    
+    /**
+     * Constructor.
+     *
+     * @param out The output writer.
+     * @param flush Automatic flush
+     */
+    public LoggingWriter(Writer out, boolean flush) {
+        super(out, flush);
+    }
 
     /**
      * {@inheritDoc}
@@ -66,8 +77,8 @@ public class LoggingWriter
             log.debug("-->: " + x);
         }
         super.println(text);
-        if (checkError()) {
-            log.debug("Writing to control stream failed.");
-        }
+//        if (checkError()) {
+//            log.debug("Writing to control stream failed.");
+//        }
     }
 }

@@ -263,6 +263,9 @@ public interface FtpConstants {
     /** FTP response message 213 (file size). */
     public static final String MSG213_SIZE = "msg213_size";
 
+    /** FTP response message 213 (file size). */
+    public static final String MSG213_TIME = "msg213_time";
+
     /** FTP response message 214. */
     public static final String MSG214 = "msg214";
 

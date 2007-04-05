@@ -35,11 +35,10 @@ import net.sf.hermesftp.exception.FtpCmdException;
  * <b>MDTM</b>
  * <p>
  * Modifies the timestamp of a file or path.
- *
+ * 
  * @author Lars Behnke
  */
-public class FtpCmdMdtm
-    extends AbstractFtpCmd {
+public class FtpCmdMdtm extends AbstractFtpCmd {
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
@@ -60,27 +59,33 @@ public class FtpCmdMdtm
             }
             pathName = argParts[1].trim();
         } else if (argParts.length == 1) {
-            date = new Date();
             pathName = argParts[0];
         }
-        if (date == null || pathName == null) {
+
+        if (pathName == null) {
             msgOut(MSG501);
             return;
         }
 
         /* Proceed with valid arguments */
-        setModificationDate(date, pathName);
-    }
-
-    private void setModificationDate(Date date, String pathName) {
         pathName = getAbsPath(pathName);
         File path = new File(pathName);
         if (path.exists()) {
-            if ((getCtx().getPermission(pathName) & PRIV_WRITE) == 0) {
+            if (date != null) {
+                if ((getCtx().getPermission(pathName) & PRIV_WRITE) == 0) {
+                    msgOut(MSG550_PERM);
+                    return;
+                } else {
+                    path.setLastModified(date.getTime());
+                }
+
+            }
+            if ((getCtx().getPermission(pathName) & PRIV_READ) == 0) {
                 msgOut(MSG550_PERM);
             } else {
-                path.setLastModified(date.getTime());
-                msgOut(MSG200);
+                date = new Date(path.lastModified());
+                String formattedDate = dateFormat.format(date);
+                msgOut(MSG213_TIME, formattedDate);
             }
         } else {
             msgOut(MSG501_PATH);
