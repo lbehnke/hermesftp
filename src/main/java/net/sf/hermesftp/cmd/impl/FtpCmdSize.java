@@ -31,15 +31,11 @@ import net.sf.hermesftp.exception.FtpCmdException;
 import org.apache.commons.io.FileUtils;
 
 /**
- * <b>SIZE</b>
- *
- * Returns the size of the passed path in bytes.
- *
+ * <b>SIZE</b> Returns the size of the passed path in bytes.
+ * 
  * @author Lars Behnke
- *
  */
-public class FtpCmdSize
-    extends AbstractFtpCmd {
+public class FtpCmdSize extends AbstractFtpCmd {
 
     /**
      * {@inheritDoc}
@@ -53,6 +49,8 @@ public class FtpCmdSize
         } else if (path.isDirectory()) {
             msgOut(MSG213_SIZE, new Object[] {new Long(FileUtils.sizeOfDirectory(path))});
         } else {
+
+            /* This is the binary length. In ASCII mode the size may differ, see RFC 3659, chap. 4 */
             msgOut(MSG213_SIZE, new Object[] {new Long(path.length())});
         }
     }

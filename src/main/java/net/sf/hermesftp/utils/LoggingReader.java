@@ -72,7 +72,7 @@ public class LoggingReader
             String x;
             if (result != null && result.length() >= LOG_LINE_LENGTH) {
                 x = result.substring(0, LOG_LINE_LENGTH) + " ["
-                    + (result.length() - LOG_LINE_LENGTH) + " chars more]";
+                    + (result.length() - LOG_LINE_LENGTH) + " more chars]";
             } else {
                 x = result;
             }

@@ -82,7 +82,7 @@ public class FtpCmdRetr
      */
     protected void doPerformAccessChecks(File file) throws FtpQuotaException,
             FtpPermissionException, IOException {
-        if (!file.exists()) {
+        if (!file.exists() || file.isDirectory()) {
             throw new IOException("File not found");
         }
         if ((getPermission() & PRIV_READ) == 0) {

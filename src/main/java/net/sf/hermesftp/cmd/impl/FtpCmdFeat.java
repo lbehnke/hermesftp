@@ -42,35 +42,31 @@ import net.sf.hermesftp.exception.FtpCmdException;
  * specification of a new feature that is unknown to the user-FTP.
  * <p>
  * The FEAT command consists solely of the word "FEAT". It has no parameters or arguments.
- *
  * <p>
  * Where a server-FTP process does not support the FEAT command, it will respond to the FEAT command
  * with a 500 or 502 reply. This is simply the normal "unrecognized command" reply that any unknown
  * command would elicit. Errors in the command syntax, such as giving parameters, will result in a
- * 501 reply.
- *
- * Server-FTP processes that recognize the FEAT command, but implement no extended features, and
- * therefore have nothing to report, SHOULD respond with the "no-features" 211 reply. However, as
- * this case is practically indistinguishable from a server-FTP that does not recognize the FEAT
- * command, a 500 or 502 reply MAY also be used. The "no-features" reply MUST NOT use the multi-line
- * response format, exactly one response line is required and permitted.
- *
- * Replies to the FEAT command MUST comply with the following syntax. Text on the first line of the
- * reply is free form, and not interpreted, and has no practical use, as this text is not expected
- * to be revealed to end users. The syntax of other reply lines is precisely defined, and if
- * present, MUST be exactly as specified.
- *
+ * 501 reply. Server-FTP processes that recognize the FEAT command, but implement no extended
+ * features, and therefore have nothing to report, SHOULD respond with the "no-features" 211 reply.
+ * However, as this case is practically indistinguishable from a server-FTP that does not recognize
+ * the FEAT command, a 500 or 502 reply MAY also be used. The "no-features" reply MUST NOT use the
+ * multi-line response format, exactly one response line is required and permitted. Replies to the
+ * FEAT command MUST comply with the following syntax. Text on the first line of the reply is free
+ * form, and not interpreted, and has no practical use, as this text is not expected to be revealed
+ * to end users. The syntax of other reply lines is precisely defined, and if present, MUST be
+ * exactly as specified.
+ * 
  * <pre>
- *           feat-response   = error-response / no-features / feature-listing
- *           no-features     = &quot;211&quot; SP *TCHAR CRLF
- *           feature-listing = &quot;211-&quot; *TCHAR CRLF
- *           1*( SP feature CRLF )
- *           &quot;211 End&quot; CRLF
- *           feature         = feature-label [ SP feature-parms ]
- *           feature-label   = 1*VCHAR
- *           feature-parms   = 1*TCHAR
+ *            feat-response   = error-response / no-features / feature-listing
+ *            no-features     = &quot;211&quot; SP *TCHAR CRLF
+ *            feature-listing = &quot;211-&quot; *TCHAR CRLF
+ *            1*( SP feature CRLF )
+ *            &quot;211 End&quot; CRLF
+ *            feature         = feature-label [ SP feature-parms ]
+ *            feature-label   = 1*VCHAR
+ *            feature-parms   = 1*TCHAR
  * </pre>
- *
+ * 
  * Note that each feature line in the feature-listing begins with a single space. That space is not
  * optional, nor does it indicate general white space. This space guarantees that the feature line
  * can never be misinterpreted as the end of the feature-listing, but is required even where there
@@ -94,17 +90,17 @@ import net.sf.hermesftp.exception.FtpCmdException;
  * command is indicated by return of a reply other than a 500 or 502 reply.
  * <p>
  * A typical example reply to the FEAT command might be a multiline reply of the form:
- *
+ * 
  * <pre>
- *           C&gt; feat
- *           S&gt; 211-Extensions supported:
- *           S&gt;  MLST size*;create;modify*;perm;media-type
- *           S&gt;  SIZE
- *           S&gt;  COMPRESSION
- *           S&gt;  MDTM
- *           S&gt; 211 END
+ *            C&gt; feat
+ *            S&gt; 211-Extensions supported:
+ *            S&gt;  MLST size*;create;modify*;perm;media-type
+ *            S&gt;  SIZE
+ *            S&gt;  COMPRESSION
+ *            S&gt;  MDTM
+ *            S&gt; 211 END
  * </pre>
- *
+ * 
  * The particular extensions shown here are simply examples of what may be defined in other places,
  * no particular meaning should be attributed to them. Recall also, that the feature names returned
  * are not command names, as such, but simply indications that the server possesses some attribute
@@ -123,7 +119,6 @@ import net.sf.hermesftp.exception.FtpCmdException;
  * The effect of this is that an error response to the FEAT command does not necessarily imply that
  * those extensions are not supported by the server-FTP process. User-PIs should test for such
  * extensions individually if an error response has been received to the FEAT command.
- *
  * <p>
  * While not absolutely necessary, a standard mechanism for the server- PI to inform the user-PI of
  * any features and extensions supported will help reduce unnecessary traffic between the user-PI
@@ -135,48 +130,29 @@ import net.sf.hermesftp.exception.FtpCmdException;
  * <p>
  * <i>[Excerpt from RFC-2389, Hethmon and Elz]</i>
  * </p>
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class FtpCmdFeat
-    extends AbstractFtpCmd {
+public class FtpCmdFeat extends AbstractFtpCmd {
 
     /**
      * {@inheritDoc}
      */
     public void execute() throws FtpCmdException {
-        StringBuffer response = new StringBuffer();
-        response.append(msg(MSG211_FEAT, ""));
-        response.append("\n");
-        
-        // TODO Complete list of additional features.
-        appendFeature(response, "UTF8");
-        appendFeature(response, "PASV");
-        appendFeature(response, "REST STREAM");
-        appendFeature(response, "MDTM");
-        appendFeature(response, "SIZE");
-        if (getCtx().getOptions().getBoolean(OPT_SSL_ALLOW_EXPLICIT, true)) {
-            appendFeature(response, "AUTH SSL");
-            appendFeature(response, "AUTH TLS");
-        }
-        appendFeature(response, "MODE Z", true);
-        out(response.toString());
-    }
 
-    private void appendFeature(StringBuffer response, String string) {
-        appendFeature(response, string, false);
-    }
-    
-    private void appendFeature(StringBuffer response, String string, boolean lastFeature) {
-        response.append("211");
-        if (lastFeature) {
-            response.append(" ");
-        } else {
-            response.append("-");
+        msgOut(MSG211_FEAT_HEADER);
+        msgOut(MSG211_FEAT_ENTRY, "MDTM");
+        msgOut(MSG211_FEAT_ENTRY, "REST STREAM");
+        msgOut(MSG211_FEAT_ENTRY, "SIZE");
+        msgOut(MSG211_FEAT_ENTRY, "UTF8");
+        msgOut(MSG211_FEAT_ENTRY, "CLNT");
+        msgOut(MSG211_FEAT_ENTRY, "PASV");
+        if (getCtx().getOptions().getBoolean(OPT_SSL_ALLOW_EXPLICIT, true)) {
+            msgOut(MSG211_FEAT_ENTRY, "AUTH SSL");
+            msgOut(MSG211_FEAT_ENTRY, "AUTH TLS");
         }
-        response.append(string);
-        response.append("\n");
+        msgOut(MSG211_FEAT_ENTRY, "MODE Z");
+        msgOut(MSG211_FEAT_FOOTER);
     }
 
     /**

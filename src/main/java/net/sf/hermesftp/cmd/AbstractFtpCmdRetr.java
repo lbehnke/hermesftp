@@ -181,8 +181,9 @@ public abstract class AbstractFtpCmdRetr
             /* Check availability and access rights */
             doPerformAccessChecks(file);
 
-            /* Wrap outbound data stream and call handler method */
             msgOut(MSG150);
+
+            /* Wrap outbound data stream and call handler method */
             Socket dataSocket = getCtx().getDataSocketProvider().provideSocket();
             OutputStream dataOut = dataSocket.getOutputStream();
             if (struct == STRUCT_RECORD) {
@@ -213,7 +214,7 @@ public abstract class AbstractFtpCmdRetr
             msgOut(MSG550);
             log.error(e.toString());
         } finally {
-            getCtx().getDataSocketProvider().closeSocket();
+            getCtx().closeSockets();
         }
     }
 

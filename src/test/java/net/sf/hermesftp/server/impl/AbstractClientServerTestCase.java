@@ -78,6 +78,7 @@ public abstract class AbstractClientServerTestCase
     protected void setUp() {
         try {
             getClient().openConnection(null, "user", "user");
+            getClient().openPassiveMode();
         } catch (IOException e) {
             log.error(e);
         }

@@ -77,6 +77,7 @@ public class PassiveModeSocketProvider implements SocketProvider {
         }
 
         /* Wrap up connection parameter */
+        log.debug("Server socket successfully bound to port " + serverSocket.getLocalPort() + ".");
         return new DataChannelInfo(localIp.getHostAddress(), serverSocket.getLocalPort());
 
     }

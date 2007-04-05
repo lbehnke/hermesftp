@@ -65,7 +65,7 @@
 				<entry key="DELE" value="cmdDele" />
 				<entry key="EPSV" value="cmdEpsv" />
 				<entry key="EPRT" value="cmdEprt" />
-				<entry key="FEAT" value="cmdFeat" />
+			    <entry key="FEAT" value="cmdFeat" />
 				<entry key="HELP" value="cmdHelp" />
 				<entry key="LIST" value="cmdList" />
 				<entry key="MKD" value="cmdMkd" />

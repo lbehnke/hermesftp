@@ -124,7 +124,7 @@ public abstract class AbstractFtpCmdStor
             msgOut(MSG550);
             log.error(e.toString());
         } finally {
-            getCtx().getDataSocketProvider().closeSocket();
+            getCtx().closeSockets();
         }
     }
 

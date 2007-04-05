@@ -404,7 +404,6 @@ public class FtpSessionContextImpl
     public void closeSockets() {
         if (getDataSocketProvider() != null) {
             getDataSocketProvider().closeSocket();
-            //setDataSocketProvider(null);
         }
     }
 

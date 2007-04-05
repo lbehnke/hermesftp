@@ -192,7 +192,7 @@ public class FtpCmdEprt extends AbstractFtpCmdPort {
 
 
     private boolean paramsParsed(String args) {
-        return lastArgs == null || !(lastArgs.equals(args));
+        return lastArgs != null && !lastArgs.equals(args);
     }
 
     private void parseParams(String args) {

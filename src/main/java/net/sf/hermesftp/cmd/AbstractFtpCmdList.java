@@ -71,19 +71,16 @@ public abstract class AbstractFtpCmdList
                 msgOut(MSG550);
                 return;
             }
-            boolean empty = true;
+
             if (dir.isDirectory()) {
                 File[] files = dir.listFiles();
+                dataOut.println("total " + files.length);
+
                 for (int i = 0; i < files.length; i++) {
                     doPrintFileInfo(dataOut, files[i], getCtx());
-                    empty = false;
                 }
             } else {
                 doPrintFileInfo(dataOut, dir, getCtx());
-                empty = false;
-            }
-            if (empty) {
-               dataOut.println();
             }
 
             msgOut(MSG226);
@@ -93,7 +90,7 @@ public abstract class AbstractFtpCmdList
             msgOut(MSG550);
         } finally {
             IOUtils.closeGracefully(dataOut);
-            getCtx().getDataSocketProvider().closeSocket();
+            getCtx().closeSockets();
         }
     }
 

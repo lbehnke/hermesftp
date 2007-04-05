@@ -254,8 +254,14 @@ public interface FtpConstants {
     /** FTP response message 200. */
     public static final String MSG200_TYPE = "msg200_type";
 
-    /** FTP response message 211. */
-    public static final String MSG211_FEAT = "msg211_feat";
+    /** FTP response message 211 header. */
+    public static final String MSG211_FEAT_HEADER = "msg211_feat_header";
+
+    /** FTP response message 211 entry. */
+    public static final String MSG211_FEAT_ENTRY = "msg211_feat_entry";
+
+    /** FTP response message 211 footer. */
+    public static final String MSG211_FEAT_FOOTER = "msg211_feat_footer";
 
     /** FTP response message 211. */
     public static final String MSG211_STAT = "msg211_stat";

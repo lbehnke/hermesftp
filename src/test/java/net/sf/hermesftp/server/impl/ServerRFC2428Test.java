@@ -42,12 +42,17 @@ public class ServerRFC2428Test
 	private static Log log = LogFactory.getLog(ServerRFC2428Test.class);
 
     /**
-     * Test case: Rename and size.
+     * Test case: Extended passive port.
      */
-    public void testExtendedPort()  {
+    public void testExtendedPassivePort()  {
         String str;
         try {
-            //str = getClient().sendAndReceive("EPRT");
+            str = getClient().sendAndReceive("EPSV");
+            assertTrue(str.startsWith("229"));
+            str = getClient().sendAndReceive("EPSV 1");
+            assertTrue(str.startsWith("229"));
+            str = getClient().sendAndReceive("EPSV ALL");
+            assertTrue(str.startsWith("229"));
             str = getClient().openExtendedPassiveMode();
             assertTrue(str.startsWith("229"));
         } catch (IOException e) {
@@ -57,17 +62,17 @@ public class ServerRFC2428Test
     }
 
     /**
-     * Test case: Rename and size.
+     * Test case: Extended active port.
      */
-    public void testExtendedPassivePort()  {
+    public void testExtendedActivePort()  {
         String str;
         try {
-//            str = getClient().sendAndReceive("EPSV");
-//            assertTrue(str.startsWith("227"));
-//            str = getClient().sendAndReceive("EPSV 1");
-//            assertTrue(str.startsWith("227"));
-//            str = getClient().sendAndReceive("EPSV ALL");
-//            assertTrue(str.startsWith("227"));
+            str = getClient().sendAndReceive("EPRT |1|10.129.3.82|33035|");
+            assertTrue(str.startsWith("200"));
+            
+            
+            str = getClient().openExtendedActiveMode();
+            assertTrue(str.startsWith("200"));
         } catch (Exception e) {
             log.error(e);
             fail(e.toString());

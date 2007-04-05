@@ -75,7 +75,9 @@ public class FtpTestClient {
 
     private OutputStream     transOut;
 
-    private Socket           transServer;
+    private Socket           passiveModeSocket;
+
+    private ServerSocket     activeModeServerSocket;
 
     private Socket           serverSocket;
 
@@ -137,8 +139,8 @@ public class FtpTestClient {
             log.debug(e.toString());
         }
         try {
-            if (transServer != null) {
-                transServer.close();
+            if (passiveModeSocket != null) {
+                passiveModeSocket.close();
             }
 
         } catch (IOException e) {
@@ -196,26 +198,24 @@ public class FtpTestClient {
         }
         int port = (iPs[4] << FtpConstants.BYTE_LENGTH) + iPs[5];
 
-        if (transServer != null) {
-            transServer.close();
-        }
-        transServer = new Socket(server, port);
-        transIs = transServer.getInputStream();
-        transOut = transServer.getOutputStream();
+        resetDataSockets();
+        passiveModeSocket = new Socket(server, port);
         return response;
     }
 
     public String openActiveMode() throws IOException {
         InetAddress addr = NetUtils.getMachineAddress();
         String addrStr = addr.getHostAddress();
-        int port = 14444;
+        ServerSocket sock = ServerSocketFactory.getDefault().createServerSocket(0, 1, addr);
+        sock.setSoTimeout(10000);
+
         Pattern pattern = Pattern.compile("^([0-9]+)\\.([0-9]+)\\.([0-9]+)\\.([0-9]+)$");
         Matcher matcher = pattern.matcher(addrStr);
         if (!matcher.matches()) {
             throw new IOException("Invalid address: " + addrStr);
         }
-        int p1 = (port >>> FtpConstants.BYTE_LENGTH) & FtpConstants.BYTE_MASK;
-        int p2 = port & FtpConstants.BYTE_MASK;
+        int p1 = (sock.getLocalPort() >>> FtpConstants.BYTE_LENGTH) & FtpConstants.BYTE_MASK;
+        int p2 = sock.getLocalPort() & FtpConstants.BYTE_MASK;
 
         StringBuffer sb = new StringBuffer();
         sb.append("PORT ");
@@ -231,26 +231,24 @@ public class FtpTestClient {
         sb.append(",");
         sb.append(p2);
 
-        ServerSocket sock = ServerSocketFactory.getDefault().createServerSocket(port, 1, addr);
-        sock.setSoTimeout(5000);
+        resetDataSockets();
+        activeModeServerSocket = sock;
 
         sendCommand(sb.toString());
 
-        if (transServer != null) {
-            transServer.close();
-        }
-        try {
-            transServer = sock.accept();
-        } catch (RuntimeException e) {
-            throw new IOException("Accepting data channel failed");
-        }
+        //        
+        // try {
+        // passiveModeSocket = sock.accept();
+        // } catch (RuntimeException e) {
+        // throw new IOException("Accepting data channel failed");
+        // }
 
         String response = getResponse();
 
-        if (transServer != null) {
-            transIs = transServer.getInputStream();
-            transOut = transServer.getOutputStream();
-        }
+        // if (passiveModeSocket != null) {
+        // transIs = passiveModeSocket.getInputStream();
+        // transOut = passiveModeSocket.getOutputStream();
+        // }
 
         return response;
 
@@ -267,12 +265,57 @@ public class FtpTestClient {
             port = Integer.parseInt(matcher.group(1));
         }
 
-        if (transServer != null) {
-            transServer.close();
+        resetDataSockets();
+        passiveModeSocket = new Socket(server, port);
+        return response;
+    }
+
+    private void initializeIOStreams() throws IOException {
+        if (passiveModeSocket != null) {
+            transIs = passiveModeSocket.getInputStream();
+            transOut = passiveModeSocket.getOutputStream();
+        } else if (activeModeServerSocket != null) {
+            Socket socket = activeModeServerSocket.accept();
+            transIs = socket.getInputStream();
+            transOut = socket.getOutputStream();
+        } else {
+            throw new IOException("IO streams have not been initialized");
         }
-        transServer = new Socket(server, port);
-        transIs = transServer.getInputStream();
-        transOut = transServer.getOutputStream();
+    }
+
+    private boolean isServerSocketAvailable() {
+        return passiveModeSocket != null || activeModeServerSocket != null;
+    }
+
+    private void resetDataSockets() throws IOException {
+        if (passiveModeSocket != null) {
+            passiveModeSocket.close();
+            passiveModeSocket = null;
+        }
+        if (activeModeServerSocket != null) {
+            activeModeServerSocket.close();
+            activeModeServerSocket = null;
+        }
+    }
+
+    public String openExtendedActiveMode() throws IOException {
+        StringBuffer params = new StringBuffer();
+
+        params.append("|1|");
+        InetAddress addr = NetUtils.getMachineAddress();
+        ServerSocket serverSocket = ServerSocketFactory.getDefault().createServerSocket(0, 1, addr);
+        params.append(addr.getHostAddress());
+        params.append("|");
+        params.append(serverSocket.getLocalPort());
+        params.append("|");
+
+        sendCommand("EPRT " + params.toString());
+        String response = getResponse();
+
+        if (passiveModeSocket != null) {
+            passiveModeSocket.close();
+        }
+        activeModeServerSocket = serverSocket;
         return response;
     }
 
@@ -285,14 +328,22 @@ public class FtpTestClient {
      */
     public String list(String f) throws IOException {
         String response = null;
-        openPassiveMode();
+        if (!isServerSocketAvailable()) {
+            openPassiveMode();
+        }
         textBuffer = new StringBuffer();
         if (f == null) {
             sendCommand("LIST");
         } else {
             sendCommand("LIST " + f);
         }
-        getResponse();
+        String res = getResponse();
+
+        if (res.startsWith("150")) {
+            initializeIOStreams();
+        } else {
+            return res;
+        }
 
         BufferedReader in = new BufferedReader(new InputStreamReader(transIs, "ISO-8859-1"));
         TextReceiver l = new TextReceiver(in, false);
@@ -304,7 +355,7 @@ public class FtpTestClient {
                 log.error(e);
             }
         }
-
+        resetDataSockets();
         response = getResponse();
         return response;
 
@@ -329,11 +380,16 @@ public class FtpTestClient {
      */
     public String retrieveText(String filename) throws IOException {
         String response = null;
-        openPassiveMode();
         sendAndReceive("TYPE A");
+        if (!isServerSocketAvailable()) {
+            openPassiveMode();
+        }
         textBuffer = new StringBuffer();
-        sendAndReceive("RETR " + filename);
-
+        response = sendAndReceive("RETR " + filename);
+        if (!response.startsWith("150")) {
+            return response;
+        }
+        initializeIOStreams();
         BufferedReader in = new BufferedReader(new InputStreamReader(transIs, "ISO-8859-1"));
         TextReceiver l = new TextReceiver(in, false);
         synchronized (lock) {
@@ -347,6 +403,7 @@ public class FtpTestClient {
         }
 
         response = getResponse();
+        resetDataSockets();
         return response;
     }
 
@@ -359,10 +416,18 @@ public class FtpTestClient {
      */
     public int retrieveBigText(String filename) throws IOException {
 
-        openPassiveMode();
+        String response;
         sendAndReceive("TYPE A");
+        if (!isServerSocketAvailable()) {
+            openPassiveMode();
+        }
         textBuffer = new StringBuffer();
-        sendAndReceive("RETR " + filename);
+        response = sendAndReceive("RETR " + filename);
+        if (response.startsWith("150")) {
+            initializeIOStreams();
+        } else {
+            return 0;
+        }
 
         BufferedReader in = new BufferedReader(new InputStreamReader(transIs, "ISO-8859-1"));
         TextReceiver l = new TextReceiver(in, true);
@@ -376,6 +441,7 @@ public class FtpTestClient {
         }
 
         getResponse();
+        resetDataSockets();
         return l.getCount();
     }
 
@@ -387,10 +453,16 @@ public class FtpTestClient {
      * @throws IOException Error on data transfer.
      */
     public String retrieveRaw(String filename) throws IOException {
-        String response = null;
-        openPassiveMode();
+        String response;
+        if (!isServerSocketAvailable()) {
+            openPassiveMode();
+        }
         rawBuffer = null;
-        sendAndReceive("RETR " + filename);
+        response = sendAndReceive("RETR " + filename);
+        if (!response.startsWith("150")) {
+            return response;
+        }
+        initializeIOStreams();
         RawReceiver l = new RawReceiver(transIs);
         new Thread(l).start();
         synchronized (lock) {
@@ -402,6 +474,7 @@ public class FtpTestClient {
         }
 
         response = getResponse();
+        resetDataSockets();
         return response;
     }
 
@@ -431,16 +504,23 @@ public class FtpTestClient {
 
     private String storeText(String filename, String textToStore, boolean append) throws IOException {
         String response = null;
-        openPassiveMode();
+
         sendAndReceive("TYPE A");
+        if (!isServerSocketAvailable()) {
+            openPassiveMode();
+        }
+
         textBuffer = new StringBuffer();
         if (append) {
             sendCommand("APPE" + filename);
         } else {
             sendCommand("STOR " + filename);
         }
-        getResponse();
-
+        response = getResponse();
+        if (!response.startsWith("150")) {
+            return response;
+        }
+        initializeIOStreams();
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(transOut, "ISO-8859-1"));
         TextSender l = new TextSender(out, textToStore);
         new Thread(l).start();
@@ -452,6 +532,7 @@ public class FtpTestClient {
             }
         }
         response = getResponse();
+        resetDataSockets();
         return response;
 
     }
@@ -466,13 +547,19 @@ public class FtpTestClient {
      */
     public String storeBigText(String filename, int size) throws IOException {
         String response = null;
-        openPassiveMode();
-        sendAndReceive("TYPE A");
+        // openPassiveMode();
+        response = sendAndReceive("TYPE A");
+        if (!isServerSocketAvailable()) {
+            openPassiveMode();
+        }
         textBuffer = new StringBuffer();
         sendCommand("STOR " + filename);
 
-        getResponse();
-
+        response = getResponse();
+        if (!response.startsWith("150")) {
+            return response;
+        }
+        initializeIOStreams();
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(transOut, "ISO-8859-1"));
         TextSender l = new TextSender(out, size);
         new Thread(l).start();
@@ -484,6 +571,7 @@ public class FtpTestClient {
             }
         }
         response = getResponse();
+        resetDataSockets();
         return response;
 
     }
@@ -514,13 +602,20 @@ public class FtpTestClient {
 
     private String storeRaw(String filename, byte[] data, boolean append) throws IOException {
         String response = null;
-        openPassiveMode();
+        //response = sendAndReceive("TYPE I");
+        if (!isServerSocketAvailable()) {
+            openPassiveMode();
+        }
         if (append) {
             sendCommand("APPE" + filename);
         } else {
             sendCommand("STOR " + filename);
         }
-        getResponse();
+        response = getResponse();
+        if (!response.startsWith("150")) {
+            return response;
+        }
+        initializeIOStreams();
 
         BufferedOutputStream out = new BufferedOutputStream(transOut);
         RawSender l = new RawSender(out, data);
@@ -533,6 +628,7 @@ public class FtpTestClient {
             }
         }
         response = getResponse();
+        resetDataSockets();
         return response;
 
     }

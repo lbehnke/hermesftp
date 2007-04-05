@@ -70,6 +70,9 @@ public abstract class AbstractFtpCmdStorFile
         String[] limits = new String[]{STAT_FILES_UPLOADED, STAT_BYTES_UPLOADED};
         getCtx().getUserManager().checkResourceConsumption(getCtx().getUser(), limits);
 
+        if (file.isDirectory()) {
+            throw new FtpPermissionException("Cannot store directory path.");
+        }
         if (file.exists()) {
             if (unique) {
                 throw new FtpUniqueConstraintException();

@@ -70,7 +70,7 @@ public class LoggingWriter
             String x;
             if (text != null && text.length() >= LOG_LINE_LENGTH) {
                 x = text.substring(0, LOG_LINE_LENGTH) + " [" + (text.length() - LOG_LINE_LENGTH)
-                    + " chars more]";
+                    + " more chars]";
             } else {
                 x = text;
             }
