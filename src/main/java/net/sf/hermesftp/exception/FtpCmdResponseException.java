@@ -50,23 +50,4 @@ public class FtpCmdResponseException extends FtpCmdException {
         super(message);
     }
 
-    /**
-     * Constructor.
-     * 
-     * @param cause The exception cause.
-     */
-    public FtpCmdResponseException(Throwable cause) {
-        super(cause);
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param message The message to display.
-     * @param cause The exception cause.
-     */
-    public FtpCmdResponseException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
 }

@@ -143,10 +143,9 @@ public class XmlFileReader {
             Document doc = reader.read(br);
             result = process(doc);
         } catch (IOException e) {
-            throw new FtpConfigException("Reading " + getFilename() + " failed.", e);
+            throw new FtpConfigException("Reading " + getFilename() + " failed.");
         } catch (DocumentException e) {
-            throw new FtpConfigException("Error while processing the configuration file " + file + ".",
-                                      e);
+            throw new FtpConfigException("Error while processing the configuration file " + file + ".");
         }
 
         return result;

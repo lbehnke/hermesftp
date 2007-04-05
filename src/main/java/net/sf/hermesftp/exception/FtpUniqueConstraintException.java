@@ -52,25 +52,6 @@ public class FtpUniqueConstraintException
     }
 
     /**
-     * Constructor.
-     *
-     * @param cause The error cause.
-     */
-    public FtpUniqueConstraintException(Throwable cause) {
-        super(cause);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param message The error message.
-     * @param cause The error cause.
-     */
-    public FtpUniqueConstraintException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected String getCategory() {

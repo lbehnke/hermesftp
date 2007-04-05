@@ -38,25 +38,24 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Abstract ancestor of FTP command classes that provides some functionallity shared by different
  * command classes.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public abstract class AbstractFtpCmd
-    implements FtpCmd, FtpConstants {
+public abstract class AbstractFtpCmd implements FtpCmd, FtpConstants {
 
-    private static Log log = LogFactory.getLog(AbstractFtpCmd.class);
+    private static Log        log = LogFactory.getLog(AbstractFtpCmd.class);
 
-    private String token;
+    private String            token;
 
-    private String arguments;
+    private String            arguments;
 
     private FtpSessionContext ctx;
 
-    private boolean responded;
+    private boolean           responded;
 
     /**
      * Returns a message resource string.
+     * 
      * @param msgKey The message key.
      * @param args The arguments.
      * @return The message.
@@ -71,6 +70,7 @@ public abstract class AbstractFtpCmd
 
     /**
      * Returns a message resource string.
+     * 
      * @param msgKey The message key.
      * @return The message.
      */
@@ -80,28 +80,28 @@ public abstract class AbstractFtpCmd
 
     /**
      * Returns a message resource string.
+     * 
      * @param msgKey The message key.
      * @param arg An single message argument.
      * @return The message.
      */
     protected String msg(String msgKey, String arg) {
-        return msg(msgKey, new Object[]{arg});
+        return msg(msgKey, new Object[] {arg});
     }
-
 
     /**
      * Writes out the response to a client command.
-     *
+     * 
      * @param text The response.
      */
     protected void out(String text) {
         responded = !text.startsWith("150");
-        
+
         try {
             Thread.sleep(200);
         } catch (Exception e) {
         }
-        
+
         getCtx().getClientResponseWriter().println(text);
         getCtx().getClientResponseWriter().flush();
     }
@@ -109,7 +109,7 @@ public abstract class AbstractFtpCmd
     /**
      * Writes the message identified by the passed key to the control stream. If additional
      * arguments are passed they are integrated into the message string.
-     *
+     * 
      * @param msgKey The message key as defined in the resource file.
      * @param args The optional arguments.
      */
@@ -120,7 +120,7 @@ public abstract class AbstractFtpCmd
 
     /**
      * Convenience method that prints out a message to the control channel..
-     *
+     * 
      * @param msgKey The key of the message.
      */
     protected void msgOut(String msgKey) {
@@ -129,7 +129,7 @@ public abstract class AbstractFtpCmd
 
     /**
      * Convenience method that prints out a message to the control channel.
-     *
+     * 
      * @param msgKey The key of the message.
      * @param argument Text argument.
      */
@@ -139,7 +139,7 @@ public abstract class AbstractFtpCmd
 
     /**
      * Returns a path argument.
-     *
+     * 
      * @return The path
      */
     protected String getPathArg() {
@@ -148,7 +148,7 @@ public abstract class AbstractFtpCmd
 
     /**
      * Returns the absolute path of the passed rel. path.
-     *
+     * 
      * @param path The relative path;
      * @return The absolute path
      */
@@ -180,7 +180,7 @@ public abstract class AbstractFtpCmd
 
     /**
      * Increases a particular resource consumption by the passed value.
-     *
+     * 
      * @param key The name of the statistic.
      * @param value The value
      * @throws FtpQuotaException Thrown if a resource limit has been reached.
@@ -200,7 +200,7 @@ public abstract class AbstractFtpCmd
 
     /**
      * Returns the arguments previously passed to the instance.
-     *
+     * 
      * @return the command line arguments.
      */
     public String getArguments() {
@@ -209,7 +209,7 @@ public abstract class AbstractFtpCmd
 
     /**
      * Getter method for the java bean <code>ctx</code>.
-     *
+     * 
      * @return Returns the value of the java bean <code>ctx</code>.
      */
     public FtpSessionContext getCtx() {
@@ -218,7 +218,7 @@ public abstract class AbstractFtpCmd
 
     /**
      * Setter method for the java bean <code>ctx</code>.
-     *
+     * 
      * @param ctx The value of ctx to set.
      */
     public void setCtx(FtpSessionContext ctx) {
@@ -227,7 +227,7 @@ public abstract class AbstractFtpCmd
 
     /**
      * Gets the permission on the current path.
-     *
+     * 
      * @return The permission constant.
      */
     public int getPermission() {
@@ -235,17 +235,8 @@ public abstract class AbstractFtpCmd
     }
 
     /**
-     * Checks whether transfer mode is passive.
-     *
-     * @return True, if passive transfer mode.
-     */
-    public boolean isPassive() {
-        return getCtx().getPassiveModeServerSocket() != null;
-    }
-
-    /**
      * Returns the command token.
-     *
+     * 
      * @return The command token.
      */
     public String getToken() {

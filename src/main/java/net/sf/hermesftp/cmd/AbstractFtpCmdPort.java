@@ -1,12 +1,7 @@
 package net.sf.hermesftp.cmd;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.net.UnknownHostException;
-
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
 
 import net.sf.hermesftp.exception.FtpCmdException;
 import net.sf.hermesftp.exception.FtpConfigException;
@@ -19,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author Behnke
  */
-public abstract class AbstractFtpCmdPort extends AbstractFtpCmdSsl {
+public abstract class AbstractFtpCmdPort extends AbstractFtpCmd {
 
     private static Log log = LogFactory.getLog(AbstractFtpCmdPort.class);
 
@@ -45,9 +40,6 @@ public abstract class AbstractFtpCmdPort extends AbstractFtpCmdSsl {
         } catch (IOException e) {
             log.error(e.toString());
             msgOut(MSG500);
-        } catch (FtpConfigException e) {
-            log.error(e.toString());
-            msgOut(MSG500);
         } catch (IllegalArgumentException e) {
             log.error(e.toString());
             msgOut(MSG501);
@@ -65,22 +57,11 @@ public abstract class AbstractFtpCmdPort extends AbstractFtpCmdSsl {
      */
     protected void setupDataChannel(int protocolIdx, String ipAddr, int port) throws FtpConfigException,
             IOException {
-        Socket dataSocket;
-        Boolean dataProtection = (Boolean) getCtx().getAttribute(ATTR_DATA_PROT);
-        if (dataProtection != null && dataProtection.booleanValue()) {
-            SSLSocketFactory factory = getCtx().getOptions().getSslContext().getSocketFactory();
-            SSLSocket sslSocket = (SSLSocket) factory.createSocket(ipAddr, port);
-            sslSocket.setUseClientMode(false);
-            enableCipherSuites(sslSocket);
-            dataSocket = sslSocket;
-        } else {
-            dataSocket = SocketFactory.getDefault().createSocket(ipAddr, port);
-        }
-        getCtx().setDataSocket(dataSocket);
-        if (isPassive()) {
-            getCtx().getPassiveModeServerSocket().close();
-            getCtx().setPassiveModeServerSocket(null);
-        }
+        getCtx().closeSockets();
+        DataChannelInfo info = new DataChannelInfo(ipAddr, port);
+        SocketProvider provider = new ActiveModeSocketProvider(getCtx(), info);
+        provider.init();
+        getCtx().setDataSocketProvider(provider);
     }
 
     public boolean isAuthenticationRequired() {

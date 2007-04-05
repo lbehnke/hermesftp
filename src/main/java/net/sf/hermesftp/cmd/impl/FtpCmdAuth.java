@@ -31,10 +31,10 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
-import net.sf.hermesftp.cmd.AbstractFtpCmdSsl;
+import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.cmd.ClientSocketModifier;
-import net.sf.hermesftp.exception.FtpConfigException;
 import net.sf.hermesftp.exception.FtpCmdException;
+import net.sf.hermesftp.exception.FtpConfigException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -75,25 +75,20 @@ import org.springframework.util.StringUtils;
  * server must also require that the user reauthorize (that is, reissue some or all of the USER,
  * PASS, and ACCT commands) in this case (see section 4 of RFC2228 for an explanation of "authorize"
  * in this context).
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class FtpCmdAuth
-    extends AbstractFtpCmdSsl
-    implements ClientSocketModifier, HandshakeCompletedListener {
+public class FtpCmdAuth extends AbstractFtpCmd implements ClientSocketModifier, HandshakeCompletedListener {
 
     private static Log log = LogFactory.getLog(FtpCmdAuth.class);
 
-    private boolean executed;
+    private boolean    executed;
 
     /**
      * Some notes about SSL support: Use keytool to generate a keystore/key: <code>
      * keytool -genkey -alias behnke -keyalg DSA -keystore keystore -validity 365 -storepass secret -keypass secret
      * </code>
-     * The attributes keypass and storepass must be equal!
-     *
-     * {@inheritDoc}
+     * The attributes keypass and storepass must be equal! {@inheritDoc}
      */
     public void execute() throws FtpCmdException {
         String prot = getArguments().toUpperCase().trim();
@@ -120,8 +115,6 @@ public class FtpCmdAuth
 
             } catch (IOException e) {
                 msgOut(MSG431);
-            } catch (FtpConfigException e) {
-                msgOut(MSG431);
             }
 
             /* New authentication is required */
@@ -138,16 +131,30 @@ public class FtpCmdAuth
         String clientHost = getCtx().getClientSocket().getInetAddress().getHostAddress();
         SSLContext sslContext = getCtx().getOptions().getSslContext();
         SSLSocketFactory factory = (SSLSocketFactory) sslContext.getSocketFactory();
-        SSLSocket sslSocket = (SSLSocket) factory.createSocket(getCtx().getClientSocket(),
-                                                               clientHost,
-                                                               getCtx().getOptions().getFtpPort(),
-                                                               true);
+        SSLSocket sslSocket = (SSLSocket) factory.createSocket(getCtx().getClientSocket(), clientHost,
+            getCtx().getOptions().getFtpPort(), true);
         sslSocket.setUseClientMode(false);
         sslSocket.addHandshakeCompletedListener(this);
         enableCipherSuites(sslSocket);
         log.info("Enabled cipher suites (explicit SSL): "
-            + StringUtils.arrayToCommaDelimitedString(sslSocket.getEnabledCipherSuites()));
+                + StringUtils.arrayToCommaDelimitedString(sslSocket.getEnabledCipherSuites()));
         return sslSocket;
+    }
+
+    /**
+     * Enables the configured cipher suites in the passed socket.
+     * 
+     * @param sslSocket The socket.
+     */
+    private void enableCipherSuites(SSLSocket sslSocket) {
+        String[] cipherSuites = getCtx().getOptions().getStringArray(OPT_SSL_CIPHER_SUITES, null);
+        if (cipherSuites != null) {
+            if (cipherSuites.length == 1 && WILDCARD.equals(cipherSuites[0])) {
+                sslSocket.setEnabledCipherSuites(sslSocket.getSupportedCipherSuites());
+            } else {
+                sslSocket.setEnabledCipherSuites(cipherSuites);
+            }
+        }
     }
 
     /**

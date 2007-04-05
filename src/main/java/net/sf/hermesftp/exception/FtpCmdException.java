@@ -50,25 +50,6 @@ public class FtpCmdException
     }
 
     /**
-     * Constructor.
-     *
-     * @param cause The exception cause.
-     */
-    public FtpCmdException(Throwable cause) {
-        super(cause);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param message The message to display.
-     * @param cause The exception cause.
-     */
-    public FtpCmdException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected String getCategory() {

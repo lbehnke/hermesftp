@@ -26,11 +26,11 @@ package net.sf.hermesftp.common;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 import java.util.Map;
 
+import net.sf.hermesftp.cmd.SocketProvider;
 import net.sf.hermesftp.exception.FtpQuotaException;
 import net.sf.hermesftp.usermanager.UserManager;
 
@@ -187,33 +187,33 @@ public interface FtpSessionContext {
      */
     void setStorageStructure(int struct);
 
-    /**
-     * Returns the server socket used in passive transfer mode.
-     * 
-     * @return The socket.
-     */
-    ServerSocket getPassiveModeServerSocket();
+//    /**
+//     * Returns the server socket used in passive transfer mode.
+//     * 
+//     * @return The socket.
+//     */
+//    ServerSocket getPassiveModeServerSocket();
+//
+//    /**
+//     * Sets the server socket to be used in passive transfer mode.
+//     * 
+//     * @param passiveSocket The socket.
+//     */
+//    void setPassiveModeServerSocket(ServerSocket passiveSocket);
 
     /**
-     * Sets the server socket to be used in passive transfer mode.
+     * Returns the object that provides the socket that is used for file transfer.
      * 
-     * @param passiveSocket The socket.
+     * @return The socket provider.
      */
-    void setPassiveModeServerSocket(ServerSocket passiveSocket);
+    SocketProvider getDataSocketProvider();
 
     /**
-     * Returns the socket that is used for file transfer.
+     * Sets the provider that provides the socket that is used in file transfer.
      * 
-     * @return The socket.
+     * @param provider The socket provider.
      */
-    Socket getDataSocket();
-
-    /**
-     * Sets the socket that is used in file transfer.
-     * 
-     * @param socket The socket.
-     */
-    void setDataSocket(Socket socket);
+    void setDataSocketProvider(SocketProvider provider);
 
     /**
      * Returns the client communication socket.

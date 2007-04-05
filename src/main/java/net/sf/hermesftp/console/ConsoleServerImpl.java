@@ -35,8 +35,9 @@ public class ConsoleServerImpl implements ConsoleServer {
 
     private UserRealm   realm;
 
-    /* (non-Javadoc)
-     * @see net.sf.hermesftp.console.ConsoleServer#start()
+
+    /**
+     *{@inheritDoc}
      */
     public void start() throws FtpConsoleException {
 
@@ -51,7 +52,7 @@ public class ConsoleServerImpl implements ConsoleServer {
             server.start();
             server.join();
         } catch (Exception e) {
-            throw new FtpConsoleException("Starting web server failed.", e);
+            throw new FtpConsoleException("Starting web server failed: " + e);
         }
     }
 

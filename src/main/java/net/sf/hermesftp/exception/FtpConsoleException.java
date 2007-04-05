@@ -51,25 +51,6 @@ public class FtpConsoleException
     }
 
     /**
-     * Constructor.
-     * 
-     * @param cause The cause.
-     */
-    public FtpConsoleException(Throwable cause) {
-        super(cause);
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param message The error message.
-     * @param cause The cause.
-     */
-    public FtpConsoleException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected String getCategory() {

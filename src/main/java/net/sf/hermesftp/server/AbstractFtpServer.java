@@ -155,9 +155,6 @@ public abstract class AbstractFtpServer
         } catch (IOException e) {
             setStatus(SERVER_STATUS_UNDEF);
             log.error(e, e);
-        } catch (FtpConfigException e) {
-            setStatus(SERVER_STATUS_UNDEF);
-            log.error(e.getMessage());
         } finally {
             terminateAllClientSessions();
             IOUtils.closeGracefully(serverSocket);

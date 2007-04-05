@@ -28,7 +28,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Collections;
 import java.util.Date;
@@ -36,6 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import net.sf.hermesftp.cmd.SocketProvider;
 import net.sf.hermesftp.common.FtpConstants;
 import net.sf.hermesftp.common.FtpEventListener;
 import net.sf.hermesftp.common.FtpServerOptions;
@@ -43,7 +43,6 @@ import net.sf.hermesftp.common.FtpSessionContext;
 import net.sf.hermesftp.exception.FtpConfigException;
 import net.sf.hermesftp.exception.FtpQuotaException;
 import net.sf.hermesftp.usermanager.UserManager;
-import net.sf.hermesftp.utils.IOUtils;
 import net.sf.hermesftp.utils.LoggingReader;
 import net.sf.hermesftp.utils.LoggingWriter;
 
@@ -94,9 +93,7 @@ public class FtpSessionContextImpl
 
     private ResourceBundle resourceBundle;
 
-    private ServerSocket passiveModeServerSocket;
-
-    private Socket dataSocket;
+    private SocketProvider dataSocketProvider;
 
     private UserManager userManager;
     
@@ -288,32 +285,32 @@ public class FtpSessionContextImpl
         this.transmissionMode = transmissionMode;
     }
 
+//    /**
+//     * {@inheritDoc}
+//     */
+//    public ServerSocket getPassiveModeServerSocket() {
+//        return passiveModeServerSocket;
+//    }
+//
+//    /**
+//     * {@inheritDoc}
+//     */
+//    public void setPassiveModeServerSocket(ServerSocket passiveSocket) {
+//        this.passiveModeServerSocket = passiveSocket;
+//    }
+
     /**
      * {@inheritDoc}
      */
-    public ServerSocket getPassiveModeServerSocket() {
-        return passiveModeServerSocket;
+    public SocketProvider getDataSocketProvider() {
+        return dataSocketProvider;
     }
 
     /**
      * {@inheritDoc}
      */
-    public void setPassiveModeServerSocket(ServerSocket passiveSocket) {
-        this.passiveModeServerSocket = passiveSocket;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Socket getDataSocket() {
-        return dataSocket;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void setDataSocket(Socket socket) {
-        this.dataSocket = socket;
+    public void setDataSocketProvider(SocketProvider provider) {
+        this.dataSocketProvider = provider;
     }
 
     /**
@@ -404,11 +401,10 @@ public class FtpSessionContextImpl
      * {@inheritDoc}
      */
     public void closeSockets() {
-        IOUtils.closeGracefully(getDataSocket());
-        setDataSocket(null);
-        IOUtils.closeGracefully(getPassiveModeServerSocket());
-        setPassiveModeServerSocket(null);
-        IOUtils.closeGracefully(getClientSocket());
+        if (getDataSocketProvider() != null) {
+            getDataSocketProvider().closeSocket();
+            //setDataSocketProvider(null);
+        }
     }
 
     /**

@@ -1,14 +1,6 @@
 package net.sf.hermesftp.cmd.impl;
 
-import java.io.IOException;
-import java.net.Inet4Address;
-import java.net.Inet6Address;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-
 import net.sf.hermesftp.cmd.AbstractFtpCmdPasv;
-import net.sf.hermesftp.exception.FtpCmdResponseException;
-import net.sf.hermesftp.exception.FtpConfigException;
 
 /**
  * <b>The EPSV Command (EPSV)</b>
@@ -101,6 +93,7 @@ public class FtpCmdEpsv extends AbstractFtpCmdPasv {
         return msg(MSG229, new String[] {"" + port});
     }
 
+    
     /**
      * {@inheritDoc}
      */
@@ -108,28 +101,21 @@ public class FtpCmdEpsv extends AbstractFtpCmdPasv {
         return "Activates the extended passive transfer mode";
     }
 
+
     /**
      * {@inheritDoc}
      */
-    protected ServerSocket createServerSocket(InetAddress localIp, int port) throws FtpConfigException,
-            IOException, FtpCmdResponseException {
+    protected int getPreferredProtocol() {
+        int result = 0;
         String args = getArguments();
         if (args != null) {
-            args = args.trim();
-
-            int preferredProtocol = 0;
             try {
-                preferredProtocol = Integer.parseInt(args);
+                result = Integer.parseInt(args.trim());
             } catch (Exception e) {
             }
-            boolean ok = ((preferredProtocol == 1 && localIp instanceof Inet4Address)
-                    || (preferredProtocol == 2 && localIp instanceof Inet6Address) || (preferredProtocol == 0));
-            if (!ok) {
-                throw new FtpCmdResponseException(msg(MSG522));
-            }
-
         }
-        return super.createServerSocket(localIp, port);
+        return result;
     }
+
 
 }

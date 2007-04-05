@@ -258,19 +258,19 @@ public class FtpServerOptionsImpl implements FtpServerOptions, FtpConstants {
             sslContext = SSLContext.getInstance("SSL");
             sslContext.init(kmf.getKeyManagers(), null, null);
         } catch (KeyManagementException e) {
-            throw new FtpConfigException("A key management authorization problem occurred.", e);
+            throw new FtpConfigException("A key management authorization problem occurred.");
         } catch (FileNotFoundException e) {
-            throw new FtpConfigException("The key store file could not be found.", e);
+            throw new FtpConfigException("The key store file could not be found.");
         } catch (KeyStoreException e) {
-            throw new FtpConfigException("A key store problem occurred.", e);
+            throw new FtpConfigException("A key store problem occurred.");
         } catch (NoSuchAlgorithmException e) {
-            throw new FtpConfigException("The hash algorithm is not supported.", e);
+            throw new FtpConfigException("The hash algorithm is not supported.");
         } catch (CertificateException e) {
-            throw new FtpConfigException("Certificate could not be loaded.", e);
+            throw new FtpConfigException("Certificate could not be loaded.");
         } catch (UnrecoverableKeyException e) {
-            throw new FtpConfigException("Key store cannot be recovered.", e);
+            throw new FtpConfigException("Key store cannot be recovered.");
         } catch (IOException e) {
-            throw new FtpConfigException("Reading the key store failed.", e);
+            throw new FtpConfigException("Reading the key store failed.");
         }
         return sslContext;
     }

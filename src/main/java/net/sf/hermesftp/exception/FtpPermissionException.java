@@ -45,28 +45,9 @@ public class FtpPermissionException
      * Constructor.
      *
      * @param message The error message.
-     * @param cause The error cause, if available.
-     */
-    public FtpPermissionException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param message The error message.
      */
     public FtpPermissionException(String message) {
         super(message);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param cause The error cause.
-     */
-    public FtpPermissionException(Throwable cause) {
-        super(cause);
     }
 
     /**

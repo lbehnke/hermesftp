@@ -51,25 +51,6 @@ public class FtpConfigException
     }
 
     /**
-     * Constructor.
-     *
-     * @param cause Root exception.
-     */
-    public FtpConfigException(Throwable cause) {
-        super(cause);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param message The error message.
-     * @param cause The root exception.
-     */
-    public FtpConfigException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected String getCategory() {

@@ -23,13 +23,15 @@
 
 package net.sf.hermesftp.exception;
 
+import java.io.IOException;
+
 /**
  * Parent exception.
  * 
  * @author Lars Behnke
  * 
  */
-public abstract class FtpException extends Exception {
+public abstract class FtpException extends IOException {
 
     private static final long serialVersionUID = -7292242642192720520L;
 
@@ -49,24 +51,7 @@ public abstract class FtpException extends Exception {
         super(message);
     }
 
-    /**
-     * Constructor.
-     * 
-     * @param cause The cause.
-     */
-    public FtpException(Throwable cause) {
-        super(cause);
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param message The error message.
-     * @param cause The cause.
-     */
-    public FtpException(String message, Throwable cause) {
-        super(message, cause);
-    }
+   
 
     /**
      * @see java.lang.Throwable#toString()

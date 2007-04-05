@@ -77,7 +77,7 @@ public abstract class AbstractFtpCmdStorFile
                 try {
                     file.delete();
                 } catch (SecurityException e) {
-                    throw new FtpPermissionException("System access rights have been violated.", e);
+                    throw new FtpPermissionException("System access rights have been violated.");
                 }
             }
         }

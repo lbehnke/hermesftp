@@ -51,25 +51,6 @@ public class FtpServerException
     }
 
     /**
-     * Constructor.
-     *
-     * @param cause The exception cause.
-     */
-    public FtpServerException(Throwable cause) {
-        super(cause);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param message The message to be displayed.
-     * @param cause The exception cause.
-     */
-    public FtpServerException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected String getCategory() {

@@ -51,15 +51,15 @@ public abstract class AbstractFtpCmdList
         msgOut(MSG150);
         String charset = getCtx().getCharset();
         PrintWriter dataOut = null;
-        Socket dataSocket = getCtx().getDataSocket();
         try {
+            Socket dataSocket = getCtx().getDataSocketProvider().provideSocket();
             dataOut = new PrintWriter(new OutputStreamWriter(dataSocket.getOutputStream(),
                                                                 charset));
             
             String args = getArguments();
             String[] argParts = args.split(" ");
             
-            /* Ignore server specific extension to RFC 959 */
+            /* Ignore server specific extension to RFC 959 such as LIST -la */
             File dir;
             if (argParts[0].trim().startsWith("-")) {
                 dir = new File(getAbsPath(""));
@@ -89,11 +89,11 @@ public abstract class AbstractFtpCmdList
             msgOut(MSG226);
         } catch (IOException e) {
             msgOut(MSG550);
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             msgOut(MSG550);
         } finally {
             IOUtils.closeGracefully(dataOut);
-            IOUtils.closeGracefully(dataSocket);
+            getCtx().getDataSocketProvider().closeSocket();
         }
     }
 

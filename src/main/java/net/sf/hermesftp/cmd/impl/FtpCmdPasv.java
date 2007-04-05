@@ -42,6 +42,13 @@ public class FtpCmdPasv extends AbstractFtpCmdPasv {
     /**
      * {@inheritDoc}
      */
+    protected int getPreferredProtocol() {
+        return 0;
+    }
+   
+    /**
+     * {@inheritDoc}
+     */
     protected String createResponseMessage(int protocolIdx, String ip, int port) {
         StringBuffer addrPort = new StringBuffer();
         String[] ipParts = ip.split("\\.");
@@ -63,5 +70,6 @@ public class FtpCmdPasv extends AbstractFtpCmdPasv {
     public String getHelp() {
         return "Activates the passive transfer mode";
     }
+
 
 }

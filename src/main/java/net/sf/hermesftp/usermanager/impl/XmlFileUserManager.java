@@ -97,7 +97,7 @@ public class XmlFileUserManager
             try {
                 result = SecurityUtil.checkPassword(userData.getPassword(), password);
             } catch (NoSuchAlgorithmException e) {
-                throw new FtpConfigException("Algorithm not supported: " + userData.getPassword(), e);
+                throw new FtpConfigException("Algorithm not supported: " + userData.getPassword());
             }
         }
 

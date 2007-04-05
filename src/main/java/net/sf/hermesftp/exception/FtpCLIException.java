@@ -50,24 +50,6 @@ public class FtpCLIException
         super(message);
     }
 
-    /**
-     * Constructor.
-     * 
-     * @param cause The cause.
-     */
-    public FtpCLIException(Throwable cause) {
-        super(cause);
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param message The error message.
-     * @param cause The cause.
-     */
-    public FtpCLIException(String message, Throwable cause) {
-        super(message, cause);
-    }
 
     /**
      * {@inheritDoc}

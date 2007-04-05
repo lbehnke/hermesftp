@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.Socket;
 
 import net.sf.hermesftp.common.FtpConstants;
 import net.sf.hermesftp.exception.FtpCmdException;
@@ -36,7 +37,6 @@ import net.sf.hermesftp.streams.BlockModeOutputStream;
 import net.sf.hermesftp.streams.RecordOutputStream;
 import net.sf.hermesftp.streams.RecordWriteSupport;
 import net.sf.hermesftp.streams.TextOutputStream;
-import net.sf.hermesftp.utils.IOUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -183,7 +183,8 @@ public abstract class AbstractFtpCmdRetr
 
             /* Wrap outbound data stream and call handler method */
             msgOut(MSG150);
-            OutputStream dataOut = getCtx().getDataSocket().getOutputStream();
+            Socket dataSocket = getCtx().getDataSocketProvider().provideSocket();
+            OutputStream dataOut = dataSocket.getOutputStream();
             if (struct == STRUCT_RECORD) {
                 RecordWriteSupport recordOut = createRecOutputStream(dataOut, mode, charset);
                 doRetrieveRecordData(recordOut, file, fileOffset);
@@ -212,7 +213,7 @@ public abstract class AbstractFtpCmdRetr
             msgOut(MSG550);
             log.error(e.toString());
         } finally {
-            IOUtils.closeGracefully(getCtx().getDataSocket());
+            getCtx().getDataSocketProvider().closeSocket();
         }
     }
 
