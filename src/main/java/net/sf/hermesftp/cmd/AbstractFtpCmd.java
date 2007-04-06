@@ -29,7 +29,6 @@ import java.text.MessageFormat;
 
 import net.sf.hermesftp.common.FtpConstants;
 import net.sf.hermesftp.common.FtpSessionContext;
-import net.sf.hermesftp.exception.FtpQuotaException;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
@@ -172,18 +171,8 @@ public abstract class AbstractFtpCmd implements FtpCmd, FtpConstants {
         return fileOffset;
     }
 
-    /**
-     * Increases a particular resource consumption by the passed value.
-     * 
-     * @param key The name of the statistic.
-     * @param value The value
-     * @throws FtpQuotaException Thrown if a resource limit has been reached.
-     */
-    protected void incConsumption(String key, long value) throws FtpQuotaException {
-        getCtx().getUserManager().registerResourceConsumption(getCtx().getUser(), key, value);
-        getCtx().registerResourceConsumption(key, value);
-    }
 
+    
     /**
      * {@inheritDoc}
      */

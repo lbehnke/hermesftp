@@ -53,6 +53,8 @@ public class SessionsServlet extends AbstractConsoleServlet {
         sb.append("<th>UL Bytes</th>");
         sb.append("<th>DL Files</th>");
         sb.append("<th>UL Files</th>");
+        sb.append("<th>DL KB/s</th>");
+        sb.append("<th>UL KB/s</th>");
         sb.append("</tr>");
 
         int rowCount = 0;
@@ -95,6 +97,14 @@ public class SessionsServlet extends AbstractConsoleServlet {
 
                 sb.append("<td class=\"number\">");
                 sb.append(getSessionStat(ctx, FtpConstants.STAT_FILES_UPLOADED));
+                sb.append("</td>");
+
+                sb.append("<td class=\"number\">");
+                sb.append(getSessionStat(ctx, FtpConstants.STAT_DOWNLOAD_RATE));
+                sb.append("</td>");
+
+                sb.append("<td class=\"number\">");
+                sb.append(getSessionStat(ctx, FtpConstants.STAT_UPLOAD_RATE));
                 sb.append("</td>");
 
                 sb.append("</tr>");

@@ -7,6 +7,8 @@
 		    	<limit name="Bytes uploaded" value="0"/>
 		    	<limit name="Files downloaded" value="100"/>
 		    	<limit name="Files uploaded" value="0"/>
+		    	<limit name="Upload Rate" value="0"/>
+		    	<limit name="Download Rate" value="1000"/>
 		    </limits>
 		    <permissions>
 		    	<permission flag="r" path="${ftproot}/guest/**"/>
@@ -18,6 +20,8 @@
 		    	<limit name="Bytes uploaded" value="-1"/>
 		    	<limit name="Files downloaded" value="-1"/>
 		    	<limit name="Files uploaded" value="-1"/>
+		    	<limit name="Upload Rate" value="100"/>
+		    	<limit name="Download Rate" value="100"/>
 		    </limits>
 		    <permissions>
 		    	<permission flag="rw" path="${ftproot}/${user}/**"/>
@@ -30,6 +34,8 @@
 		    	<limit name="Bytes uploaded" value="-1"/>
 		    	<limit name="Files downloaded" value="-1"/>
 		    	<limit name="Files uploaded" value="-1"/>
+		    	<limit name="Upload Rate" value="-1"/>
+		    	<limit name="Download Rate" value="-1"/>
 		    </limits>
 		    <permissions>
 		    	<permission flag="rw" path="${ftproot}/**"/>
@@ -37,18 +43,20 @@
 		</group>
 	</groups>
 	<users default-dir="${ftproot}/${user}">
+
+        <!-- Admin password: admin -->
+		<user uid="admin" fullname="Administrator" password="{MD5}ISMvKXpXpadDiUoOSoAfww==" adminrole="true">
+			<group-ref name="users"/>
+			<group-ref name="administrators"/>
+		</user>
+
 		<user uid="anonymous" fullname="Anonymous User" dir="${ftproot}/guest">
 			<group-ref name="guest"/>
 		</user>
 		<user uid="user" fullname="Test User" password="user">
 			<group-ref name="users"/>
 		</user>
-		<user uid="admin" fullname="Administrator" password="admin" adminrole="true">
-			<group-ref name="users"/>
-			<group-ref name="administrators"/>
-		</user>
 
-        <!-- Example users -->
 		<user uid="dunant" fullname="Jean Henry Dunant" password="user">
 			<group-ref name="users"/>
 		</user>

@@ -24,22 +24,19 @@
 package net.sf.hermesftp.usermanager.impl;
 
 import junit.framework.TestCase;
-
 import net.sf.hermesftp.SpringUtil;
 import net.sf.hermesftp.common.FtpConstants;
 import net.sf.hermesftp.exception.FtpConfigException;
 
 /**
  * Reads a user configuration file and tests some permission requests.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class XmlFileUserManagerTest
-    extends TestCase
-    implements FtpConstants {
+public class XmlFileUserManagerTest extends TestCase implements FtpConstants {
 
     private XmlFileUserManager userManager;
+
 
     /**
      * {@inheritDoc}
@@ -52,29 +49,28 @@ public class XmlFileUserManagerTest
     /**
      * Checks permissions of the default users.
      */
-    public void testPermissions() {
-        // CHECKSTYLE:OFF
-        String root = "c:/test";
+    public void testAuthenticate() {
+        
         try {
-            String user = "user";
-            assertEquals(PRIV_READ, userManager.getPermission("c:\\test", user, root));
-            assertEquals(PRIV_READ_WRITE, userManager.getPermission("c:\\test\\user", user, root));
-            assertEquals(PRIV_READ_WRITE, userManager.getPermission("c:\\test\\user\\dir1\\dir2",
-                                                                    user,
-                                                                    root));
-            assertEquals(PRIV_NONE, userManager.getPermission("c:\\test\\admin", user, root));
+            assertTrue (userManager.authenticate("anonymous", "mail@online.com", null));
+            assertFalse (userManager.authenticate("anonymous", "wrong", null));
+            assertFalse (userManager.authenticate("anonymous", null, null));
+               
+            assertTrue (userManager.authenticate("user", "user", null));
+            assertFalse (userManager.authenticate("user", "wrong", null));
+            assertFalse (userManager.authenticate("user", null, null));
 
-            user = "admin";
-            assertEquals(PRIV_READ_WRITE, userManager.getPermission("c:\\test", user, root));
-            assertEquals(PRIV_READ_WRITE, userManager.getPermission("c:\\test\\user", user, root));
-            assertEquals(PRIV_READ_WRITE, userManager.getPermission("c:\\test\\user\\dir1\\dir2",
-                                                                    user,
-                                                                    root));
-            assertEquals(PRIV_READ_WRITE, userManager.getPermission("c:\\test\\admin", user, root));
+            assertFalse (userManager.authenticate("unknownuser", null, null));
+
+            /* Check MD5 password */
+            assertTrue (userManager.authenticate("admin", "admin", null));
+            assertFalse (userManager.authenticate("admin", "user", null));
+            assertFalse (userManager.authenticate("admin", "{MD5}ISMvKXpXpadDiUoOSoAfww==", null));
 
         } catch (FtpConfigException e) {
-            fail(e.toString());
+            fail();
         }
+
         // CHECKSTYLE:ON
     }
 

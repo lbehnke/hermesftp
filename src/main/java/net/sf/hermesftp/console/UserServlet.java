@@ -8,7 +8,6 @@ import java.util.Properties;
 import net.sf.hermesftp.common.FtpConstants;
 import net.sf.hermesftp.usermanager.UserManager;
 import net.sf.hermesftp.usermanager.model.UserData;
-import net.sf.hermesftp.utils.StringUtils;
 
 /**
  * Provides an overview of system and application properties.
@@ -49,11 +48,12 @@ public class UserServlet extends AbstractConsoleServlet {
         sb.append("<tr>");
         sb.append("<th>User ID</th>");
         sb.append("<th>Name</th>");
-        sb.append("<th>Groups</th>");
         sb.append("<th>DL Bytes</th>");
         sb.append("<th>UL Bytes</th>");
         sb.append("<th>DL Files</th>");
         sb.append("<th>UL Files</th>");
+        sb.append("<th>DL KB/s</th>");
+        sb.append("<th>UL KB/s</th>");
         sb.append("</tr>");
 
         int rowCount = 0;
@@ -72,10 +72,6 @@ public class UserServlet extends AbstractConsoleServlet {
             sb.append(user.getFullName());
             sb.append("</td>");
 
-            sb.append("<td>");
-            sb.append(StringUtils.convertLstToString(user.getGroupNames()));
-            sb.append("</td>");
-
             sb.append("<td class=\"number\">");
             sb.append(getUserStat(user.getUid(), FtpConstants.STAT_BYTES_DOWNLOADED));
             sb.append("</td>");
@@ -92,6 +88,15 @@ public class UserServlet extends AbstractConsoleServlet {
             sb.append(getUserStat(user.getUid(), FtpConstants.STAT_FILES_UPLOADED));
             sb.append("</td>");
 
+            sb.append("<td class=\"number\">");
+            sb.append(getUserStat(user.getUid(), FtpConstants.STAT_DOWNLOAD_RATE));
+            sb.append("</td>");
+
+            sb.append("<td class=\"number\">");
+            sb.append(getUserStat(user.getUid(), FtpConstants.STAT_UPLOAD_RATE));
+            sb.append("</td>");
+
+            
             sb.append("</tr>");
         }
 

@@ -33,7 +33,7 @@ public class ConsolePassword extends Password {
             return false;
         }
 
-        if (credentials instanceof ConsolePassword) {
+        if (!(credentials instanceof ConsolePassword)) {
             boolean result = false;
             String password = credentials.toString();
             if (ftpPassword == null) {

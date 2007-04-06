@@ -55,7 +55,7 @@ public class FtpCmdRetr
     extends AbstractFtpCmdRetr {
 
     private static Log log = LogFactory.getLog(FtpCmdRetr.class);
-
+    
     /**
      * {@inheritDoc}
      */
@@ -88,8 +88,8 @@ public class FtpCmdRetr
         if ((getPermission() & PRIV_READ) == 0) {
             throw new FtpPermissionException();
         }
-        incConsumption(STAT_FILES_DOWNLOADED, 1);
-        incConsumption(STAT_BYTES_DOWNLOADED, file.length());
+        getCtx().updateIncrementalStat(STAT_FILES_DOWNLOADED, 1);
+        getCtx().updateIncrementalStat(STAT_BYTES_DOWNLOADED, file.length());
     }
 
     /**
@@ -109,8 +109,11 @@ public class FtpCmdRetr
                     log.debug("Transfer aborted");
                     return;
                 }
+                getTransferRateLimiter().execute(recordBuffer.length);
             }
             writeRecord(rws, lastRecordBuffer, true);
+            getCtx().updateAverageStat(STAT_DOWNLOAD_RATE,
+                (int) getTransferRateLimiter().getCurrentTransferRate());
             msgOut(MSG226);
 
         } finally {
@@ -147,7 +150,10 @@ public class FtpCmdRetr
                     log.debug("Transfer aborted");
                     return;
                 }
+                getTransferRateLimiter().execute(count);
             }
+            getCtx().updateAverageStat(STAT_DOWNLOAD_RATE,
+                (int) getTransferRateLimiter().getCurrentTransferRate());
             msgOut(MSG226);
         } finally {
             IOUtils.closeGracefully(is);

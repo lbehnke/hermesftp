@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import net.sf.hermesftp.cmd.SocketProvider;
@@ -44,8 +45,11 @@ import net.sf.hermesftp.common.FtpSessionContext;
 import net.sf.hermesftp.exception.FtpConfigException;
 import net.sf.hermesftp.exception.FtpQuotaException;
 import net.sf.hermesftp.usermanager.UserManager;
+import net.sf.hermesftp.usermanager.model.GroupDataList;
+import net.sf.hermesftp.usermanager.model.UserData;
 import net.sf.hermesftp.utils.LoggingReader;
 import net.sf.hermesftp.utils.LoggingWriter;
+import net.sf.hermesftp.utils.VarMerger;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -58,62 +62,61 @@ import org.apache.commons.logging.LogFactory;
  * while executing a FTP command sequence. The command objects read connection settings and other
  * options from the context. In turn data that may concern the general state of the FTP session can
  * be stored in the context.
- *
+ * 
  * @author Lars Behnke
  */
-public class FtpSessionContextImpl
-    implements FtpConstants, FtpSessionContext {
+public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
 
-    private static Log log = LogFactory.getLog(FtpSessionContextImpl.class);
+    private static Log       log               = LogFactory.getLog(FtpSessionContextImpl.class);
 
-    static int portIdx = 0;
+    static int               portIdx           = 0;
 
-    private String user;
+    private String           user;
 
-    private String password;
+    private String           password;
 
-    private boolean authenticated;
+    private boolean          authenticated;
 
-    private int dataType = DT_BINARY;
+    private int              dataType          = DT_BINARY;
 
-    private int transmissionMode = MODE_STREAM;
+    private int              transmissionMode  = MODE_STREAM;
 
-    private int storageStructure = STRUCT_FILE;
+    private int              storageStructure  = STRUCT_FILE;
 
-    private String remoteDir;
+    private String           remoteDir;
 
-    private Socket clientSocket;
+    private Socket           clientSocket;
 
-    private BufferedReader clientCmdReader;
+    private BufferedReader   clientCmdReader;
 
-    private PrintWriter clientResponseWriter;
+    private PrintWriter      clientResponseWriter;
 
     private FtpServerOptions options;
 
     private FtpEventListener eventListener;
 
-    private ResourceBundle resourceBundle;
+    private ResourceBundle   resourceBundle;
 
-    private SocketProvider dataSocketProvider;
+    private SocketProvider   dataSocketProvider;
 
-    private UserManager userManager;
-    
-    private Date creationTime;
+    private UserManager      userManager;
 
-    private Map attributes;
-    
-    private Map sessionStatistics = Collections.synchronizedMap(new HashMap());
+    private Date             creationTime;
+
+    private Map              attributes;
+
+    private Map              sessionStatistics = Collections.synchronizedMap(new HashMap());
 
     /**
      * Constructor.
-     *
+     * 
      * @param options The server options.
      * @param userManager The user manager.
      * @param resourceBundle The resource bundle that containts messages and texts.
      * @param listener The listener that is informed on session events.
      */
     public FtpSessionContextImpl(FtpServerOptions options, UserManager userManager,
-                                 ResourceBundle resourceBundle, FtpEventListener listener) {
+            ResourceBundle resourceBundle, FtpEventListener listener) {
         super();
         this.userManager = userManager;
         this.resourceBundle = resourceBundle;
@@ -286,19 +289,19 @@ public class FtpSessionContextImpl
         this.transmissionMode = transmissionMode;
     }
 
-//    /**
-//     * {@inheritDoc}
-//     */
-//    public ServerSocket getPassiveModeServerSocket() {
-//        return passiveModeServerSocket;
-//    }
-//
-//    /**
-//     * {@inheritDoc}
-//     */
-//    public void setPassiveModeServerSocket(ServerSocket passiveSocket) {
-//        this.passiveModeServerSocket = passiveSocket;
-//    }
+    // /**
+    // * {@inheritDoc}
+    // */
+    // public ServerSocket getPassiveModeServerSocket() {
+    // return passiveModeServerSocket;
+    // }
+    //
+    // /**
+    // * {@inheritDoc}
+    // */
+    // public void setPassiveModeServerSocket(ServerSocket passiveSocket) {
+    // this.passiveModeServerSocket = passiveSocket;
+    // }
 
     /**
      * {@inheritDoc}
@@ -326,7 +329,8 @@ public class FtpSessionContextImpl
      */
     public void setClientSocket(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
-        this.clientResponseWriter = new LoggingWriter(new OutputStreamWriter (clientSocket.getOutputStream()), true);
+        this.clientResponseWriter = new LoggingWriter(new OutputStreamWriter(clientSocket.getOutputStream()),
+                                                      true);
         this.clientCmdReader = new LoggingReader(new InputStreamReader(clientSocket.getInputStream()));
     }
 
@@ -350,7 +354,8 @@ public class FtpSessionContextImpl
     public int getPermission(String path) {
         int result = PRIV_NONE;
         try {
-            result = userManager.getPermission(path, getUser(), options.getRootDir());
+            GroupDataList list = (GroupDataList) getAttribute(ATTR_GROUP_DATA);
+            result = list.getPermission(path, getUser(),  options.getRootDir());
         } catch (FtpConfigException e) {
             log.error(e);
         }
@@ -374,7 +379,11 @@ public class FtpSessionContextImpl
             authenticated = userManager.authenticate(getUser(), getPassword(), this);
             if (authenticated) {
                 setAttribute(ATTR_LOGIN_TIME, new Date());
-                dirName = userManager.getStartDir(getUser(), options.getRootDir());
+                UserData userData = userManager.getUserData(getUser());
+                setAttribute(ATTR_USER_DATA, userData);
+                GroupDataList groupList = userManager.getGroupDataList(getUser());
+                setAttribute(ATTR_GROUP_DATA, groupList);
+                dirName = getStartDir();
                 File dir = new File(dirName);
                 if (!dir.exists()) {
                     FileUtils.forceMkdir(dir);
@@ -387,6 +396,33 @@ public class FtpSessionContextImpl
             log.error("Could not create directory: " + dirName);
         }
         return authenticated;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public  synchronized String getStartDir() throws FtpConfigException {
+        UserData userData =  (UserData)getAttribute(ATTR_USER_DATA);
+        if (userData == null) {
+            throw new FtpConfigException("User data not available");
+        }
+        VarMerger varMerger = new VarMerger(userData.getDir());
+        Properties props = new Properties();
+        props.setProperty("ftproot", FilenameUtils.separatorsToUnix(options.getRootDir()));
+        props.setProperty("user", user);
+        varMerger.merge(props);
+        if (!varMerger.isReplacementComplete()) {
+            throw new FtpConfigException("Unresolved placeholders in user configuration file found.");
+        }
+        return varMerger.getText();
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public UserData getUserData() {
+        return (UserData) getAttribute(ATTR_USER_DATA);
     }
 
     /**
@@ -421,7 +457,7 @@ public class FtpSessionContextImpl
         }
         return charset;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -429,11 +465,11 @@ public class FtpSessionContextImpl
         Integer port;
         Integer[] allowedPorts = getOptions().getAllowedPorts();
         if (allowedPorts == null || allowedPorts.length == 0) {
-            
+
             /* Let the system decide which port to use. */
             port = new Integer(0);
         } else {
-            
+
             /* Get the port from the user defined list. */
             port = allowedPorts[portIdx++];
             if (portIdx >= allowedPorts.length) {
@@ -441,31 +477,102 @@ public class FtpSessionContextImpl
             }
         }
         return port;
-        
+
     }
-    
+
     /**
      * {@inheritDoc}
      */
-    public void registerResourceConsumption(String limitName, long value)
-            throws FtpQuotaException {
-        Map sessionStats = getSessionStatistics();
-        Long consumptionObj = (Long) sessionStats.get(limitName);
-        long consumption = consumptionObj == null ? 0 : consumptionObj.longValue();
-        consumption += value;
-        sessionStats.put(limitName, new Long(consumption));
-    }
-
     public Date getCreationTime() {
         return creationTime;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Map getSessionStatistics() {
         return sessionStatistics;
+    }
+
+    private int getUpperLimit(String globalOptionKey, String groupLimitKey) {
+        long result = -1;
+        long globalLimit = getOptions().getInt(globalOptionKey, -1);
+
+        GroupDataList list = (GroupDataList) getAttribute(ATTR_GROUP_DATA);
+        long groupLimit = list.getUpperLimit(groupLimitKey);
+
+        if (globalLimit < 0) {
+            result = groupLimit;
+        } else if (groupLimit < 0) {
+            result = globalLimit;
+        } else {
+            result = Math.max(groupLimit, globalLimit);
+        }
+
+        return (int) result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int getMaxDownloadRate() {
+        return getUpperLimit(OPT_MAX_DOWNLOAD_RATE, STAT_DOWNLOAD_RATE);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int getMaxUploadRate() {
+        return getUpperLimit(OPT_MAX_UPLOAD_RATE, STAT_UPLOAD_RATE);
+    }
+
+    /**
+     * Increases a particular resource consumption by the passed value.
+     * 
+     * @param key The name of the statistic.
+     * @param value The value
+     * @throws FtpQuotaException Thrown if a resource limit has been reached.
+     */
+    public void updateIncrementalStat(String countKey, long value) throws FtpQuotaException {
+
+        /* All sessions of user */
+        getUserManager().updateIncrementalStatistics(getUser(), countKey, value);
+
+        /* Current session */
+        Map sessionStats = getSessionStatistics();
+        Long consumptionObj = (Long) sessionStats.get(countKey);
+        long consumption = consumptionObj == null ? 0 : consumptionObj.longValue();
+        sessionStats.put(countKey, new Long(consumption + value));
+    }
+
+    /**
+     * Updates the upload or download transfer rate taking the passed value into account.
+     * 
+     * @param key The name of the statistic.
+     * @param value The value
+     */
+    public void updateAverageStat(String avgKey, int value) {
+
+        /* All sessions of user */
+        getUserManager().updateAverageStatistics(getUser(), avgKey, value);
+
+        /* Current session */
+        String countKey = "Sample count (" + avgKey + ")";
+        Map sessionStats = getSessionStatistics();
+        Long prevAvgObj = (Long) sessionStats.get(avgKey);
+        long prevAvg = prevAvgObj == null ? 0 : prevAvgObj.longValue();
+        Long prevCountObj = (Long) sessionStats.get(countKey);
+        long prevCount = prevCountObj == null ? 0 : prevCountObj.longValue();
+        long currentAvg = (prevAvg * prevCount + value) / (prevCount + 1);
+        sessionStats.put(avgKey, new Long(currentAvg));
+        sessionStats.put(countKey, new Long(prevCount + 1));
     }
 
 }

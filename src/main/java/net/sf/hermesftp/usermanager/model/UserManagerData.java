@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class UserManagerData {
 
-    private List groupData;
+    private GroupDataList groupDataList;
 
     private List userData;
 
@@ -45,11 +45,11 @@ public class UserManagerData {
      *
      * @return Returns the value of the java bean <code>groupData</code>.
      */
-    public List getGroupData() {
-        if (groupData == null) {
-            groupData = Collections.synchronizedList(new ArrayList());
+    public GroupDataList getGroupData() {
+        if (groupDataList == null) {
+            groupDataList = new GroupDataList();
         }
-        return groupData;
+        return groupDataList;
     }
 
     /**
@@ -88,14 +88,7 @@ public class UserManagerData {
      * @return The group object.
      */
     public GroupData getGroupData(String groupname) {
-        groupname = groupname.trim();
-        for (Iterator iter = getGroupData().iterator(); iter.hasNext();) {
-            GroupData group = (GroupData) iter.next();
-            if (group.getName().equals(groupname)) {
-                return group;
-            }
-        }
-        return null;
+        return groupDataList.getGroup(groupname.trim());
     }
 
 }

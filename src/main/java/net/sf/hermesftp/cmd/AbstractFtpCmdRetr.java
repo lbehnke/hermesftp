@@ -38,33 +38,33 @@ import net.sf.hermesftp.streams.BlockModeOutputStream;
 import net.sf.hermesftp.streams.RecordOutputStream;
 import net.sf.hermesftp.streams.RecordWriteSupport;
 import net.sf.hermesftp.streams.TextOutputStream;
+import net.sf.hermesftp.utils.TransferRateLimiter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
  * Abstract base class for RETR command implementations.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public abstract class AbstractFtpCmdRetr
-    extends AbstractFtpCmd
-    implements FtpConstants {
+public abstract class AbstractFtpCmdRetr extends AbstractFtpCmd implements FtpConstants {
 
-    private static Log log = LogFactory.getLog(AbstractFtpCmdRetr.class);
+    private static Log          log                 = LogFactory.getLog(AbstractFtpCmdRetr.class);
 
-    private long fileSize;
+    private TransferRateLimiter transferRateLimiter = new TransferRateLimiter();
 
-    private long completed;
+    private long                fileSize;
 
-    private boolean abortRequested;
+    private long                completed;
+
+    private boolean             abortRequested;
 
     /**
      * Checks availability and access rights for the current folder and passed file. The methods
      * acts as a primitive operation that is called by the template method
      * <code>execute(boolean)</code>;
-     *
+     * 
      * @param file The destination file.
      * @throws FtpQuotaException Thrown if resource limits have been reached.
      * @throws FtpPermissionException Thrown if access rights have been violated.
@@ -77,8 +77,9 @@ public abstract class AbstractFtpCmdRetr
      * Retrieves record based data. Since native files generally do not support records, the
      * assumption is made that each line of a text file corresponds to a record. The method acts as
      * a primitive operation that is called by the template method <code>execute()</code>;
-     * Futhermore, text record data must be encoded by an 1-byte character set (ACII, ANSI or EBCDIC).
-     *
+     * Futhermore, text record data must be encoded by an 1-byte character set (ACII, ANSI or
+     * EBCDIC).
+     * 
      * @param out The output stream.
      * @param file The source file.
      * @param fileOffset The file offset.
@@ -91,7 +92,7 @@ public abstract class AbstractFtpCmdRetr
     /**
      * Retrieves file based data. The method acts as a primitive operation that is called by the
      * template method <code>execute()</code>;
-     *
+     * 
      * @param out The output stream.
      * @param file The source file.
      * @param fileOffset The file offset.
@@ -100,13 +101,6 @@ public abstract class AbstractFtpCmdRetr
      */
     protected abstract void doRetrieveFileData(OutputStream out, File file, long fileOffset)
             throws FtpQuotaException, IOException;
-
-    /**
-     * @return True, if transfer has been aborted.
-     */
-    protected boolean isAbortRequested() {
-        return abortRequested;
-    }
 
     /**
      * {@inheritDoc}
@@ -130,42 +124,6 @@ public abstract class AbstractFtpCmdRetr
     }
 
     /**
-     * Getter method for the java bean <code>completed</code>.
-     *
-     * @return Returns the value of the java bean <code>completed</code>.
-     */
-    public synchronized long getCompleted() {
-        return completed;
-    }
-
-    /**
-     * Setter method for the java bean <code>completed</code>.
-     *
-     * @param completed The value of completed to set.
-     */
-    public synchronized void incCompleted(long completed) {
-        this.completed += completed;
-    }
-
-    /**
-     * Getter method for the java bean <code>fileSize</code>.
-     *
-     * @return Returns the value of the java bean <code>fileSize</code>.
-     */
-    public long getFileSize() {
-        return fileSize;
-    }
-
-    /**
-     * Setter method for the java bean <code>fileSize</code>.
-     *
-     * @param fileSize The value of fileSize to set.
-     */
-    public void setFileSize(long fileSize) {
-        this.fileSize = fileSize;
-    }
-
-    /**
      * {@inheritDoc}
      */
     public void execute() throws FtpCmdException {
@@ -177,6 +135,7 @@ public abstract class AbstractFtpCmdRetr
         int type = getCtx().getDataType();
         String charset = type == DT_ASCII || type == DT_EBCDIC ? getCtx().getCharset() : null;
         long fileOffset = getAndResetFileOffset();
+        getTransferRateLimiter().init(getCtx().getMaxDownloadRate());
         try {
 
             /* Check availability and access rights */
@@ -227,18 +186,17 @@ public abstract class AbstractFtpCmdRetr
         } else if (mode == MODE_STREAM) {
             result = dataOut;
         } else if (mode == MODE_ZIP) {
-            result = new DeflaterOutputStream (dataOut);
+            result = new DeflaterOutputStream(dataOut);
         } else {
             log.error("Unsupported mode: " + mode);
         }
-         if (charset != null) {
-         result = new TextOutputStream(result, charset);
-         }
+        if (charset != null) {
+            result = new TextOutputStream(result, charset);
+        }
         return result;
     }
 
-    private RecordWriteSupport createRecOutputStream(OutputStream dataOut, int mode,
-                                                       String charset)
+    private RecordWriteSupport createRecOutputStream(OutputStream dataOut, int mode, String charset)
             throws UnsupportedEncodingException {
         RecordWriteSupport result = null;
         if (mode == MODE_BLOCK) {
@@ -246,7 +204,7 @@ public abstract class AbstractFtpCmdRetr
         } else if (mode == MODE_STREAM) {
             result = new RecordOutputStream(dataOut);
         } else if (mode == MODE_ZIP) {
-            result = new RecordOutputStream(new DeflaterOutputStream (dataOut));
+            result = new RecordOutputStream(new DeflaterOutputStream(dataOut));
         } else {
             log.error("Unsupported mode: " + mode);
         }
@@ -254,6 +212,65 @@ public abstract class AbstractFtpCmdRetr
             result = new TextOutputStream((OutputStream) result, charset);
         }
         return result;
+    }
+
+    /**
+     * @return True, if transfer has been aborted.
+     */
+    protected boolean isAbortRequested() {
+        return abortRequested;
+    }
+
+    /**
+     * Getter method for the java bean <code>completed</code>.
+     * 
+     * @return Returns the value of the java bean <code>completed</code>.
+     */
+    public synchronized long getCompleted() {
+        return completed;
+    }
+
+    /**
+     * Setter method for the java bean <code>completed</code>.
+     * 
+     * @param completed The value of completed to set.
+     */
+    public synchronized void incCompleted(long completed) {
+        this.completed += completed;
+    }
+
+    /**
+     * Getter method for the java bean <code>fileSize</code>.
+     * 
+     * @return Returns the value of the java bean <code>fileSize</code>.
+     */
+    public long getFileSize() {
+        return fileSize;
+    }
+
+    /**
+     * Setter method for the java bean <code>fileSize</code>.
+     * 
+     * @param fileSize The value of fileSize to set.
+     */
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    /**
+     * Getter Methode fuer die Eigenschaft <code>transferRateLimiter</code>.
+     * 
+     * @return Wert der Eigenschaft <code>transferRateLimiter</code>.
+     */
+    public TransferRateLimiter getTransferRateLimiter() {
+        return transferRateLimiter;
+    }
+
+    /**
+     * @param transferRateLimiter the transferRateLimiter to set
+     */
+    public void setTransferRateLimiter(TransferRateLimiter transferRateLimiter) {
+        this.transferRateLimiter = transferRateLimiter;
     }
 
 }

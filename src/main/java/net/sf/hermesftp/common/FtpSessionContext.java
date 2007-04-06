@@ -33,6 +33,7 @@ import java.util.Map;
 import net.sf.hermesftp.cmd.SocketProvider;
 import net.sf.hermesftp.exception.FtpQuotaException;
 import net.sf.hermesftp.usermanager.UserManager;
+import net.sf.hermesftp.usermanager.model.UserData;
 
 /**
  * This class servers as a means of transportation for data shared by a single FTP session.
@@ -187,19 +188,19 @@ public interface FtpSessionContext {
      */
     void setStorageStructure(int struct);
 
-//    /**
-//     * Returns the server socket used in passive transfer mode.
-//     * 
-//     * @return The socket.
-//     */
-//    ServerSocket getPassiveModeServerSocket();
-//
-//    /**
-//     * Sets the server socket to be used in passive transfer mode.
-//     * 
-//     * @param passiveSocket The socket.
-//     */
-//    void setPassiveModeServerSocket(ServerSocket passiveSocket);
+    // /**
+    // * Returns the server socket used in passive transfer mode.
+    // *
+    // * @return The socket.
+    // */
+    // ServerSocket getPassiveModeServerSocket();
+    //
+    // /**
+    // * Sets the server socket to be used in passive transfer mode.
+    // *
+    // * @param passiveSocket The socket.
+    // */
+    // void setPassiveModeServerSocket(ServerSocket passiveSocket);
 
     /**
      * Returns the object that provides the socket that is used for file transfer.
@@ -273,11 +274,18 @@ public interface FtpSessionContext {
      * @return The port for passive data transfer.
      */
     Integer getNextPassivePort();
-    
+
     /**
      * @return True, if successful.
      */
     boolean authenticate();
+
+    /**
+     * Returns data about the current user.
+     * 
+     * @return The user data.
+     */
+    UserData getUserData();
 
     /**
      * Resets the user's credentials and unflags the authentication.
@@ -311,8 +319,34 @@ public interface FtpSessionContext {
     Map getSessionStatistics();
 
     /**
-     * {@inheritDoc}
+     * Updates incremental statistics such as number of downloaded files, transferred bytes etc.
+     * 
+     * @param limitName Name of the statistics.
+     * @param value Value.
      */
-    public void registerResourceConsumption(String limitName, long value) throws FtpQuotaException;
+    public void updateIncrementalStat(String countKey, long value) throws FtpQuotaException;
+
+    /**
+     * Updates the upload/download transfer rate taking the passed value into account.
+     * 
+     * @param key The name of the statistic.
+     * @param value The value
+     */
+    public void updateAverageStat(String avgKey, int value);
+
+        
+    /**
+     * Returns the maximum transfer rate (download stream) in KB/s.
+     * 
+     * @return The rate.
+     */
+    int getMaxDownloadRate();
+
+    /**
+     * Returns the maximum transfer rate (upload stream) in KB/s.
+     * 
+     * @return The rate.
+     */
+    int getMaxUploadRate();
 
 }

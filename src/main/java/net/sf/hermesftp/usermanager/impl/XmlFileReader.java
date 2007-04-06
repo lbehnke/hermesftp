@@ -194,6 +194,7 @@ public class XmlFileReader {
 
     private void processGroupData(Document doc, UserManagerData umd) {
         List groupElements = doc.selectNodes(XPATH_GROUPS);
+        
         for (Iterator iter = groupElements.iterator(); iter.hasNext();) {
             Element groupElement = (Element) iter.next();
             String name = groupElement.attributeValue(ATTR_NAME);
@@ -224,7 +225,7 @@ public class XmlFileReader {
                 pd.setTemplate(path);
                 groupData.getPermissions().add(pd);
             }
-            umd.getGroupData().add(groupData);
+            umd.getGroupData().addGroup(groupData);
         }
     }
 

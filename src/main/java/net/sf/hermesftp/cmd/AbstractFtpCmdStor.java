@@ -41,6 +41,7 @@ import net.sf.hermesftp.streams.BlockModeInputStream;
 import net.sf.hermesftp.streams.RecordInputStream;
 import net.sf.hermesftp.streams.RecordReadSupport;
 import net.sf.hermesftp.streams.TextInputStream;
+import net.sf.hermesftp.utils.TransferRateLimiter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,16 +51,17 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author Lars Behnke
  */
-public abstract class AbstractFtpCmdStor
-    extends AbstractFtpCmd {
+public abstract class AbstractFtpCmdStor extends AbstractFtpCmd {
 
-    private static Log log = LogFactory.getLog(AbstractFtpCmdStor.class);
+    private static Log          log                 = LogFactory.getLog(AbstractFtpCmdStor.class);
 
-    private long fileSize;
+    private TransferRateLimiter transferRateLimiter = new TransferRateLimiter();
 
-    private long completed;
+    private long                fileSize;
 
-    private boolean abortRequested;
+    private long                completed;
+
+    private boolean             abortRequested;
 
     /**
      * Executes the command. This operation acts as a template method calling primitive operations
@@ -78,6 +80,7 @@ public abstract class AbstractFtpCmdStor
         int type = getCtx().getDataType();
         String charset = type == DT_ASCII || type == DT_EBCDIC ? getCtx().getCharset() : null;
         long fileOffset = getAndResetFileOffset();
+        getTransferRateLimiter().init(getCtx().getMaxUploadRate());
 
         try {
             /* Check availability and access rights */
@@ -89,14 +92,11 @@ public abstract class AbstractFtpCmdStor
 
             /* Wrap inbound data stream and call handler method */
             msgOut(MSG150);
-            
+
             Socket dataSocket = getCtx().getDataSocketProvider().provideSocket();
             InputStream dataIn = dataSocket.getInputStream();
             if (struct == STRUCT_RECORD) {
-                RecordReadSupport recordIn = createRecInputStream(dataIn,
-                                                                  mode,
-                                                                  charset,
-                                                                  restartMarkers);
+                RecordReadSupport recordIn = createRecInputStream(dataIn, mode, charset, restartMarkers);
                 doStoreRecordData(recordIn, file, fileOffset);
             } else if (struct == STRUCT_FILE) {
                 InputStream fileIn = createInputStream(dataIn, mode, restartMarkers, charset);
@@ -139,8 +139,8 @@ public abstract class AbstractFtpCmdStor
      * @return The stream object.
      * @throws UnsupportedEncodingException Thrown if encoding is unknown.
      */
-    private InputStream createInputStream(InputStream is, int mode, Map restartMarkers,
-                                          String charset) throws UnsupportedEncodingException {
+    private InputStream createInputStream(InputStream is, int mode, Map restartMarkers, String charset)
+            throws UnsupportedEncodingException {
         InputStream result = null;
         if (mode == MODE_BLOCK) {
             byte[] eorBytes = getEorBytes(null);
@@ -148,7 +148,7 @@ public abstract class AbstractFtpCmdStor
         } else if (mode == MODE_STREAM) {
             result = is;
         } else if (mode == MODE_ZIP) {
-            result = new InflaterInputStream (is);
+            result = new InflaterInputStream(is);
         } else {
             log.error("Unsupported mode: " + mode);
         }
@@ -158,28 +158,6 @@ public abstract class AbstractFtpCmdStor
         return result;
 
     }
-
-    // /**
-    // * Creates a reader instance that supports unstructured text file data.
-    // *
-    // * @param is The nested input stream.
-    // * @param mode The transmission mode.
-    // * @param charset The encoding or null if binary.
-    // * @param restartMarkers Optional map that stores restart markers.
-    // * @return The stream object.
-    // * @throws UnsupportedEncodingException Thrown if encoding is unknown.
-    // */
-    // private Reader createReader(InputStream is, int mode, Map restartMarkers, String charset)
-    // throws UnsupportedEncodingException {
-    // if (mode == MODE_BLOCK) {
-    // byte[] eorBytes = getEorBytes(charset);
-    // is = new BlockModeInputStream(is, eorBytes, restartMarkers);
-    // } else if (mode != MODE_STREAM) {
-    // log.error("Unsupported mode: " + mode);
-    // return null;
-    // }
-    // return new InputStreamReader(is, charset);
-    // }
 
     /**
      * Creates an input stream that supports reading records.
@@ -192,8 +170,7 @@ public abstract class AbstractFtpCmdStor
      * @throws UnsupportedEncodingException Thrown if encoding unknown.
      */
     private RecordReadSupport createRecInputStream(InputStream is, int mode, String charset,
-                                                   Map restartMarkers)
-            throws UnsupportedEncodingException {
+                                                   Map restartMarkers) throws UnsupportedEncodingException {
         RecordReadSupport result = null;
         byte[] eorBytes = charset == null ? new byte[0] : getEorBytes(charset);
         if (mode == MODE_BLOCK) {
@@ -201,7 +178,7 @@ public abstract class AbstractFtpCmdStor
         } else if (mode == MODE_STREAM) {
             result = new RecordInputStream(is, getEorBytes(charset));
         } else if (mode == MODE_ZIP) {
-            result = new RecordInputStream(new InflaterInputStream (is), getEorBytes(charset));
+            result = new RecordInputStream(new InflaterInputStream(is), getEorBytes(charset));
         } else {
             log.error("Unsupported mode: " + mode);
         }
@@ -265,8 +242,7 @@ public abstract class AbstractFtpCmdStor
      * @throws FtpException Thrown if permission rules have been violated or resource limits have
      *             been exceeded.
      */
-    protected abstract void doPerformAccessChecks(boolean unique, File file, long offset)
-            throws FtpException;
+    protected abstract void doPerformAccessChecks(boolean unique, File file, long offset) throws FtpException;
 
     /**
      * Stores record based data as file. The method acts as a primitive operation that is called by
@@ -291,8 +267,8 @@ public abstract class AbstractFtpCmdStor
      * @throws IOException Thrown if IO fails.
      * @throws FtpQuotaException Thrown if at least one resource limit was reached.
      */
-    protected abstract void doStoreFileData(InputStream is, File file, long offset)
-            throws IOException, FtpQuotaException;
+    protected abstract void doStoreFileData(InputStream is, File file, long offset) throws IOException,
+            FtpQuotaException;
 
     /**
      * Getter method for the java bean <code>completed</code>.
@@ -330,29 +306,27 @@ public abstract class AbstractFtpCmdStor
         this.fileSize = fileSize;
     }
 
-    //
-    // private void storeZlib(File file, ByteArrayOutputStream dataOut, boolean append)
-    // throws IOException {
-    // byte[] uncompressedData = dataOut.toByteArray();
-    // byte[] compressedData = new byte[uncompressedData.length];
-    // Deflater compressor = new Deflater();
-    // compressor.setInput(uncompressedData);
-    // compressor.finish();
-    // int compressedDataLength = compressor.deflate(compressedData);
-    // OutputStream zlibOut = new BufferedOutputStream(new FileOutputStream(file, append));
-    // try {
-    // zlibOut.write(compressedData, 0, compressedDataLength);
-    // zlibOut.flush();
-    // } finally {
-    // IOUtils.closeGracefully(zlibOut);
-    // }
-    // }
-
     /**
      * @return True if abort has been requested.
      */
     protected boolean isAbortRequested() {
         return abortRequested;
+    }
+
+    /**
+     * Getter Methode fuer die Eigenschaft <code>transferRateLimiter</code>.
+     * 
+     * @return Wert der Eigenschaft <code>transferRateLimiter</code>.
+     */
+    public TransferRateLimiter getTransferRateLimiter() {
+        return transferRateLimiter;
+    }
+
+    /**
+     * @param transferRateLimiter the transferRateLimiter to set
+     */
+    public void setTransferRateLimiter(TransferRateLimiter transferRateLimiter) {
+        this.transferRateLimiter = transferRateLimiter;
     }
 
 }

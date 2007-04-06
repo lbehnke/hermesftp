@@ -26,28 +26,24 @@ package net.sf.hermesftp.usermanager.impl;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-import net.sf.hermesftp.common.FtpConstants;
 import net.sf.hermesftp.common.FtpSessionContext;
 import net.sf.hermesftp.exception.FtpConfigException;
 import net.sf.hermesftp.exception.FtpQuotaException;
 import net.sf.hermesftp.usermanager.UserManager;
 import net.sf.hermesftp.usermanager.model.GroupData;
+import net.sf.hermesftp.usermanager.model.GroupDataList;
 import net.sf.hermesftp.usermanager.model.UserData;
 import net.sf.hermesftp.usermanager.model.UserManagerData;
 import net.sf.hermesftp.utils.SecurityUtil;
 import net.sf.hermesftp.utils.StringUtils;
-import net.sf.hermesftp.utils.VarMerger;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -65,20 +61,6 @@ public class XmlFileUserManager implements UserManager {
     private Map             resourceConsumption = Collections.synchronizedMap(new HashMap());
 
     private DateFormat      dateFormat          = new SimpleDateFormat("yyyy-MM-dd");
-
-    /**
-     * {@inheritDoc}
-     */
-    public int getPermission(String path, String username, String ftproot) throws FtpConfigException {
-        int result = FtpConstants.PRIV_NONE;
-        List userGroups = getGroupDataList(username);
-        for (Iterator iter = userGroups.iterator(); iter.hasNext();) {
-            GroupData groupData = (GroupData) iter.next();
-            int permission = groupData.getPermission(path, ftproot, username);
-            result = Math.max(result, permission);
-        }
-        return result;
-    }
 
     /**
      * {@inheritDoc}
@@ -103,16 +85,16 @@ public class XmlFileUserManager implements UserManager {
         return result;
     }
 
-    public synchronized List getGroupDataList(String username) throws FtpConfigException {
+    public synchronized GroupDataList getGroupDataList(String username) throws FtpConfigException {
         UserData userData = userManagerData.getUserData(username);
         if (userData == null) {
             throw new FtpConfigException("User " + username + " not configured.");
         }
-        List groupList = new ArrayList();
+        GroupDataList groupList = new GroupDataList();
         for (Iterator iter = userData.getGroupNames().iterator(); iter.hasNext();) {
             String groupName = (String) iter.next();
             GroupData groupData = userManagerData.getGroupData(groupName);
-            groupList.add(groupData);
+            groupList.addGroup(groupData);
         }
         return groupList;
 
@@ -150,22 +132,6 @@ public class XmlFileUserManager implements UserManager {
     /**
      * {@inheritDoc}
      */
-    public  synchronized String getStartDir(String user, String ftproot) throws FtpConfigException {
-        UserData userData = userManagerData.getUserData(user);
-        VarMerger varMerger = new VarMerger(userData.getDir());
-        Properties props = new Properties();
-        props.setProperty("ftproot", FilenameUtils.separatorsToUnix(ftproot));
-        props.setProperty("user", user);
-        varMerger.merge(props);
-        if (!varMerger.isReplacementComplete()) {
-            throw new FtpConfigException("Unresolved placeholders in user configuration file found.");
-        }
-        return varMerger.getText();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public void checkResourceConsumption(String user, String[] limitNames) throws FtpQuotaException {
         Map userConsumptions = getUserStatistics(user);
         for (int i = 0; i < limitNames.length; i++) {
@@ -173,7 +139,8 @@ public class XmlFileUserManager implements UserManager {
             long consumption = consumptionObj == null ? 0 : consumptionObj.longValue();
             long limit;
             try {
-                limit = getLimit(user, limitNames[i]);
+                GroupDataList list = getGroupDataList(user);
+                limit = list.getUpperLimit(limitNames[i]);
             } catch (FtpConfigException e) {
                 log.error(e);
                 limit = 0;
@@ -188,7 +155,7 @@ public class XmlFileUserManager implements UserManager {
     /**
      * {@inheritDoc}
      */
-    public void registerResourceConsumption(String user, String limitName, long value)
+    public void updateIncrementalStatistics(String user, String limitName, long value)
             throws FtpQuotaException {
         Map userConsumptions = getUserStatistics(user);
         Long consumptionObj = (Long) userConsumptions.get(limitName);
@@ -196,7 +163,8 @@ public class XmlFileUserManager implements UserManager {
         consumption += value;
         long limit;
         try {
-            limit = getLimit(user, limitName);
+            GroupDataList list = getGroupDataList(user);
+            limit = list.getUpperLimit(limitName);
         } catch (FtpConfigException e) {
             log.error(e);
             limit = 0;
@@ -205,6 +173,22 @@ public class XmlFileUserManager implements UserManager {
             throw new FtpQuotaException(createQuotaMessage(limitName, consumption, limit));
         }
         userConsumptions.put(limitName, new Long(consumption));
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void updateAverageStatistics(String user, String avgKey, long value) {
+        String countKey = "Sample count (" + avgKey + ")";
+        Map userConsumptions = getUserStatistics(user);
+        Long prevAvgObj = (Long) userConsumptions.get(avgKey);
+        long prevAvg = prevAvgObj == null ? 0 : prevAvgObj.longValue();
+        Long prevCountObj = (Long) userConsumptions.get(countKey);
+        long prevCount = prevCountObj == null ? 0 : prevCountObj.longValue();
+        long currentAvg = (prevAvg * prevCount + value) / (prevCount + 1);
+        userConsumptions.put(avgKey, new Long(currentAvg));
+        userConsumptions.put(countKey, new Long(prevCount + 1));
     }
 
     /**
@@ -224,6 +208,21 @@ public class XmlFileUserManager implements UserManager {
         return resourceConsumption;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isLoaded() throws FtpConfigException {
+        return userManagerData != null;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public synchronized UserData getUserData(String username) throws FtpConfigException {
+        return userManagerData.getUserData(username);
+    }
+
     private String getUserAndDateKey(String user) {
         String userAndDate = dateFormat.format(new Date()) + " " + user;
         return userAndDate;
@@ -240,25 +239,6 @@ public class XmlFileUserManager implements UserManager {
 
     private String createQuotaMessage(String limitName, long consumption, long limit) {
         return limitName + " exceed limit of " + limit + " (current consumption is " + consumption + ")";
-    }
-
-    private long getLimit(String username, String limitName) throws FtpConfigException {
-        long result = 0;
-        List userGroups = getGroupDataList(username);
-        for (Iterator iter = userGroups.iterator(); iter.hasNext();) {
-            GroupData groupData = (GroupData) iter.next();
-            long limit = groupData.getLimit(limitName);
-            if (limit == -1) {
-                limit = Long.MAX_VALUE;
-            }
-            result = Math.max(result, groupData.getLimit(limitName));
-        }
-        return result;
-    }
-
-    public boolean isLoaded() throws FtpConfigException {
-        return userManagerData != null;
-
     }
 
 }

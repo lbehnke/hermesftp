@@ -21,7 +21,6 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
 package net.sf.hermesftp.cmd;
 
 import java.io.File;
@@ -42,12 +41,10 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Abstract STOR command implementation that saves files to the local disk.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public abstract class AbstractFtpCmdStorFile
-    extends AbstractFtpCmdStor {
+public abstract class AbstractFtpCmdStorFile extends AbstractFtpCmdStor {
 
     private static Log log = LogFactory.getLog(AbstractFtpCmdStorFile.class);
 
@@ -67,7 +64,7 @@ public abstract class AbstractFtpCmdStorFile
             throw new FtpPermissionException();
         }
 
-        String[] limits = new String[]{STAT_FILES_UPLOADED, STAT_BYTES_UPLOADED};
+        String[] limits = new String[] {STAT_FILES_UPLOADED, STAT_BYTES_UPLOADED};
         getCtx().getUserManager().checkResourceConsumption(getCtx().getUser(), limits);
 
         if (file.isDirectory()) {
@@ -84,7 +81,8 @@ public abstract class AbstractFtpCmdStorFile
                 }
             }
         }
-        incConsumption(STAT_FILES_UPLOADED, 1);
+        getCtx().updateIncrementalStat(STAT_FILES_UPLOADED, 1);
+
     }
 
     /**
@@ -100,14 +98,18 @@ public abstract class AbstractFtpCmdStorFile
             while ((count = is.read(buffer)) != -1) {
                 os.write(buffer, 0, count);
                 os.flush();
-                incConsumption(STAT_BYTES_UPLOADED, count);
+                getCtx().updateIncrementalStat(STAT_BYTES_UPLOADED, count);
                 incCompleted(count);
                 if (isAbortRequested()) {
                     log.debug("Transfer aborted");
                     msgOut(MSG426);
                     return;
                 }
+                getTransferRateLimiter().execute(count);
+
             }
+            getCtx().updateAverageStat(STAT_UPLOAD_RATE,
+                (int) getTransferRateLimiter().getCurrentTransferRate());
             msgOut(MSG226);
         } finally {
             IOUtils.closeGracefully(is);
@@ -118,8 +120,8 @@ public abstract class AbstractFtpCmdStorFile
     /**
      * {@inheritDoc}
      */
-    protected void doStoreRecordData(RecordReadSupport rrs, File file, long offset)
-            throws IOException, FtpQuotaException {
+    protected void doStoreRecordData(RecordReadSupport rrs, File file, long offset) throws IOException,
+            FtpQuotaException {
         RafOutputStream os = new RafOutputStream(file, offset);
         byte[] recordBuffer = null;
         byte[] lastRecordBuffer = null;
@@ -132,8 +134,11 @@ public abstract class AbstractFtpCmdStorFile
                     msgOut(MSG426);
                     return;
                 }
+                getTransferRateLimiter().execute(recordBuffer.length);
             }
             writeRecord(os, lastRecordBuffer, true);
+            getCtx().updateAverageStat(STAT_UPLOAD_RATE,
+                (int) getTransferRateLimiter().getCurrentTransferRate());
             msgOut(MSG226);
         } finally {
             IOUtils.closeGracefully(rrs);
@@ -141,11 +146,11 @@ public abstract class AbstractFtpCmdStorFile
         }
     }
 
-    private void writeRecord(RafOutputStream os, byte[] lastRecordBuffer, boolean eof)
-            throws IOException, FtpQuotaException {
+    private void writeRecord(RafOutputStream os, byte[] lastRecordBuffer, boolean eof) throws IOException,
+            FtpQuotaException {
         if (lastRecordBuffer != null) {
             os.writeRecord(lastRecordBuffer, eof);
-            incConsumption(STAT_BYTES_UPLOADED, lastRecordBuffer.length);
+            getCtx().updateIncrementalStat(STAT_BYTES_UPLOADED, lastRecordBuffer.length);
             incCompleted(lastRecordBuffer.length);
         }
     }

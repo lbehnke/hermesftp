@@ -29,6 +29,8 @@ import java.util.Map;
 import net.sf.hermesftp.common.FtpSessionContext;
 import net.sf.hermesftp.exception.FtpConfigException;
 import net.sf.hermesftp.exception.FtpQuotaException;
+import net.sf.hermesftp.usermanager.model.GroupDataList;
+import net.sf.hermesftp.usermanager.model.UserData;
 
 /**
  * Generic description of user management classes.
@@ -45,10 +47,22 @@ public interface UserManager {
      * @param user The user name.
      * @param limitName The name of the consumption type (resource limit).
      * @param value The consumed resources.
+     * @param statType Type of the statistics (0=incremental, 1=average). 
      * @throws FtpQuotaException Thrown if resource limit has been reached.
      */
-    void registerResourceConsumption(String user, String limitName, long value)
+    void updateIncrementalStatistics(String user, String limitName, long value)
             throws FtpQuotaException;
+
+    /**
+     * Registers the current user's transfer rate. A mean value is calculated.
+     * 
+     * @param user The user name.
+     * @param avgKeyName The key of the transfer rate (resource limit).
+     * @param value The consumed resources.
+     * @param statType Type of the statistics (0=incremental, 1=average). 
+     * @throws FtpQuotaException Thrown if resource limit has been reached.
+     */
+    void updateAverageStatistics(String user, String avgKeyName, long value);
 
     /**
      * Checks the resource consumption of the passed users. Only the passed limits are condidered.
@@ -75,16 +89,23 @@ public interface UserManager {
      */
     Map getAllStatistics();
 
+//    /**
+//     * Returns the permission on a given path.
+//     * 
+//     * @param path The path to check.
+//     * @param username The user's name.
+//     * @param ftproot The ftp root folder.
+//     * @return The permission value.
+//     * @throws FtpConfigException Error on reading or processing a configuration file.
+//     */
+//    int getPermission(String path, String username, String ftproot) throws FtpConfigException;
+
     /**
-     * Returns the permission on a given path.
+     * Returns object representations of all registered users.
      * 
-     * @param path The path to check.
-     * @param username The user's name.
-     * @param ftproot The ftp root folder.
-     * @return The permission value.
-     * @throws FtpConfigException Error on reading or processing a configuration file.
+     * @return The user data.
      */
-    int getPermission(String path, String username, String ftproot) throws FtpConfigException;
+    UserData getUserData(String username) throws FtpConfigException ;
 
     /**
      * Returns object representations of all registered users.
@@ -92,6 +113,13 @@ public interface UserManager {
      * @return The users.
      */
     List getUserDataList() throws FtpConfigException ;
+
+    /**
+     * Returns object representations of all groups the passed user belongs to.
+     * 
+     * @return The group data.
+     */
+    GroupDataList getGroupDataList(String username) throws FtpConfigException ;
 
     /**
      * Validates the passed user credentials.
@@ -113,7 +141,7 @@ public interface UserManager {
      * @return The start folder of the user.
      * @throws FtpConfigException Error on reading or processing a configuration file.
      */
-    String getStartDir(String user, String ftproot) throws FtpConfigException;
+    //String getStartDir(String user, String ftproot) throws FtpConfigException;
 
     /**
      * (Re)loads the configuration.
