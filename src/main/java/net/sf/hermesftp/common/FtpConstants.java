@@ -113,9 +113,6 @@ public interface FtpConstants {
     /** Boolean flag that enforces that output data is encoded in UTF-8 (as required by IE). */
     public static final String ATTR_FORCE_UTF8 = "force_utf8";
 
-    /** Flag that indicates the transmission mode. */
-    public static final String ATTR_MODE_Z = "mode";
-
     /** Container for the restart markers. */
     public static final String ATTR_RESTART_MARKERS = "restart_markers";
 
@@ -156,7 +153,7 @@ public interface FtpConstants {
     public static final int  MODE_COMPRESS = 2;
 
     /** Zlib mode. */
-    public static final int  MODE_Z = 2;
+    public static final int  MODE_ZIP = 3;
 
     /* Data structure */
 

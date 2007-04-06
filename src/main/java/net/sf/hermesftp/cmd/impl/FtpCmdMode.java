@@ -65,12 +65,11 @@ public class FtpCmdMode
         } else if ("B".equals(stru)) {
             getCtx().setTransmissionMode(MODE_BLOCK);
             response = msg(MSG200);
+        } else if ("Z".equals(stru)) {
+            getCtx().setTransmissionMode(MODE_ZIP);
+            response = msg(MSG200);
         } else if ("C".equals(stru)) {
             response = msg(MSG504);
-        } else if ("Z".equals(stru)) {
-            // TODO see http://java.sun.com/j2se/1.4.2/docs/api/java/util/zip/Deflater.html
-            getCtx().setAttribute(ATTR_MODE_Z, Boolean.TRUE);
-            response = msg(MSG200);
         } else {
             response = msg(MSG501);
         }

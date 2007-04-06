@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.util.zip.DeflaterOutputStream;
 
 import net.sf.hermesftp.common.FtpConstants;
 import net.sf.hermesftp.exception.FtpCmdException;
@@ -225,6 +226,8 @@ public abstract class AbstractFtpCmdRetr
             result = new BlockModeOutputStream(dataOut);
         } else if (mode == MODE_STREAM) {
             result = dataOut;
+        } else if (mode == MODE_ZIP) {
+            result = new DeflaterOutputStream (dataOut);
         } else {
             log.error("Unsupported mode: " + mode);
         }
@@ -242,6 +245,8 @@ public abstract class AbstractFtpCmdRetr
             result = new BlockModeOutputStream(dataOut);
         } else if (mode == MODE_STREAM) {
             result = new RecordOutputStream(dataOut);
+        } else if (mode == MODE_ZIP) {
+            result = new RecordOutputStream(new DeflaterOutputStream (dataOut));
         } else {
             log.error("Unsupported mode: " + mode);
         }
