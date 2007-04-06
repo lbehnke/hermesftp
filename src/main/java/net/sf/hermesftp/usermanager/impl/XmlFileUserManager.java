@@ -53,20 +53,18 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Lars Behnke
- *
  */
-public class XmlFileUserManager
-    implements UserManager {
+public class XmlFileUserManager implements UserManager {
 
-    private static Log log = LogFactory.getLog(XmlFileUserManager.class);
+    private static Log      log                 = LogFactory.getLog(XmlFileUserManager.class);
 
-    private XmlFileReader fileReader;
+    private XmlFileReader   fileReader;
 
     private UserManagerData userManagerData;
 
-    private Map resourceConsumption = Collections.synchronizedMap(new HashMap());
+    private Map             resourceConsumption = Collections.synchronizedMap(new HashMap());
 
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private DateFormat      dateFormat          = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * {@inheritDoc}
@@ -85,7 +83,8 @@ public class XmlFileUserManager
     /**
      * {@inheritDoc}
      */
-    public boolean authenticate(String user, String password, FtpSessionContext ctx) throws FtpConfigException {
+    public synchronized boolean authenticate(String user, String password, FtpSessionContext ctx)
+            throws FtpConfigException {
         boolean result = false;
         UserData userData = userManagerData.getUserData(user);
         if (userData == null) {
@@ -104,7 +103,7 @@ public class XmlFileUserManager
         return result;
     }
 
-    public List getGroupDataList(String username) throws FtpConfigException {
+    public synchronized List getGroupDataList(String username) throws FtpConfigException {
         UserData userData = userManagerData.getUserData(username);
         if (userData == null) {
             throw new FtpConfigException("User " + username + " not configured.");
@@ -116,22 +115,23 @@ public class XmlFileUserManager
             groupList.add(groupData);
         }
         return groupList;
+
     }
 
-    public List getUserDataList() throws FtpConfigException {
+    public synchronized List getUserDataList() throws FtpConfigException {
         return userManagerData.getUserData();
     }
+
     /**
      * {@inheritDoc}
      */
-    public void load() throws FtpConfigException {
+    public synchronized void load() throws FtpConfigException {
         userManagerData = fileReader.read();
-
     }
 
     /**
      * Getter method for the java bean <code>fileReader</code>.
-     *
+     * 
      * @return Returns the value of the java bean <code>fileReader</code>.
      */
     public XmlFileReader getFileReader() {
@@ -140,7 +140,7 @@ public class XmlFileUserManager
 
     /**
      * Setter method for the java bean <code>fileReader</code>.
-     *
+     * 
      * @param fileReader The value of fileReader to set.
      */
     public void setFileReader(XmlFileReader fileReader) {
@@ -150,7 +150,7 @@ public class XmlFileUserManager
     /**
      * {@inheritDoc}
      */
-    public String getStartDir(String user, String ftproot) throws FtpConfigException {
+    public  synchronized String getStartDir(String user, String ftproot) throws FtpConfigException {
         UserData userData = userManagerData.getUserData(user);
         VarMerger varMerger = new VarMerger(userData.getDir());
         Properties props = new Properties();
@@ -239,8 +239,7 @@ public class XmlFileUserManager
     }
 
     private String createQuotaMessage(String limitName, long consumption, long limit) {
-        return limitName + " exceed limit of " + limit + " (current consumption is " + consumption
-            + ")";
+        return limitName + " exceed limit of " + limit + " (current consumption is " + consumption + ")";
     }
 
     private long getLimit(String username, String limitName) throws FtpConfigException {
@@ -259,7 +258,7 @@ public class XmlFileUserManager
 
     public boolean isLoaded() throws FtpConfigException {
         return userManagerData != null;
-        
+
     }
 
 }
