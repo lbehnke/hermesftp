@@ -13,19 +13,22 @@
 				Hermes FTP Server requires Java 1.4.2 or later. Please check the java version
 				installed on your system by typing the following command at the command prompt:
 				<source>java -version</source>
-				In case you have no java (or an old version) installed, you can get the latest version
+				In case you have no java (or an outdated version) installed, you can get the latest version
 				<a href="java.sun.com">here</a>
 				. There are no further requirements for running the FTP server.
 			</subsection>
 			<subsection name="Installation">
+			<p>
 				Unzip the file hermesftp-&lt;version&gt;.zip into a target folder of your choice. Change into
 				this folder and open the file <i>hermesftp-ctx.xml</i> with a text editor. Find the entry
 				"ftp.root.dir" and change the corresponding value into your ftp data folder (e.g.
-				c:/ftproot). If this entry is omitted Hermes FTP Server will create a folder <i>hermesftp</i> in the
-				user's home directory and use it as FTP data folder.
-
-				In case you want to enable SSL you hava to set up a <a href="keystore.html">keystore</a> first.
-				All other settings can remain as they are. The options bean should look like following snippet.
+				c:/ftproot). If this entry is omitted, Hermes FTP Server will create a data folder <i>hermesftp</i> in the
+				user's home directory. 
+            </p>
+            <p>
+				In case you want to enable SSL, you have to set up a <a href="keystore.html">keystore</a> first.
+				All other settings can remain as they are. The options bean configuration should look like following snippet.
+				</p>
 				<source>
 &lt;bean id=&quot;options&quot;
          class=&quot;net.sf.hermesftp.common.FtpServerOptions&quot;
@@ -59,7 +62,7 @@
 			
 			<subsection name="How to avoid firewall issues">
 			 <p>
-			 If you are running the ftp server behind, a firewall ftp clients will possibly experience 
+			 If you are running the ftp server behind a firewall, ftp clients will possibly experience 
 			 problems transferring files, even though you opened the firewall for connections on port 21 (ftp) or
 			 990 (ftp over ssl) respectively. 
 			 This is because file data is transferred through a separate channel. The port of this data channel 
@@ -87,7 +90,7 @@
 &lt;/bean&gt;
 				</source>
 				<p>
-				If you omit this property, Hermes FTP Server decides on which data port to use.
+				If you omit this property, Hermes FTP Server lets the underlying OS decide on which data port to use.
 				</p>
 			</subsection>
 		</section>

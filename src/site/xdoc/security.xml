@@ -16,7 +16,7 @@
 				services. The security related data is stored in a so-called keystore, which is
 				basically a file in your local file system. Besides your own private/public key
 				pairs also public keys of your communication partners reside in this file. If you
-				like to learn more about the keytool or keystore please visit
+				like to learn more about the keytool or keystore, please visit
 				<a href="http://java.sun.com/j2se/1.4.2/docs/tooldocs/windows/keytool.html">this</a>
 				site.
 			</p>
@@ -48,7 +48,7 @@ keytool -genkey -alias hermes -keyalg DSA -keystore keystore -validity 365
 				-storepass secret -keypass secret
 			</source>
 			<p>
-				Of course, you can choose whatever parameters you like. However, for some reason
+				Of course, you can choose whatever parameters you like. However, 
 				keystore password and key password have to be equal.
 			</p>
 			<p>

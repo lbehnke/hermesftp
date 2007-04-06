@@ -26,9 +26,9 @@
 					<li>Executable as Windows service or Linux daemon.</li>
 					<li>Management of users and user groups via XML file.</li>
 					<li>Supports anonymous FTP users.</li>
-					<li>Global and group based data transfer rate limits.</li>
+					<li>Global and group based bandwidth limits.</li>
 					<li>Group based resource consumption limits</li>
-					<li>User/group based data access control.</li>
+					<li>Group based data access control.</li>
 					<li>User password encryption.</li>
 					<li>Per-user and per-session statistics.</li>
 					<li>Embedded web console for monitoring statistics, logs etc. via browser.</li>
@@ -56,19 +56,19 @@
 			</p>
 			<p>
 				Apart from FTP specific settings, such as connection limits or supported cipher
-				suites, the internal structure of the application can be configured as well. You can
-				implement new commands or modify existing commands without the need to recompile the
+				suites, the internal structure of the application can be configured as well. 
+				The IoC based architecture allows for registering new FTP commands or replacing existing ones 
+				without the need to recompile the
 				Hermes FTP server application. Hence, by reimplementing a subset of the FTP command
 				classes, you could make Hermes FTP server behave like an EJB client delegating
 				requests directly to an application server instead of accessing the local file
 				system.
 			</p>
 			<p>
-				If you are familiar with the
-				<a href="http://www.springframework.org/">Spring Framework</a>
-				you are probably also familiar with the concept of "dependency injection", also
-				known as "inversion of control". Hermes FTP is based on the Spring Framework and
-				hence adopts this concept making it easy to implement extensions.
+				Hermes FTP Server is based on the <a href="http://www.springframework.org/">Spring Framework</a>.
+				So, if you are familiar with this framework and its underlying concept of <i>dependency injection</i>
+				you will get started quickly developing customized extensions. 
+				
 			</p>
 			<br/>
 			<p>

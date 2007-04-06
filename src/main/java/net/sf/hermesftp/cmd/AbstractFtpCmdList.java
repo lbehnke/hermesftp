@@ -67,6 +67,8 @@ public abstract class AbstractFtpCmdList
                 dir = new File(getPathArg());
             }
             
+            // TODO Allow filtering with wildcards *, ?
+            
             if (!dir.exists()) {
                 msgOut(MSG550);
                 return;
