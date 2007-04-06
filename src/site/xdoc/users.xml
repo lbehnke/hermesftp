@@ -31,6 +31,8 @@
 				<li>Bytes uploaded: Number of bytes the user is allowed to upload per day.</li>
 				<li>Files downloaded: Number of files the user is allowed to download per day.</li>
 				<li>Files uploaded: Number of files the user is allowed to upload per day.</li>
+				<li>Download rate: Maximum data transfer rate in KB/s (download stream).</li>
+				<li>Upload rate: Maximum data transfer rate  in KB/s (upload stream).</li>
 			</ul>
 			</p>
 			<p>
@@ -55,6 +57,8 @@
             &lt;limit name=&quot;Bytes uploaded&quot; value=&quot;1000000&quot;/&gt;
             &lt;limit name=&quot;Files downloaded&quot; value=&quot;100&quot;/&gt;
             &lt;limit name=&quot;Files uploaded&quot; value=&quot;100&quot;/&gt;
+            &lt;limit name=&quot;Download rate&quot; value=&quot;-1&quot;/&gt;
+            &lt;limit name=&quot;Upload rate&quot; value=&quot;-1&quot;/&gt;
         &lt;/limits&gt;
         &lt;permissions&gt;
             &lt;permission flag=&quot;rw&quot; path=&quot;${ftproot}/${user}/**&quot;/&gt;

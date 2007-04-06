@@ -7,8 +7,8 @@
 		    	<limit name="Bytes uploaded" value="0"/>
 		    	<limit name="Files downloaded" value="100"/>
 		    	<limit name="Files uploaded" value="0"/>
-		    	<limit name="Upload Rate" value="0"/>
-		    	<limit name="Download Rate" value="1000"/>
+		    	<limit name="Upload rate" value="0"/>
+		    	<limit name="Download rate" value="100"/>
 		    </limits>
 		    <permissions>
 		    	<permission flag="r" path="${ftproot}/guest/**"/>
@@ -20,8 +20,8 @@
 		    	<limit name="Bytes uploaded" value="-1"/>
 		    	<limit name="Files downloaded" value="-1"/>
 		    	<limit name="Files uploaded" value="-1"/>
-		    	<limit name="Upload Rate" value="100"/>
-		    	<limit name="Download Rate" value="100"/>
+		    	<limit name="Upload rate" value="1000"/>
+		    	<limit name="Download rate" value="1000"/>
 		    </limits>
 		    <permissions>
 		    	<permission flag="rw" path="${ftproot}/${user}/**"/>
@@ -34,8 +34,8 @@
 		    	<limit name="Bytes uploaded" value="-1"/>
 		    	<limit name="Files downloaded" value="-1"/>
 		    	<limit name="Files uploaded" value="-1"/>
-		    	<limit name="Upload Rate" value="-1"/>
-		    	<limit name="Download Rate" value="-1"/>
+		    	<limit name="Upload rate" value="-1"/>
+		    	<limit name="Download rate" value="-1"/>
 		    </limits>
 		    <permissions>
 		    	<permission flag="rw" path="${ftproot}/**"/>

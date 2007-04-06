@@ -22,9 +22,11 @@
 					<li>Data encryption via 128-Bit Secure Sockets Layer (SSL/TLS).</li>
 					<li>Authentication via implicit or explicit SSL/TLS.</li>
 					<li>Network protocols IPv4 and IPv6.</li>
+					<li>Data compression (MODE Z).</li>
 					<li>Executable as Windows service or Linux daemon.</li>
 					<li>Management of users and user groups via XML file.</li>
 					<li>Supports anonymous FTP users.</li>
+					<li>Global and group based data transfer rate limits.</li>
 					<li>Group based resource consumption limits</li>
 					<li>User/group based data access control.</li>
 					<li>User password encryption.</li>
