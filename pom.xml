@@ -4,7 +4,7 @@
 	<groupId>net.sf.hermesftp</groupId>
 	<artifactId>hermesftp</artifactId>
 	<name>Hermes FTP Server</name>
-	<version>0.13-SNAPSHOT</version>
+	<version>0.13</version>
 	<description>A cross-platform FTP server</description>
 	<url>http://hermesftp.sourceforge.net</url>
 	<issueManagement>
