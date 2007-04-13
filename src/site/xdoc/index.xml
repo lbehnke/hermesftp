@@ -23,16 +23,15 @@
 					<li>Authentication via implicit or explicit SSL/TLS.</li>
 					<li>Network protocols IPv4 and IPv6.</li>
 					<li>Data compression (MODE Z).</li>
-					<li>Executable as Windows service or Linux daemon.</li>
+					<li>Preconfigured Windows service or Linux daemon.</li>
 					<li>Management of users and user groups via XML file.</li>
-					<li>Supports anonymous FTP users.</li>
 					<li>Global and group based bandwidth limits.</li>
-					<li>Group based resource consumption limits</li>
-					<li>Group based data access control.</li>
+					<li>Group based transfer volume limits</li>
+					<li>Group based authorization model.</li>
 					<li>User password encryption.</li>
-					<li>Per-user and per-session statistics.</li>
+					<li>IP black lists.</li>
 					<li>Embedded web console for monitoring statistics, logs etc. via browser.</li>
-					<li>Configurable log4j logging.</li>
+					<li>Per-user and per-session statistics.</li>
 					<li>Strong focus on extensibility and abilitity to integrate into different environments.</li>
 					
 					<!-- <li>Upload/Download quota</li>

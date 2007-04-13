@@ -1,4 +1,3 @@
-
 package net.sf.hermesftp.utils;
 
 import java.net.InetAddress;
@@ -13,7 +12,6 @@ import org.apache.commons.logging.LogFactory;
  * Utility methods that facilitate networking.
  * 
  * @author Lars Behnke
- * 
  */
 public final class NetUtils {
 
@@ -82,6 +80,43 @@ public final class NetUtils {
         }
 
     }
-    
+
+    /**
+     * Checks if the passed IP complies to a given pattern.
+     * 
+     * @param ipTemplateList String list of patterns that may contain wild cards, such as:
+     *            192.168.*.*, 127.0.0.1, !85.0.0.0
+     * @param ip The IP address to check.
+     * @return True, if the passed IP address matches at least one of the patterns.
+     */
+    public static boolean checkIPMatch(String ipTemplateList, String ip) {
+        String[] chk = ip.split("\\.");
+        if (chk.length != 4) {
+            throw new IllegalArgumentException("Illegal IP address: " + ip);
+        }
+
+        boolean inverse = false;
+        String[] ipTemplateArr = ipTemplateList.split(",");
+        for (int i = 0; i < ipTemplateArr.length; i++) {
+            String t;
+            if (ipTemplateArr[i].trim().startsWith("!")) {
+                t = ipTemplateArr[i].substring(1).trim();
+                inverse = true;
+            } else {
+                t = ipTemplateArr[i].trim();
+            }
+            String[] tmpl = t.split("\\.");
+            boolean match = true;
+            for (int j = 0; j < tmpl.length; j++) {
+                match &= ("*".equals(tmpl[j].trim())) || (tmpl[j].trim().equals(chk[j].trim())) ^ inverse;
+            }
+            if (match) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
 
 }

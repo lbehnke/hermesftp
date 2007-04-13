@@ -12,8 +12,11 @@
 		-->
 		<release version="0.13" date="2007-xx-xx"
 			desc="Bugfix release.">
+			<action dev="lbehnke" type="add">
+				IP black list support.
+			</action>
 			<action dev="lbehnke" type="fix">
-				Console authentification fixed.
+				Console authentification bug fixed.
 			</action>
 			<action dev="lbehnke" type="add">
 				Global and group based transfer rate limits.

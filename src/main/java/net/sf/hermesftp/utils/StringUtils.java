@@ -1,5 +1,6 @@
 package net.sf.hermesftp.utils;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -35,16 +36,16 @@ public class StringUtils {
                 + "[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]$";
         return Pattern.matches(patternStr, email);
     }
-    
-    
+
     /**
-     * Quotes the special characters of a given regular expression string.
-     * Example:
-     * <blockquote>
+     * Quotes the special characters of a given regular expression string. Example: <blockquote>
+     * 
      * <pre>
-     * This.is.an.example  -->  This\.is\.an\.example
+     *   This.is.an.example  --&gt;  This\.is\.an\.example
      * </pre>
+     * 
      * </blockquote>
+     * 
      * @param s The unencoded string.
      * @return The encoded string.
      */
@@ -58,5 +59,42 @@ public class StringUtils {
             sb.append(c);
         }
         return sb.toString();
+    }
+
+    /**
+     * Parses a string encoded list of integer values. The list may include ranges. Example:
+     * 
+     * <pre>
+     *  1000-1011,1022,1023,2000-3000
+     * </pre>
+     * 
+     * @param portListStr Encoded list of integer values.
+     * @return List of alle Integers defined by the passed list.
+     */
+    public static Integer[] parseIntegerList(String portListStr) {
+
+        if (portListStr == null) {
+            return null;
+        }
+        List portList = new ArrayList();
+        String[] allowedPorts = portListStr.split(",");
+        if (allowedPorts != null && allowedPorts.length > 0 && allowedPorts[0] != null
+                && allowedPorts[0].trim().length() > 0) {
+            for (int i = 0; i < allowedPorts.length; i++) {
+                String[] portRange = allowedPorts[i].split("\\-");
+                if (portRange.length > 1) {
+                    int portMin = Integer.parseInt(portRange[0].trim());
+                    int portMax = Integer.parseInt(portRange[1].trim());
+                    for (int port = portMin; port <= portMax; port++) {
+                        portList.add(new Integer(port));
+                    }
+                } else {
+                    int port = Integer.parseInt(portRange[0].trim());
+                    portList.add(new Integer(port));
+                }
+            }
+        }
+        return (Integer[]) portList.toArray(new Integer[portList.size()]);
+
     }
 }

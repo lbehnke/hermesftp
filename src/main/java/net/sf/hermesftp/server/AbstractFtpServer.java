@@ -42,46 +42,45 @@ import net.sf.hermesftp.session.FtpSession;
 import net.sf.hermesftp.usermanager.UserManager;
 import net.sf.hermesftp.utils.AbstractAppAwareBean;
 import net.sf.hermesftp.utils.IOUtils;
+import net.sf.hermesftp.utils.NetUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
  * Ancestor class for FTP server implementations.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public abstract class AbstractFtpServer
-    extends AbstractAppAwareBean
-    implements FtpServer, FtpConstants, FtpEventListener {
+public abstract class AbstractFtpServer extends AbstractAppAwareBean implements FtpServer, FtpConstants,
+        FtpEventListener {
 
-    private static final int DEFAULT_TIMEOUT = 3000;
+    private static final int DEFAULT_TIMEOUT           = 3000;
 
-    private static Log log = LogFactory.getLog(FtpServer.class);
+    private static Log       log                       = LogFactory.getLog(FtpServer.class);
 
-    private List sessions = new ArrayList();
+    private List             sessions                  = new ArrayList();
 
-    private boolean terminated;
+    private boolean          terminated;
 
     private FtpServerOptions options;
 
-    private String resources;
+    private String           resources;
 
-    private int status = SERVER_STATUS_UNDEF;
+    private int              status                    = SERVER_STATUS_UNDEF;
 
-    private UserManager userManager;
+    private UserManager      userManager;
 
-    private List ftpEventListeners = new ArrayList();
-    
-    private int connectionCountHWMark;
+    private List             ftpEventListeners         = new ArrayList();
 
-    private Date connectionCountHWMarkDate = new Date();
+    private int              connectionCountHWMark;
+
+    private Date             connectionCountHWMarkDate = new Date();
 
     /**
      * Creates a server socket. Depending on the server implementation this can be a SSL or a
      * regular server socket.
-     *
+     * 
      * @return The server socket.
      * @throws IOException Error on creating server socket.
      * @throws FtpConfigException Error on processing configuration or key store.
@@ -90,7 +89,7 @@ public abstract class AbstractFtpServer
 
     /**
      * Creates the context object passed to the user session.
-     *
+     * 
      * @return The session context.
      */
     protected abstract FtpSessionContext createFtpContext();
@@ -104,7 +103,7 @@ public abstract class AbstractFtpServer
 
     /**
      * Getter method for the java bean <code>options</code>.
-     *
+     * 
      * @return Returns the value of the java bean <code>options</code>.
      */
     public FtpServerOptions getOptions() {
@@ -113,7 +112,7 @@ public abstract class AbstractFtpServer
 
     /**
      * Setter method for the java bean <code>options</code>.
-     *
+     * 
      * @param options The value of options to set.
      */
     public void setOptions(FtpServerOptions options) {
@@ -138,15 +137,25 @@ public abstract class AbstractFtpServer
                 } catch (SocketTimeoutException e) {
                     continue;
                 }
+
+                /* Check blacklisted IP addresses */
+                String ipBlackList = getOptions().getString(FtpConstants.OPT_IP_BLACK_LIST, "");
+                String ipClient = clientSocket.getInetAddress().getHostAddress();
+                if (NetUtils.checkIPMatch(ipBlackList, ipClient)) {
+                    log.info("Client with IP address " + ipClient + " rejected (blacklisted).");
+                    IOUtils.closeGracefully(clientSocket);
+                    continue;
+                }
+
+                /* Initialize session context */
                 FtpSessionContext ctx = createFtpContext();
                 ctx.setCreationTime(new Date());
                 ctx.setClientSocket(clientSocket);
                 FtpSession session = (FtpSession) getApplicationContext().getBean(BEAN_SESSION);
                 session.setFtpContext(ctx);
 
-                log.debug("Accepting connection to "
-                    + ctx.getClientSocket().getInetAddress().getHostAddress());
-
+                /* Start session */
+                log.debug("Accepting connection to " + ipClient);
                 session.start();
                 registerSession(session);
 
@@ -175,7 +184,7 @@ public abstract class AbstractFtpServer
 
     /**
      * Getter method for the java bean <code>connectionCount</code>.
-     *
+     * 
      * @return Returns the value of the java bean <code>connectionCount</code>.
      */
     public int getConnectionCount() {
@@ -205,7 +214,7 @@ public abstract class AbstractFtpServer
 
     /**
      * Convenience method for accessing the application properties.
-     *
+     * 
      * @param name The name of the requested property.
      * @return The property.
      */
@@ -215,7 +224,7 @@ public abstract class AbstractFtpServer
 
     /**
      * Getter method for the java bean <code>resources</code>.
-     *
+     * 
      * @return Returns the value of the java bean <code>resources</code>.
      */
     public String getResources() {
@@ -224,7 +233,7 @@ public abstract class AbstractFtpServer
 
     /**
      * Setter method for the java bean <code>resources</code>.
-     *
+     * 
      * @param resources The value of resources to set.
      */
     public void setResources(String resources) {
@@ -233,7 +242,7 @@ public abstract class AbstractFtpServer
 
     /**
      * Getter method for the java bean <code>terminated</code>.
-     *
+     * 
      * @return Returns the value of the java bean <code>terminated</code>.
      */
     public boolean isTerminated() {
@@ -242,7 +251,7 @@ public abstract class AbstractFtpServer
 
     /**
      * Getter method for the java bean <code>status</code>.
-     *
+     * 
      * @return Returns the value of the java bean <code>status</code>.
      */
     public int getStatus() {
@@ -251,7 +260,7 @@ public abstract class AbstractFtpServer
 
     /**
      * Setter method for the java bean <code>status</code>.
-     *
+     * 
      * @param status The value of status to set.
      */
     public void setStatus(int status) {
@@ -260,7 +269,7 @@ public abstract class AbstractFtpServer
 
     /**
      * Getter method for the java bean <code>userManager</code>.
-     *
+     * 
      * @return Returns the value of the java bean <code>userManager</code>.
      */
     public UserManager getUserManager() {
@@ -269,7 +278,7 @@ public abstract class AbstractFtpServer
 
     /**
      * Setter method for the java bean <code>userManager</code>.
-     *
+     * 
      * @param userManager The value of userManager to set.
      */
     public void setUserManager(UserManager userManager) {

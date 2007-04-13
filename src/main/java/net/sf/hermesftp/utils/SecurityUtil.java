@@ -23,20 +23,33 @@
 
 package net.sf.hermesftp.utils;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+
+import net.sf.hermesftp.exception.FtpConfigException;
 
 import org.apache.commons.codec.binary.Base64;
 
 /**
  * Security related utility methods.
- *
+ * 
  * @author Lars Behnke
- *
  */
 public final class SecurityUtil {
 
-    private static final String ALG_END = "}";
+    private static final String ALG_END   = "}";
 
     private static final String ALG_START = "{";
 
@@ -50,14 +63,13 @@ public final class SecurityUtil {
     /**
      * Calculates based on the passed parameters an hash code and returns it as BASE64-String. The
      * used algorithm is prepended.
-     *
+     * 
      * @param password The password to encode.
      * @param algorithm The alogrithm to use (MD5 e.g.)
      * @return The encoded password as string.
      * @throws NoSuchAlgorithmException Passed alogrith is not supported.
      */
-    public static String encodePassword(String password, String algorithm)
-                                                                          throws NoSuchAlgorithmException {
+    public static String encodePassword(String password, String algorithm) throws NoSuchAlgorithmException {
         if (password == null) {
             throw new IllegalArgumentException("No password passed");
         }
@@ -75,14 +87,13 @@ public final class SecurityUtil {
     /**
      * Checks the validity of the password password based on a given hashcode. The hashcode to check
      * against contains the used algorithm has prefix. Example: {MD5}Cwz8B/yoHJVquRgdhXb0qA==.
-     *
+     * 
      * @param passwordHash The hash code to check against.
      * @param password The password to check.
      * @return True, if password is valid.
      * @throws NoSuchAlgorithmException Algorithm (from hash prefix) is not supported.
      */
-    public static boolean checkPassword(String passwordHash, String password)
-                                                                             throws NoSuchAlgorithmException {
+    public static boolean checkPassword(String passwordHash, String password) throws NoSuchAlgorithmException {
         if (passwordHash == null || password == null) {
             return false;
         }
@@ -96,6 +107,55 @@ public final class SecurityUtil {
         } else {
             return passwordHash.trim().equals(password.trim());
         }
+    }
+
+    public static SSLContext createSslContext(String keyStoreFile, char[] keyStorePassword)
+            throws FtpConfigException {
+        SSLContext sslContext = null;
+        try {
+            /* Get keystore file and password */
+            InputStream ksInputStream = getKeyStoreInputStream(keyStoreFile);
+
+            /*
+             * Get the java keystore object an key manager. A keystore is where keys and
+             * certificates are kept.
+             */
+            KeyStore keystore = KeyStore.getInstance("JKS");
+            keystore.load(ksInputStream, keyStorePassword);
+            KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+            kmf.init(keystore, keyStorePassword);
+
+            /*
+             * An SSLContext is an environment for implementing JSSE. It is used to create a
+             * ServerSocketFactory
+             */
+            sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(kmf.getKeyManagers(), null, null);
+        } catch (KeyManagementException e) {
+
+            throw new SecurityException("A key management authorization problem occurred.");
+        } catch (FileNotFoundException e) {
+            throw new SecurityException("The key store file could not be found.");
+        } catch (KeyStoreException e) {
+            throw new SecurityException("A key store problem occurred.");
+        } catch (NoSuchAlgorithmException e) {
+            throw new SecurityException("The hash algorithm is not supported.");
+        } catch (CertificateException e) {
+            throw new SecurityException("Certificate could not be loaded.");
+        } catch (UnrecoverableKeyException e) {
+            throw new SecurityException("Key store cannot be recovered.");
+        } catch (IOException e) {
+            throw new SecurityException("Reading the key store failed.");
+        }
+        return sslContext;
+    }
+
+    private static InputStream getKeyStoreInputStream(String ksFile) throws FileNotFoundException {
+        if (ksFile == null) {
+            throw new FileNotFoundException("Keystore file not defined.");
+        }
+        return new FileInputStream(ksFile);
+
     }
 
 }

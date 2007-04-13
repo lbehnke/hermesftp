@@ -24,27 +24,16 @@
 package net.sf.hermesftp.server.impl;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
-import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 
 import net.sf.hermesftp.common.FtpConstants;
 import net.sf.hermesftp.common.FtpServerOptions;
 import net.sf.hermesftp.exception.FtpConfigException;
 import net.sf.hermesftp.utils.IOUtils;
+import net.sf.hermesftp.utils.SecurityUtil;
+import net.sf.hermesftp.utils.StringUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -201,26 +190,8 @@ public class FtpServerOptionsImpl implements FtpServerOptions, FtpConstants {
      */
     public Integer[] getAllowedPorts() {
         if (allowedPassivePorts == null) {
-            List portList = new ArrayList();
-            String[] allowedPorts = getStringArray(OPT_ALLOWED_PASSIVE_PORTS, null);
-            if (allowedPorts != null && allowedPorts.length > 0 && allowedPorts[0] != null
-                    && allowedPorts[0].trim().length() > 0) {
-                for (int i = 0; i < allowedPorts.length; i++) {
-                    String[] portRange = allowedPorts[i].split("\\-");
-                    if (portRange.length > 1) {
-                        int portMin = Integer.parseInt(portRange[0].trim());
-                        int portMax = Integer.parseInt(portRange[1].trim());
-                        for (int port = portMin; port <= portMax; port++) {
-                            portList.add(new Integer(port));
-                        }
-                    } else {
-                        int port = Integer.parseInt(portRange[0].trim());
-                        portList.add(new Integer(port));
-                    }
-                }
-            }
-            allowedPassivePorts = (Integer[]) portList.toArray(new Integer[portList.size()]);
-
+            String allowedPorts = getString(OPT_ALLOWED_PASSIVE_PORTS, null);
+            allowedPassivePorts = StringUtils.parseIntegerList(allowedPorts);
         }
         return allowedPassivePorts;
     }
@@ -230,71 +201,22 @@ public class FtpServerOptionsImpl implements FtpServerOptions, FtpConstants {
      */
     public SSLContext getSslContext() throws FtpConfigException {
         if (sslContext == null) {
-            sslContext = createSslContext();
+            char[] ksPass;
+            String ksFile = getProperty(OPT_SSL_KEYSTORE_FILE);
+            if (ksFile != null && ksFile.length() > 0) {
+                ksPass = ksFile == null ? new char[0] : ksFile.toCharArray();
+            } else {
+                ksPass = DEFAULT_KEYSTORE_PASS.toCharArray();
+            }
+            try {
+                sslContext = SecurityUtil.createSslContext(ksFile, ksPass);
+            } catch (SecurityException e) {
+                throw new FtpConfigException(e.getMessage());
+            }
         }
         return sslContext;
     }
 
-    private SSLContext createSslContext() throws FtpConfigException {
-        SSLContext sslContext = null;
-        try {
-            /* Get keystore file and password */
-            InputStream ksInputStream = getKeyStoreInputStream();
-            char[] ksPass = getKeyStorePassword();
-
-            /*
-             * Get the java keystore object an key manager. A keystore is where keys and
-             * certificates are kept.
-             */
-            KeyStore keystore = KeyStore.getInstance("JKS");
-            keystore.load(ksInputStream, ksPass);
-            KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
-            kmf.init(keystore, ksPass);
-
-            /*
-             * An SSLContext is an environment for implementing JSSE. It is used to create a
-             * ServerSocketFactory
-             */
-            sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(kmf.getKeyManagers(), null, null);
-        } catch (KeyManagementException e) {
-            throw new FtpConfigException("A key management authorization problem occurred.");
-        } catch (FileNotFoundException e) {
-            throw new FtpConfigException("The key store file could not be found.");
-        } catch (KeyStoreException e) {
-            throw new FtpConfigException("A key store problem occurred.");
-        } catch (NoSuchAlgorithmException e) {
-            throw new FtpConfigException("The hash algorithm is not supported.");
-        } catch (CertificateException e) {
-            throw new FtpConfigException("Certificate could not be loaded.");
-        } catch (UnrecoverableKeyException e) {
-            throw new FtpConfigException("Key store cannot be recovered.");
-        } catch (IOException e) {
-            throw new FtpConfigException("Reading the key store failed.");
-        }
-        return sslContext;
-    }
-
-    private char[] getKeyStorePassword() {
-        char[] ksPass;
-        String ksFile = getProperty(OPT_SSL_KEYSTORE_FILE);
-        if (ksFile != null && ksFile.length() > 0) {
-            String ksPassStr = getProperty(OPT_SSL_KEYSTORE_PASS);
-            ksPass = ksPassStr == null ? new char[0] : ksPassStr.toCharArray();
-        } else {
-            ksPass = DEFAULT_KEYSTORE_PASS.toCharArray();
-        }
-        return ksPass;
-    }
-
-    private InputStream getKeyStoreInputStream() throws FileNotFoundException {
-        String ksFile = getProperty(OPT_SSL_KEYSTORE_FILE);
-        if (ksFile == null) {
-            throw new FileNotFoundException("Keystore file not defined.");
-        }
-        return new FileInputStream(ksFile);
-
-    }
 
     /**
      * {@inheritDoc}

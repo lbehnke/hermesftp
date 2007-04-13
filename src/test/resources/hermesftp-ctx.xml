@@ -125,6 +125,7 @@
 				<prop key="charset.ebcdic">CP1047</prop>
 				<prop key="charset.ascii">ISO-8859-1</prop>
 				<prop key="console.enabled">true</prop>
+				<prop key="ip.black.list">!127.0.0.1,!192.*.*.*</prop>
 			</props>
 		</property>
 	</bean>
