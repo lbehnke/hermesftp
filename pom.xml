@@ -317,7 +317,8 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<artifactId>maven-checkstyle-plugin</artifactId>
+				<artifactId>maven-checkstyle-plugin</artifactId>     
+				<version>2.2-SNAPSHOT</version>
 				<configuration>
 					<configLocation>
 						${basedir}/src/test/analysis/checkstyle-lab.xml
@@ -326,9 +327,9 @@
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>true</failsOnError>
 					<suppressionsLocation>${basedir}/src/test/analysis/checkstyle-suppression.xml</suppressionsLocation>
-					
+					<headerLocation>${basedir}/src/test/analysis/gpl_header.txt</headerLocation>
 					<!-- Checkstyle report failes if path contains ${basedir}, see http://jira.codehaus.org/browse/MCHECKSTYLE-59 -->
-					<propertyExpansion>headerFile=src/test/analysis/gpl_header.txt</propertyExpansion>
+					<!-- <propertyExpansion>headerFile=${basedir}/src/test/analysis/gpl_header.txt</propertyExpansion>-->
 				</configuration>
 			</plugin>
 			<plugin>
