@@ -188,20 +188,6 @@ public interface FtpSessionContext {
      */
     void setStorageStructure(int struct);
 
-    // /**
-    // * Returns the server socket used in passive transfer mode.
-    // *
-    // * @return The socket.
-    // */
-    // ServerSocket getPassiveModeServerSocket();
-    //
-    // /**
-    // * Sets the server socket to be used in passive transfer mode.
-    // *
-    // * @param passiveSocket The socket.
-    // */
-    // void setPassiveModeServerSocket(ServerSocket passiveSocket);
-
     /**
      * Returns the object that provides the socket that is used for file transfer.
      * 
@@ -300,7 +286,7 @@ public interface FtpSessionContext {
     /**
      * Date/time the session context was created.
      * 
-     * @param The creation time.
+     * @param time The creation time.
      */
     void setCreationTime(Date time);
 
@@ -321,18 +307,19 @@ public interface FtpSessionContext {
     /**
      * Updates incremental statistics such as number of downloaded files, transferred bytes etc.
      * 
-     * @param limitName Name of the statistics.
+     * @param countKey Name of the statistics.
      * @param value Value.
+     * @throws FtpQuotaException Thrown if a limit has been exceeded.
      */
-    public void updateIncrementalStat(String countKey, long value) throws FtpQuotaException;
+    void updateIncrementalStat(String countKey, long value) throws FtpQuotaException;
 
     /**
      * Updates the upload/download transfer rate taking the passed value into account.
      * 
-     * @param key The name of the statistic.
+     * @param avgKey The name of the statistic.
      * @param value The value
      */
-    public void updateAverageStat(String avgKey, int value);
+    void updateAverageStat(String avgKey, int value);
 
         
     /**

@@ -111,7 +111,7 @@
 			<props>
 				<prop key="ftp.root.dir"></prop>
 				<prop key="max.connections">20</prop>
-				<prop key="max.idle.seconds">120</prop>
+				<prop key="max.idle.seconds">600</prop>
 				<prop key="buffer.size">2048</prop>
 				<prop key="allowed.passive.ports"></prop>
 				<prop key="ftp.port">21</prop>
@@ -125,7 +125,7 @@
 				<prop key="charset.ebcdic">CP1047</prop>
 				<prop key="charset.ascii">ISO-8859-1</prop>
 				<prop key="console.enabled">true</prop>
-				<prop key="ip.black.list">!127.0.0.1,!192.*.*.*</prop>
+				<!-- <prop key="ip.black.list">!127.0.0.1,!192.*.*.*</prop> -->
 			</props>
 		</property>
 	</bean>

@@ -81,7 +81,6 @@ public class VarMerger {
 
     /**
      * Returns a literal replacement <code>String</code> for the specified <code>String</code>.
-     * 
      * This method produces a <code>String</code> that will work use as a literal replacement
      * <code>s</code> in the <code>appendReplacement</code> method of the {@link Matcher} class.
      * The <code>String</code> produced will match the sequence of characters in <code>s</code>
@@ -92,8 +91,9 @@ public class VarMerger {
      * @return A literal string replacement
      */
     private static String quoteReplacement(String s) {
-        if ((s.indexOf('\\') == -1) && (s.indexOf('$') == -1))
+        if ((s.indexOf('\\') == -1) && (s.indexOf('$') == -1)) {
             return s;
+        }
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);

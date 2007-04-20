@@ -45,14 +45,12 @@ import org.springframework.beans.BeanUtils;
  * {@link org.apache.commons.io.IOUtils}.
  * 
  * @author Lars Behnke
- * 
  */
 public final class IOUtils {
 
     private static final int        FILE_SIZE_LENGTH_UNIX = 11;
 
-    private static final DateFormat DATE_FORMAT_UNIX      = new SimpleDateFormat("MMM dd HH:mm",
-                                                                  Locale.US);
+    private static final DateFormat DATE_FORMAT_UNIX      = new SimpleDateFormat("MMM dd HH:mm", Locale.US);
 
     private static final String     APP_PROPERTIES        = "/app.properties";
 
@@ -109,10 +107,10 @@ public final class IOUtils {
         String rFlag = read ? "r" : "-";
         String permflags;
         if (file.isDirectory()) {
-            permflags = MessageFormat.format("d{0}{1}x{0}-x{0}-x", new Object[] { rFlag, wFlag });
+            permflags = MessageFormat.format("d{0}{1}x{0}-x{0}-x", new Object[] {rFlag, wFlag});
             size = 0;
         } else {
-            permflags = MessageFormat.format("-{0}{1}-{0}--{0}--", new Object[] { rFlag, wFlag });
+            permflags = MessageFormat.format("-{0}{1}-{0}--{0}--", new Object[] {rFlag, wFlag});
             size = file.length();
         }
         Date date = new Date(file.lastModified());
@@ -129,10 +127,10 @@ public final class IOUtils {
     /**
      * Reads an arbitrary text resource from the class path.
      * 
-     * @param name
-     * @param encoding
+     * @param name The name of the resource.
+     * @param encoding The text encoding.
      * @return The text.
-     * @throws IOException
+     * @throws IOException Error on accessing the resource.
      */
     public static String loadTextResource(String name, String encoding) throws IOException {
         String result = null;
@@ -158,7 +156,9 @@ public final class IOUtils {
     }
 
     /**
-     * {@inheritDoc}
+     * Returns application properties (app.properties).
+     * 
+     * @return The properties object.
      */
     public static Properties getAppProperties() {
         if (appProperties == null) {
@@ -167,6 +167,7 @@ public final class IOUtils {
             try {
                 appProperties.load(is);
             } catch (IOException e) {
+                e.printStackTrace(System.out);
             }
         }
         return appProperties;

@@ -29,8 +29,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import net.sf.hermesftp.exception.FtpCmdException;
+import net.sf.hermesftp.exception.FtpException;
 import net.sf.hermesftp.exception.FtpPermissionException;
-import net.sf.hermesftp.exception.FtpQuotaException;
 import net.sf.hermesftp.exception.FtpUniqueConstraintException;
 import net.sf.hermesftp.streams.RafOutputStream;
 import net.sf.hermesftp.streams.RecordReadSupport;
@@ -58,8 +58,7 @@ public abstract class AbstractFtpCmdStorFile extends AbstractFtpCmdStor {
     /**
      * {@inheritDoc}
      */
-    protected void doPerformAccessChecks(boolean unique, File file, long fileOffset)
-            throws FtpQuotaException, FtpPermissionException, FtpUniqueConstraintException {
+    protected void doPerformAccessChecks(boolean unique, File file, long fileOffset) throws FtpException {
         if ((getPermission() & PRIV_WRITE) == 0) {
             throw new FtpPermissionException();
         }
@@ -88,8 +87,7 @@ public abstract class AbstractFtpCmdStorFile extends AbstractFtpCmdStor {
     /**
      * {@inheritDoc}
      */
-    protected void doStoreFileData(InputStream is, File file, long offset) throws IOException,
-            FtpQuotaException {
+    protected void doStoreFileData(InputStream is, File file, long offset) throws IOException {
         OutputStream os = new RafOutputStream(file, offset);
         int bufferSize = getCtx().getOptions().getBufferSize();
         byte[] buffer = new byte[bufferSize];
@@ -101,7 +99,7 @@ public abstract class AbstractFtpCmdStorFile extends AbstractFtpCmdStor {
                 getCtx().updateIncrementalStat(STAT_BYTES_UPLOADED, count);
                 incCompleted(count);
                 if (isAbortRequested()) {
-                    log.debug("Transfer aborted");
+                    log.debug("File transfer aborted");
                     msgOut(MSG426);
                     return;
                 }
@@ -120,8 +118,7 @@ public abstract class AbstractFtpCmdStorFile extends AbstractFtpCmdStor {
     /**
      * {@inheritDoc}
      */
-    protected void doStoreRecordData(RecordReadSupport rrs, File file, long offset) throws IOException,
-            FtpQuotaException {
+    protected void doStoreRecordData(RecordReadSupport rrs, File file, long offset) throws IOException {
         RafOutputStream os = new RafOutputStream(file, offset);
         byte[] recordBuffer = null;
         byte[] lastRecordBuffer = null;
@@ -130,7 +127,7 @@ public abstract class AbstractFtpCmdStorFile extends AbstractFtpCmdStor {
                 writeRecord(os, lastRecordBuffer, false);
                 lastRecordBuffer = recordBuffer;
                 if (isAbortRequested()) {
-                    log.debug("Transfer aborted");
+                    log.debug("Record transfer aborted");
                     msgOut(MSG426);
                     return;
                 }
@@ -146,8 +143,7 @@ public abstract class AbstractFtpCmdStorFile extends AbstractFtpCmdStor {
         }
     }
 
-    private void writeRecord(RafOutputStream os, byte[] lastRecordBuffer, boolean eof) throws IOException,
-            FtpQuotaException {
+    private void writeRecord(RafOutputStream os, byte[] lastRecordBuffer, boolean eof) throws IOException {
         if (lastRecordBuffer != null) {
             os.writeRecord(lastRecordBuffer, eof);
             getCtx().updateIncrementalStat(STAT_BYTES_UPLOADED, lastRecordBuffer.length);

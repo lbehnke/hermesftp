@@ -34,7 +34,6 @@ import javax.net.ssl.SSLSocketFactory;
 import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.cmd.ClientSocketModifier;
 import net.sf.hermesftp.exception.FtpCmdException;
-import net.sf.hermesftp.exception.FtpConfigException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -127,7 +126,7 @@ public class FtpCmdAuth extends AbstractFtpCmd implements ClientSocketModifier, 
         }
     }
 
-    private SSLSocket createSslSocket() throws FtpConfigException, IOException {
+    private SSLSocket createSslSocket() throws IOException {
         String clientHost = getCtx().getClientSocket().getInetAddress().getHostAddress();
         SSLContext sslContext = getCtx().getOptions().getSslContext();
         SSLSocketFactory factory = (SSLSocketFactory) sslContext.getSocketFactory();

@@ -66,12 +66,10 @@ public abstract class AbstractFtpCmdRetr extends AbstractFtpCmd implements FtpCo
      * <code>execute(boolean)</code>;
      * 
      * @param file The destination file.
-     * @throws FtpQuotaException Thrown if resource limits have been reached.
-     * @throws FtpPermissionException Thrown if access rights have been violated.
-     * @throws IOException Thrown if IO failed.
+     * @throws IOException Thrown if one of the following conditions occurred: (1) IO failed or (3)
+     *             access rights have been violated or (3) resource limits have been reached.
      */
-    protected abstract void doPerformAccessChecks(File file) throws FtpQuotaException,
-            FtpPermissionException, IOException;
+    protected abstract void doPerformAccessChecks(File file) throws IOException;
 
     /**
      * Retrieves record based data. Since native files generally do not support records, the
@@ -83,11 +81,10 @@ public abstract class AbstractFtpCmdRetr extends AbstractFtpCmd implements FtpCo
      * @param out The output stream.
      * @param file The source file.
      * @param fileOffset The file offset.
-     * @throws FtpQuotaException Thrown if a resource limit has been reached.
-     * @throws IOException Thrown if IO fails.
+     * @throws IOException Thrown if IO fails or if a resource limit has been reached.
      */
     protected abstract void doRetrieveRecordData(RecordWriteSupport out, File file, long fileOffset)
-            throws FtpQuotaException, IOException;
+            throws IOException;
 
     /**
      * Retrieves file based data. The method acts as a primitive operation that is called by the
@@ -96,11 +93,10 @@ public abstract class AbstractFtpCmdRetr extends AbstractFtpCmd implements FtpCo
      * @param out The output stream.
      * @param file The source file.
      * @param fileOffset The file offset.
-     * @throws FtpQuotaException Thrown if a resource limit has been reached.
-     * @throws IOException Thrown if IO fails.
+     * @throws IOException Thrown if IO fails or if a resource limit has been reached.
      */
     protected abstract void doRetrieveFileData(OutputStream out, File file, long fileOffset)
-            throws FtpQuotaException, IOException;
+            throws IOException;
 
     /**
      * {@inheritDoc}
@@ -188,7 +184,7 @@ public abstract class AbstractFtpCmdRetr extends AbstractFtpCmd implements FtpCo
         } else if (mode == MODE_ZIP) {
             result = new DeflaterOutputStream(dataOut);
         } else {
-            log.error("Unsupported mode: " + mode);
+            log.error("Unsupported file mode: " + mode);
         }
         if (charset != null) {
             result = new TextOutputStream(result, charset);
@@ -206,7 +202,7 @@ public abstract class AbstractFtpCmdRetr extends AbstractFtpCmd implements FtpCo
         } else if (mode == MODE_ZIP) {
             result = new RecordOutputStream(new DeflaterOutputStream(dataOut));
         } else {
-            log.error("Unsupported mode: " + mode);
+            log.error("Unsupported record mode: " + mode);
         }
         if (charset != null) {
             result = new TextOutputStream((OutputStream) result, charset);

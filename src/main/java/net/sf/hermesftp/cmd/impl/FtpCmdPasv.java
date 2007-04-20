@@ -61,7 +61,7 @@ public class FtpCmdPasv extends AbstractFtpCmdPasv {
         int p2 = port & BYTE_MASK;
         addrPort.append(p1 + SEPARATOR);
         addrPort.append(p2 + "");
-        return msg (MSG227, new String[]{addrPort.toString()});
+        return msg(MSG227, new String[] {addrPort.toString()});
     }
 
     /**

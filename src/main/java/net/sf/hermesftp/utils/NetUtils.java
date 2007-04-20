@@ -1,3 +1,26 @@
+/*
+ ------------------------------
+ Hermes FTP Server
+ Copyright (c) 2006 Lars Behnke
+ ------------------------------
+
+ This file is part of Hermes FTP Server.
+
+ Hermes FTP Server is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ Foobar is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Foobar; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 package net.sf.hermesftp.utils;
 
 import java.net.InetAddress;
@@ -15,7 +38,11 @@ import org.apache.commons.logging.LogFactory;
  */
 public final class NetUtils {
 
-    private static Log log = LogFactory.getLog(NetUtils.class);
+    private static final String REGEX_POINT   = "\\.";
+
+    private static final int    QUADRUPLE_LEN = 4;
+
+    private static Log          log           = LogFactory.getLog(NetUtils.class);
 
     /**
      * Hidden constructor.
@@ -90,8 +117,8 @@ public final class NetUtils {
      * @return True, if the passed IP address matches at least one of the patterns.
      */
     public static boolean checkIPMatch(String ipTemplateList, String ip) {
-        String[] chk = ip.split("\\.");
-        if (chk.length != 4) {
+        String[] chk = ip.split(REGEX_POINT);
+        if (chk.length != QUADRUPLE_LEN) {
             throw new IllegalArgumentException("Illegal IP address: " + ip);
         }
 
@@ -105,7 +132,7 @@ public final class NetUtils {
             } else {
                 t = ipTemplateArr[i].trim();
             }
-            String[] tmpl = t.split("\\.");
+            String[] tmpl = t.split(REGEX_POINT);
             boolean match = true;
             for (int j = 0; j < tmpl.length; j++) {
                 match &= ("*".equals(tmpl[j].trim())) || (tmpl[j].trim().equals(chk[j].trim())) ^ inverse;

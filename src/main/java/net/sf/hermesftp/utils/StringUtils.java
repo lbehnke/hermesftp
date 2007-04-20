@@ -1,3 +1,26 @@
+/*
+ ------------------------------
+ Hermes FTP Server
+ Copyright (c) 2006 Lars Behnke
+ ------------------------------
+
+ This file is part of Hermes FTP Server.
+
+ Hermes FTP Server is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ Foobar is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Foobar; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 package net.sf.hermesftp.utils;
 
 import java.util.ArrayList;
@@ -5,7 +28,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class StringUtils {
+/**
+ * Utitlities for handling strings.
+ * 
+ * @author Behnke
+ */
+public final class StringUtils {
+
+    /**
+     * Hidden Constructor.
+     */
+    private StringUtils() {
+    }
 
     /**
      * Converts the passed list to a comma separated string.
@@ -41,7 +75,7 @@ public class StringUtils {
      * Quotes the special characters of a given regular expression string. Example: <blockquote>
      * 
      * <pre>
-     *   This.is.an.example  --&gt;  This\.is\.an\.example
+     *     This.is.an.example  --&gt;  This\.is\.an\.example
      * </pre>
      * 
      * </blockquote>
@@ -65,7 +99,7 @@ public class StringUtils {
      * Parses a string encoded list of integer values. The list may include ranges. Example:
      * 
      * <pre>
-     *  1000-1011,1022,1023,2000-3000
+     *    1000-1011,1022,1023,2000-3000
      * </pre>
      * 
      * @param portListStr Encoded list of integer values.

@@ -85,6 +85,9 @@ public class XmlFileUserManager implements UserManager {
         return result;
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     public synchronized GroupDataList getGroupDataList(String username) throws FtpConfigException {
         UserData userData = userManagerData.getUserData(username);
         if (userData == null) {
@@ -100,6 +103,9 @@ public class XmlFileUserManager implements UserManager {
 
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     public synchronized List getUserDataList() throws FtpConfigException {
         return userManagerData.getUserData();
     }

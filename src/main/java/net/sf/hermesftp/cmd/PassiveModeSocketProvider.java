@@ -1,3 +1,26 @@
+/*
+ ------------------------------
+ Hermes FTP Server
+ Copyright (c) 2006 Lars Behnke
+ ------------------------------
+
+ This file is part of Hermes FTP Server.
+
+ Hermes FTP Server is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ Foobar is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Foobar; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 package net.sf.hermesftp.cmd;
 
 import java.io.IOException;
@@ -13,8 +36,6 @@ import javax.net.ssl.SSLServerSocketFactory;
 
 import net.sf.hermesftp.common.FtpConstants;
 import net.sf.hermesftp.common.FtpSessionContext;
-import net.sf.hermesftp.exception.FtpCmdResponseException;
-import net.sf.hermesftp.exception.FtpConfigException;
 import net.sf.hermesftp.utils.IOUtils;
 import net.sf.hermesftp.utils.NetUtils;
 
@@ -28,6 +49,8 @@ import org.apache.commons.logging.LogFactory;
  */
 public class PassiveModeSocketProvider implements SocketProvider {
 
+    private static final int  MAX_BIND_RETRIES     = 3;
+
     private static final int  DATA_CHANNEL_TIMEOUT = 10000;
 
     private static Log        log                  = LogFactory.getLog(PassiveModeSocketProvider.class);
@@ -40,6 +63,12 @@ public class PassiveModeSocketProvider implements SocketProvider {
 
     private int               preferredProtocol;
 
+    /**
+     * Constructor.
+     * 
+     * @param ctx Session context.
+     * @param preferredProtocol Preferred protocol (IPv4 or IPv6)
+     */
     public PassiveModeSocketProvider(FtpSessionContext ctx, int preferredProtocol) {
         this.ctx = ctx;
         this.preferredProtocol = preferredProtocol;
@@ -53,18 +82,18 @@ public class PassiveModeSocketProvider implements SocketProvider {
         /* Get local machine address and check protocol version. */
         InetAddress localIp = NetUtils.getMachineAddress();
         int currentProtocol = getProtocolIdxByAddr(localIp);
-        boolean ok = ((preferredProtocol == currentProtocol) || (preferredProtocol == 0));
+        boolean ok = (preferredProtocol == currentProtocol) || (preferredProtocol == 0);
         if (!ok) {
             throw new IOException("Invalid IP version");
         }
 
         /* Get the next available port */
-        int retries = 3;
+        int retries = MAX_BIND_RETRIES;
         while (retries > 0) {
             Integer port = ctx.getNextPassivePort();
             port = port == null ? new Integer(0) : port;
             try {
-                log.debug("Trying to bind server socket to port " + port + ".");
+                log.debug("Trying to bind server socket to port " + port);
                 serverSocket = createServerSocket(localIp, port.intValue());
                 break;
             } catch (Exception e) {
@@ -122,11 +151,9 @@ public class PassiveModeSocketProvider implements SocketProvider {
      * @param localIp The local IP address.
      * @param port The port.
      * @return The server socket.
-     * @throws FtpConfigException
-     * @throws IOException
+     * @throws IOException Error on creating server socket.
      */
-    private ServerSocket createServerSocket(InetAddress localIp, int port) throws FtpConfigException,
-            IOException, FtpCmdResponseException {
+    private ServerSocket createServerSocket(InetAddress localIp, int port) throws IOException {
         ServerSocket sock;
         Boolean dataProtection = (Boolean) ctx.getAttribute(FtpConstants.ATTR_DATA_PROT);
         boolean ssl = dataProtection != null && dataProtection.booleanValue();

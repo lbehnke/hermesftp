@@ -4,7 +4,7 @@
 	<groupId>net.sf.hermesftp</groupId>
 	<artifactId>hermesftp</artifactId>
 	<name>Hermes FTP Server</name>
-	<version>0.13</version>
+	<version>0.14-SNAPSHOT</version>
 	<description>A cross-platform FTP server</description>
 	<url>http://hermesftp.sourceforge.net</url>
 	<issueManagement>
@@ -322,6 +322,13 @@
 					<configLocation>
 						${basedir}/src/test/analysis/checkstyle-lab.xml
 					</configLocation>
+					<includes>net/sf/hermesftp/**/*.java</includes>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+					<suppressionsLocation>${basedir}/src/test/analysis/checkstyle-suppression.xml</suppressionsLocation>
+					
+					<!-- Checkstyle report failes if path contains ${basedir}, see http://jira.codehaus.org/browse/MCHECKSTYLE-59 -->
+					<propertyExpansion>headerFile=src/test/analysis/gpl_header.txt</propertyExpansion>
 				</configuration>
 			</plugin>
 			<plugin>

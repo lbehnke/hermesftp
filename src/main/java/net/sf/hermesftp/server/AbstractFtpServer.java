@@ -37,7 +37,6 @@ import net.sf.hermesftp.common.FtpConstants;
 import net.sf.hermesftp.common.FtpEventListener;
 import net.sf.hermesftp.common.FtpServerOptions;
 import net.sf.hermesftp.common.FtpSessionContext;
-import net.sf.hermesftp.exception.FtpConfigException;
 import net.sf.hermesftp.session.FtpSession;
 import net.sf.hermesftp.usermanager.UserManager;
 import net.sf.hermesftp.utils.AbstractAppAwareBean;
@@ -83,9 +82,8 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
      * 
      * @return The server socket.
      * @throws IOException Error on creating server socket.
-     * @throws FtpConfigException Error on processing configuration or key store.
      */
-    protected abstract ServerSocket createServerSocket() throws IOException, FtpConfigException;
+    protected abstract ServerSocket createServerSocket() throws IOException;
 
     /**
      * Creates the context object passed to the user session.
@@ -194,6 +192,9 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
         }
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     public void cleanUpSessions() {
         List newList = new ArrayList();
         for (Iterator iter = sessions.iterator(); iter.hasNext();) {
@@ -322,7 +323,7 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
             FtpEventListener listener = (FtpEventListener) iter.next();
             listener.uploadPerformed(clientId, file);
         }
-        log.debug("Download event delegated to listeners.");
+        log.debug("Upload event delegated to listeners.");
     }
 
     /**
@@ -350,24 +351,47 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
         log.debug("Session closed event delegated to listeners.");
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     public List getSessions() {
         return sessions;
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     public int getConnectionCountHWMark() {
         return connectionCountHWMark;
     }
 
-    public void setConnectionCountHWMark(int connectionCountHWMark) {
-        this.connectionCountHWMark = connectionCountHWMark;
-    }
 
+
+    /** 
+     * {@inheritDoc}
+     */
     public Date getConnectionCountHWMarkDate() {
         return connectionCountHWMarkDate;
     }
 
+    /**
+     * Setter methode for property <code>connectionCountHWMark</code>.
+     * 
+     * @param connectionCountHWMark Value for <code>connectionCountHWMark</code>.
+     */
+    public void setConnectionCountHWMark(int connectionCountHWMark) {
+        this.connectionCountHWMark = connectionCountHWMark;
+    }
+
+    /**
+     * Setter methode for property <code>connectionCountHWMarkDate</code>.
+     * 
+     * @param connectionCountHWMarkDate Value for <code>connectionCountHWMarkDate</code>.
+     */
     public void setConnectionCountHWMarkDate(Date connectionCountHWMarkDate) {
         this.connectionCountHWMarkDate = connectionCountHWMarkDate;
     }
+
+
 
 }

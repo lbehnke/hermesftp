@@ -1,3 +1,26 @@
+/*
+ ------------------------------
+ Hermes FTP Server
+ Copyright (c) 2006 Lars Behnke
+ ------------------------------
+
+ This file is part of Hermes FTP Server.
+
+ Hermes FTP Server is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ Foobar is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Foobar; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 package net.sf.hermesftp.cmd;
 
 import java.io.IOException;
@@ -24,18 +47,30 @@ public class ActiveModeSocketProvider implements SocketProvider {
 
     private DataChannelInfo   dataChannelInfo;
 
-    Socket                    socket;
+    private Socket            socket;
 
+    /**
+     * Constructor.
+     * 
+     * @param ctx Session context.
+     * @param info Channel about the data channel to open.
+     */
     public ActiveModeSocketProvider(FtpSessionContext ctx, DataChannelInfo info) {
         this.ctx = ctx;
         this.dataChannelInfo = info;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public DataChannelInfo init() throws IOException {
         closeSocket();
         return dataChannelInfo;
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public Socket provideSocket() throws IOException {
         if (socket == null) {
             socket = createClientSocket();
@@ -43,6 +78,9 @@ public class ActiveModeSocketProvider implements SocketProvider {
         return socket;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void closeSocket() {
         if (socket != null) {
             IOUtils.closeGracefully(socket);
@@ -62,12 +100,14 @@ public class ActiveModeSocketProvider implements SocketProvider {
             } catch (FtpConfigException e) {
                 throw new IOException("Setting up SSL failed.");
             }
-            SSLSocket sslSocket = (SSLSocket) factory.createSocket(dataChannelInfo.getAddress(), dataChannelInfo.getPort());
+            SSLSocket sslSocket = (SSLSocket) factory.createSocket(dataChannelInfo.getAddress(),
+                dataChannelInfo.getPort());
             sslSocket.setUseClientMode(false);
             enableCipherSuites(sslSocket);
             dataSocket = sslSocket;
         } else {
-            dataSocket = SocketFactory.getDefault().createSocket(dataChannelInfo.getAddress(), dataChannelInfo.getPort());
+            dataSocket = SocketFactory.getDefault().createSocket(dataChannelInfo.getAddress(),
+                dataChannelInfo.getPort());
         }
         return dataSocket;
     }
@@ -87,7 +127,5 @@ public class ActiveModeSocketProvider implements SocketProvider {
             }
         }
     }
-
-
 
 }

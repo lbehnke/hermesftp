@@ -1,3 +1,26 @@
+/*
+ ------------------------------
+ Hermes FTP Server
+ Copyright (c) 2006 Lars Behnke
+ ------------------------------
+
+ This file is part of Hermes FTP Server.
+
+ Hermes FTP Server is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ Foobar is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Foobar; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 package net.sf.hermesftp.console;
 
 import java.io.File;
@@ -10,23 +33,28 @@ import java.util.Properties;
  * Provides an overview of system and application properties.
  * 
  * @author Administrator
- * 
  */
 public class LogServlet extends AbstractConsoleServlet {
 
-    private static final long serialVersionUID = -594524060863329206L;
+    private static final int  DEFAULT_REFRESH_INTERVAL_SEC = 60;
 
-    private String  logFile = "hermesftp.log";
+    private static final long serialVersionUID             = -594524060863329206L;
 
+    private String            logFile                      = "hermesftp.log";
+
+    /**
+     * Constructor.
+     */
     public LogServlet() {
         super();
-        setRefreshInterval(60);
+        setRefreshInterval(DEFAULT_REFRESH_INTERVAL_SEC);
     }
+
     /**
      * {@inheritDoc}
      */
     protected Properties getContentProperties() {
-        Properties result =  new Properties();
+        Properties result = new Properties();
         result.put("log.file.name", logFile);
         result.put("log.file.content", getLogFileContent());
         return result;
@@ -51,16 +79,26 @@ public class LogServlet extends AbstractConsoleServlet {
     private String getCanonicalPath(String filename) {
         try {
             filename = new File(filename).getCanonicalPath();
-        } catch (Exception e1) {
+        } catch (IOException e1) {
+            log("Canonical path cannot be resolved.");
         }
         return filename;
     }
 
-
+    /**
+     * Getter methode for property <code>logFile</code>.
+     * 
+     * @return Property <code>logFile</code>.
+     */
     public String getLogFile() {
         return logFile;
     }
 
+    /**
+     * Setter methode for property <code>logFile</code>.
+     * 
+     * @param logFile Value for <code>logFile</code>.
+     */
     public void setLogFile(String logFile) {
         this.logFile = logFile;
     }

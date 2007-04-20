@@ -31,7 +31,6 @@ import java.io.OutputStream;
 import net.sf.hermesftp.cmd.AbstractFtpCmdRetr;
 import net.sf.hermesftp.exception.FtpCmdException;
 import net.sf.hermesftp.exception.FtpPermissionException;
-import net.sf.hermesftp.exception.FtpQuotaException;
 import net.sf.hermesftp.streams.RafInputStream;
 import net.sf.hermesftp.streams.RecordWriteSupport;
 import net.sf.hermesftp.utils.IOUtils;
@@ -48,14 +47,13 @@ import org.apache.commons.logging.LogFactory;
  * <p>
  * <i>[Excerpt from RFC-959, Postel and Reynolds]</i>
  * </p>
- *
+ * 
  * @author Lars Behnke
  */
-public class FtpCmdRetr
-    extends AbstractFtpCmdRetr {
+public class FtpCmdRetr extends AbstractFtpCmdRetr {
 
     private static Log log = LogFactory.getLog(FtpCmdRetr.class);
-    
+
     /**
      * {@inheritDoc}
      */
@@ -80,8 +78,7 @@ public class FtpCmdRetr
     /**
      * {@inheritDoc}
      */
-    protected void doPerformAccessChecks(File file) throws FtpQuotaException,
-            FtpPermissionException, IOException {
+    protected void doPerformAccessChecks(File file) throws IOException {
         if (!file.exists() || file.isDirectory()) {
             throw new IOException("File not found");
         }
@@ -96,7 +93,7 @@ public class FtpCmdRetr
      * {@inheritDoc}
      */
     protected void doRetrieveRecordData(RecordWriteSupport rws, File file, long fileOffset)
-            throws IOException, FtpQuotaException {
+            throws IOException {
         RafInputStream ris = new RafInputStream(file, fileOffset);
         byte[] recordBuffer = null;
         byte[] lastRecordBuffer = null;
@@ -106,7 +103,7 @@ public class FtpCmdRetr
                 lastRecordBuffer = recordBuffer;
                 if (isAbortRequested()) {
                     msgOut(MSG426);
-                    log.debug("Transfer aborted");
+                    log.debug("Record transfer aborted");
                     return;
                 }
                 getTransferRateLimiter().execute(recordBuffer.length);
@@ -122,8 +119,7 @@ public class FtpCmdRetr
         }
     }
 
-    private void writeRecord(RecordWriteSupport rws, byte[] lastRecordBuffer, boolean eof)
-            throws IOException, FtpQuotaException {
+    private void writeRecord(RecordWriteSupport rws, byte[] lastRecordBuffer, boolean eof) throws IOException {
         if (lastRecordBuffer != null) {
             rws.writeRecord(lastRecordBuffer, eof);
             rws.flush();
@@ -134,8 +130,7 @@ public class FtpCmdRetr
     /**
      * {@inheritDoc}
      */
-    protected void doRetrieveFileData(OutputStream os, File file, long fileOffset)
-            throws IOException, FtpQuotaException {
+    protected void doRetrieveFileData(OutputStream os, File file, long fileOffset) throws IOException {
         InputStream is = new RafInputStream(file, fileOffset);
         int bufferSize = getCtx().getOptions().getBufferSize();
         byte[] buffer = new byte[bufferSize];
@@ -147,7 +142,7 @@ public class FtpCmdRetr
                 incCompleted(count);
                 if (isAbortRequested()) {
                     msgOut(MSG426);
-                    log.debug("Transfer aborted");
+                    log.debug("File transfer aborted");
                     return;
                 }
                 getTransferRateLimiter().execute(count);

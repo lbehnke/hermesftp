@@ -69,7 +69,7 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
 
     private static Log       log               = LogFactory.getLog(FtpSessionContextImpl.class);
 
-    static int               portIdx           = 0;
+    private static int       portIdx;
 
     private String           user;
 
@@ -355,7 +355,7 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
         int result = PRIV_NONE;
         try {
             GroupDataList list = (GroupDataList) getAttribute(ATTR_GROUP_DATA);
-            result = list.getPermission(path, getUser(),  options.getRootDir());
+            result = list.getPermission(path, getUser(), options.getRootDir());
         } catch (FtpConfigException e) {
             log.error(e);
         }
@@ -397,12 +397,9 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
         }
         return authenticated;
     }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public  synchronized String getStartDir() throws FtpConfigException {
-        UserData userData =  (UserData)getAttribute(ATTR_USER_DATA);
+
+    private synchronized String getStartDir() throws FtpConfigException {
+        UserData userData = (UserData) getAttribute(ATTR_USER_DATA);
         if (userData == null) {
             throw new FtpConfigException("User data not available");
         }
@@ -416,7 +413,6 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
         }
         return varMerger.getText();
     }
-
 
     /**
      * {@inheritDoc}
@@ -536,7 +532,7 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
     /**
      * Increases a particular resource consumption by the passed value.
      * 
-     * @param key The name of the statistic.
+     * @param countKey The name of the statistic.
      * @param value The value
      * @throws FtpQuotaException Thrown if a resource limit has been reached.
      */
@@ -555,7 +551,7 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
     /**
      * Updates the upload or download transfer rate taking the passed value into account.
      * 
-     * @param key The name of the statistic.
+     * @param avgKey The name of the statistic.
      * @param value The value
      */
     public void updateAverageStat(String avgKey, int value) {

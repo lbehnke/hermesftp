@@ -41,6 +41,6 @@ public interface BeanConstants {
     public static final String BEAN_SSL_SERVER = "sslserver";
 
     /** Bean that represents the FTP console. */
-    public static final String BEAN_CONSOLE= "console";
+    public static final String BEAN_CONSOLE    = "console";
 
 }

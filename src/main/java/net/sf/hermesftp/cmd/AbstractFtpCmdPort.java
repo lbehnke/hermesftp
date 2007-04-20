@@ -1,10 +1,31 @@
+/*
+ ------------------------------
+ Hermes FTP Server
+ Copyright (c) 2006 Lars Behnke
+ ------------------------------
+
+ This file is part of Hermes FTP Server.
+
+ Hermes FTP Server is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ Foobar is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Foobar; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 package net.sf.hermesftp.cmd;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 import net.sf.hermesftp.exception.FtpCmdException;
-import net.sf.hermesftp.exception.FtpConfigException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,14 +70,12 @@ public abstract class AbstractFtpCmdPort extends AbstractFtpCmd {
     /**
      * Sets up the data channel in active transfer mode. IPv4 and IPv6 are supported.
      * 
+     * @param protocolIdx Protocol index (IPv4 or IPv6)
      * @param ipAddr IPv4 or IPv6 compliant address.
      * @param port The port.
-     * @throws FtpConfigException
-     * @throws IOException
-     * @throws UnknownHostException
+     * @throws IOException Setting up data channel failed.
      */
-    protected void setupDataChannel(int protocolIdx, String ipAddr, int port) throws FtpConfigException,
-            IOException {
+    protected void setupDataChannel(int protocolIdx, String ipAddr, int port) throws IOException {
         getCtx().closeSockets();
         DataChannelInfo info = new DataChannelInfo(ipAddr, port);
         SocketProvider provider = new ActiveModeSocketProvider(getCtx(), info);
@@ -64,6 +83,9 @@ public abstract class AbstractFtpCmdPort extends AbstractFtpCmd {
         getCtx().setDataSocketProvider(provider);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isAuthenticationRequired() {
         return true;
     }

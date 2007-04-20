@@ -40,7 +40,7 @@ import org.apache.commons.logging.LogFactory;
  * </p>
  * 
  * <pre>
- *      EPRT&lt;space&gt;&lt;d&gt;&lt;net-prt&gt;&lt;d&gt;&lt;net-addr&gt;&lt;d&gt;&lt;tcp-port&gt;&lt;d&gt;
+ *       EPRT&lt;space&gt;&lt;d&gt;&lt;net-prt&gt;&lt;d&gt;&lt;net-addr&gt;&lt;d&gt;&lt;tcp-port&gt;&lt;d&gt;
  * </pre>
  * 
  * <p>
@@ -57,10 +57,10 @@ import org.apache.commons.logging.LogFactory;
  * </p>
  * 
  * <pre>
- *      AF Number   Protocol
- *      ---------   --------
- *      1           Internet Protocol, Version 4 [Pos81a]
- *      2           Internet Protocol, Version 6 [DH96]
+ *       AF Number   Protocol
+ *       ---------   --------
+ *       1           Internet Protocol, Version 4 [Pos81a]
+ *       2           Internet Protocol, Version 6 [DH96]
  * </pre>
  * 
  * <p>
@@ -70,12 +70,12 @@ import org.apache.commons.logging.LogFactory;
  * </p>
  * 
  * <pre>
- *      AF Number   Address Format      Example
- *      ---------   --------------      -------
- *      1           dotted decimal      132.235.1.2
- *      2           IPv6 string         1080::8:800:200C:417A
- *      representations
- *      defined in [HD96]
+ *       AF Number   Address Format      Example
+ *       ---------   --------------      -------
+ *       1           dotted decimal      132.235.1.2
+ *       2           IPv6 string         1080::8:800:200C:417A
+ *       representations
+ *       defined in [HD96]
  * </pre>
  * 
  * <p>
@@ -83,9 +83,9 @@ import org.apache.commons.logging.LogFactory;
  * which the host is listening for the data connection. The following are sample EPRT commands:
  * 
  * <pre>
- *      EPRT |1|132.235.1.2|6275|
- *     
- *      EPRT |2|1080::8:800:200C:417A|5282|
+ *       EPRT |1|132.235.1.2|6275|
+ *      
+ *       EPRT |2|1080::8:800:200C:417A|5282|
  * </pre>
  * 
  * <p>
@@ -103,9 +103,9 @@ import org.apache.commons.logging.LogFactory;
  * </p>
  * 
  * <pre>
- *      5yz Negative Completion
- *      x2z Connections
- *      xy2 Extended Port Failure - unknown network protocol
+ *       5yz Negative Completion
+ *       x2z Connections
+ *       xy2 Extended Port Failure - unknown network protocol
  * </pre>
  * 
  * <p>
@@ -114,8 +114,8 @@ import org.apache.commons.logging.LogFactory;
  * </p>
  * 
  * <pre>
- *      &lt;text stating that the network protocol is unsupported&gt; \
- *      (prot1,prot2,...,protn)
+ *       &lt;text stating that the network protocol is unsupported&gt; \
+ *       (prot1,prot2,...,protn)
  * </pre>
  * 
  * <p>
@@ -190,7 +190,6 @@ public class FtpCmdEprt extends AbstractFtpCmdPort {
         return protocolIdx;
     }
 
-
     private boolean paramsParsed(String args) {
         return lastArgs != null && !lastArgs.equals(args);
     }
@@ -199,6 +198,7 @@ public class FtpCmdEprt extends AbstractFtpCmdPort {
         lastArgs = args;
         Matcher matcher = pattern.matcher(args);
         if (matcher.matches()) {
+            /* CHECKSTYLE:OFF */
             int protocolIdx = Integer.parseInt(matcher.group(2));
             String ipAddr = matcher.group(3);
             int port = Integer.parseInt(matcher.group(4));
@@ -206,6 +206,7 @@ public class FtpCmdEprt extends AbstractFtpCmdPort {
             this.addr = ipAddr;
             this.port = port;
             this.protocolIdx = protocolIdx;
+            /* CHECKSTYLE:ON */
         } else {
             throw new IllegalArgumentException("Invalid arguments: " + args);
         }

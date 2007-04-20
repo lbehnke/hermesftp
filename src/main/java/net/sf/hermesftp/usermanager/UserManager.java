@@ -36,7 +36,6 @@ import net.sf.hermesftp.usermanager.model.UserData;
  * Generic description of user management classes.
  * 
  * @author Lars Behnke
- * 
  */
 public interface UserManager {
 
@@ -47,11 +46,9 @@ public interface UserManager {
      * @param user The user name.
      * @param limitName The name of the consumption type (resource limit).
      * @param value The consumed resources.
-     * @param statType Type of the statistics (0=incremental, 1=average). 
      * @throws FtpQuotaException Thrown if resource limit has been reached.
      */
-    void updateIncrementalStatistics(String user, String limitName, long value)
-            throws FtpQuotaException;
+    void updateIncrementalStatistics(String user, String limitName, long value) throws FtpQuotaException;
 
     /**
      * Registers the current user's transfer rate. A mean value is calculated.
@@ -59,8 +56,6 @@ public interface UserManager {
      * @param user The user name.
      * @param avgKeyName The key of the transfer rate (resource limit).
      * @param value The consumed resources.
-     * @param statType Type of the statistics (0=incremental, 1=average). 
-     * @throws FtpQuotaException Thrown if resource limit has been reached.
      */
     void updateAverageStatistics(String user, String avgKeyName, long value);
 
@@ -89,37 +84,31 @@ public interface UserManager {
      */
     Map getAllStatistics();
 
-//    /**
-//     * Returns the permission on a given path.
-//     * 
-//     * @param path The path to check.
-//     * @param username The user's name.
-//     * @param ftproot The ftp root folder.
-//     * @return The permission value.
-//     * @throws FtpConfigException Error on reading or processing a configuration file.
-//     */
-//    int getPermission(String path, String username, String ftproot) throws FtpConfigException;
-
     /**
      * Returns object representations of all registered users.
      * 
+     * @param username The user's name.
      * @return The user data.
+     * @throws FtpConfigException Error in configuration.
      */
-    UserData getUserData(String username) throws FtpConfigException ;
+    UserData getUserData(String username) throws FtpConfigException;
 
     /**
      * Returns object representations of all registered users.
      * 
      * @return The users.
+     * @throws FtpConfigException Error in configuration.
      */
-    List getUserDataList() throws FtpConfigException ;
+    List getUserDataList() throws FtpConfigException;
 
     /**
      * Returns object representations of all groups the passed user belongs to.
      * 
+     * @param username The user's name.
      * @return The group data.
+     * @throws FtpConfigException Error in configuration.
      */
-    GroupDataList getGroupDataList(String username) throws FtpConfigException ;
+    GroupDataList getGroupDataList(String username) throws FtpConfigException;
 
     /**
      * Validates the passed user credentials.
@@ -130,18 +119,7 @@ public interface UserManager {
      * @return True, if credentials are valid.
      * @throws FtpConfigException Error on reading or processing a configuration file.
      */
-    boolean authenticate(String user, String password, FtpSessionContext ctx)
-            throws FtpConfigException;
-
-    /**
-     * Returns the start directory of a particular user.
-     * 
-     * @param user The user.
-     * @param ftproot The ftp root directory.
-     * @return The start folder of the user.
-     * @throws FtpConfigException Error on reading or processing a configuration file.
-     */
-    //String getStartDir(String user, String ftproot) throws FtpConfigException;
+    boolean authenticate(String user, String password, FtpSessionContext ctx) throws FtpConfigException;
 
     /**
      * (Re)loads the configuration.
@@ -153,6 +131,7 @@ public interface UserManager {
     /**
      * Checks if the configuration is loaded.
      * 
+     * @return True, if configuration has already been loaded.
      * @throws FtpConfigException Error on reading or processing a configuration file.
      */
     boolean isLoaded() throws FtpConfigException;

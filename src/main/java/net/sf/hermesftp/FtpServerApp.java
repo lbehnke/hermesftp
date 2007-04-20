@@ -48,7 +48,6 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  * Hermes FTP application.
  * 
  * @author Lars Behnke
- * 
  */
 public final class FtpServerApp {
 
@@ -77,7 +76,7 @@ public final class FtpServerApp {
             } else {
                 startServer(args);
             }
-        } catch (Exception e) {
+        } catch (FtpException e) {
             log.error(e, e);
         }
 
@@ -106,21 +105,13 @@ public final class FtpServerApp {
         String beanRes = args.length > 0 ? args[0] : FtpConstants.DEFAULT_BEAN_RES;
         File file = new File(beanRes);
         log.info("Application context: " + file);
-
-        ApplicationContext appContext;
-        if (file.exists()) {
-            appContext = new FileSystemXmlApplicationContext(new String[] { beanRes });
-        } else {
-            log.error("Hermes FTP application context not found: " + file
-                    + ". Trying to read context from classpath...");
-            appContext = new ClassPathXmlApplicationContext(new String[] { "/"
-                    + FtpConstants.DEFAULT_BEAN_RES });
-        }
         if (file != null && file.getParent() != null) {
             System.setProperty("hermes.ctx.dir", file.getParent());
             log.info("Application context path: " + file.getParent());
         }
-
+        
+        /* Prepare three main threads */
+        ApplicationContext appContext = getApplicationContext(beanRes, file);
         FtpServer svr = (FtpServer) appContext.getBean(BeanConstants.BEAN_SERVER);
         FtpServer sslsvr = (FtpServer) appContext.getBean(BeanConstants.BEAN_SSL_SERVER);
         ConsoleServer console = (ConsoleServer) appContext.getBean(BeanConstants.BEAN_CONSOLE);
@@ -158,6 +149,19 @@ public final class FtpServerApp {
                 break;
             }
         }
+    }
+
+    private static ApplicationContext getApplicationContext(String beanRes, File file) {
+        ApplicationContext appContext;
+        if (file.exists()) {
+            appContext = new FileSystemXmlApplicationContext(new String[] {beanRes});
+        } else {
+            log.error("Hermes FTP application context not found: " + file
+                    + ". Trying to read context from classpath...");
+            appContext = new ClassPathXmlApplicationContext(
+                                                            new String[] {"/" + FtpConstants.DEFAULT_BEAN_RES});
+        }
+        return appContext;
     }
 
     private static void printOptions(FtpServerOptions aOptions) {

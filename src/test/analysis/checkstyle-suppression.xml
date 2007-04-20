@@ -11,14 +11,5 @@
               files="test"
               />
         
-    <!-- Ignoriere durch XDoclet generierten Klassen. -->
-    <suppress checks=".*"
-              files="xdoclet"
-              />
-
-    <!-- Ignoriere JavaDoc in Bean-Klassen, da diese nur delegieren. -->
-    <suppress checks="Javadoc"
-              files="Bean\.java"
-              />
 
 </suppressions>

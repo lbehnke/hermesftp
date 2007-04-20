@@ -4,6 +4,10 @@ import java.net.InetAddress;
 
 import junit.framework.TestCase;
 
+/**
+ * @author Behnke
+ *
+ */
 public class NetUtilsTest extends TestCase {
 
     public void testGetMachineAddr() {

@@ -35,7 +35,6 @@ import java.util.zip.InflaterInputStream;
 import net.sf.hermesftp.exception.FtpCmdException;
 import net.sf.hermesftp.exception.FtpException;
 import net.sf.hermesftp.exception.FtpPermissionException;
-import net.sf.hermesftp.exception.FtpQuotaException;
 import net.sf.hermesftp.exception.FtpUniqueConstraintException;
 import net.sf.hermesftp.streams.BlockModeInputStream;
 import net.sf.hermesftp.streams.RecordInputStream;
@@ -150,7 +149,7 @@ public abstract class AbstractFtpCmdStor extends AbstractFtpCmd {
         } else if (mode == MODE_ZIP) {
             result = new InflaterInputStream(is);
         } else {
-            log.error("Unsupported mode: " + mode);
+            log.error("Unsupported file mode: " + mode);
         }
         if (charset != null) {
             result = new TextInputStream(is, charset);
@@ -180,7 +179,7 @@ public abstract class AbstractFtpCmdStor extends AbstractFtpCmd {
         } else if (mode == MODE_ZIP) {
             result = new RecordInputStream(new InflaterInputStream(is), getEorBytes(charset));
         } else {
-            log.error("Unsupported mode: " + mode);
+            log.error("Unsupported record mode: " + mode);
         }
         if (charset != null) {
             result = new TextInputStream((InputStream) result, charset);
@@ -251,11 +250,10 @@ public abstract class AbstractFtpCmdStor extends AbstractFtpCmd {
      * @param rrs The wrapped input stream.
      * @param file Destination file.
      * @param offset The file offset (-1 on append).
-     * @throws IOException Thrown if IO fails.
-     * @throws FtpQuotaException Thrown if at least one resource limit was reached.
+     * @throws IOException Thrown if IO fails or if at least one resource limit was reached.
      */
     protected abstract void doStoreRecordData(RecordReadSupport rrs, File file, long offset)
-            throws IOException, FtpQuotaException;
+            throws IOException;
 
     /**
      * Stores unstructured data as file. The method acts as a primitive operation that is called by
@@ -264,11 +262,9 @@ public abstract class AbstractFtpCmdStor extends AbstractFtpCmd {
      * @param is The input stream.
      * @param file Destination file.
      * @param offset The file offset (-1 on append).
-     * @throws IOException Thrown if IO fails.
-     * @throws FtpQuotaException Thrown if at least one resource limit was reached.
+     * @throws IOException Thrown if IO fails or if at least one resource limit was reached
      */
-    protected abstract void doStoreFileData(InputStream is, File file, long offset) throws IOException,
-            FtpQuotaException;
+    protected abstract void doStoreFileData(InputStream is, File file, long offset) throws IOException;
 
     /**
      * Getter method for the java bean <code>completed</code>.

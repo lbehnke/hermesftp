@@ -203,11 +203,11 @@ public class FtpServerOptionsImpl implements FtpServerOptions, FtpConstants {
         if (sslContext == null) {
             char[] ksPass;
             String ksFile = getProperty(OPT_SSL_KEYSTORE_FILE);
-            if (ksFile != null && ksFile.length() > 0) {
-                ksPass = ksFile == null ? new char[0] : ksFile.toCharArray();
-            } else {
-                ksPass = DEFAULT_KEYSTORE_PASS.toCharArray();
+            if (ksFile == null || ksFile.length() == 0) {
+                throw new FtpConfigException("Keystore file not defined.");
             }
+            String ksPassStr = getProperty(OPT_SSL_KEYSTORE_PASS);
+            ksPass = ksPassStr == null ? new char[0] : ksPassStr.toCharArray();
             try {
                 sslContext = SecurityUtil.createSslContext(ksFile, ksPass);
             } catch (SecurityException e) {
@@ -216,7 +216,6 @@ public class FtpServerOptionsImpl implements FtpServerOptions, FtpConstants {
         }
         return sslContext;
     }
-
 
     /**
      * {@inheritDoc}

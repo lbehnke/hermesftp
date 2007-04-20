@@ -1,13 +1,46 @@
+/*
+ ------------------------------
+ Hermes FTP Server
+ Copyright (c) 2006 Lars Behnke
+ ------------------------------
+
+ This file is part of Hermes FTP Server.
+
+ Hermes FTP Server is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ Foobar is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Foobar; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 package net.sf.hermesftp.utils;
 
+/**
+ * Controls the upload/download bandwidth.
+ * 
+ * @author Behnke
+ */
 public class TransferRateLimiter {
 
-    private double maxRate;
+    private static final int SLEEP_INTERVAL = 100;
 
-    private long   startTime;
+    private double           maxRate;
 
-    private long   transferredBytes;
+    private long             startTime;
 
+    private long             transferredBytes;
+
+    /**
+     * Constructor.
+     */
     public TransferRateLimiter() {
         this(-1);
     }
@@ -21,31 +54,46 @@ public class TransferRateLimiter {
         init(maxRate);
     }
 
+    /**
+     * Initalizes the object.
+     * 
+     * @param maxRate The maximum tranfer rate.
+     */
     public void init(double maxRate) {
         this.maxRate = maxRate;
         startTime = System.currentTimeMillis();
         transferredBytes = 0;
     }
-    
+
+    /**
+     * Returns the current transfer rate.
+     * 
+     * @return The transfer rate in KB per seconds.
+     */
     public double getCurrentTransferRate() {
         double seconds = (System.currentTimeMillis() - startTime) / 1024d;
         if (seconds <= 0) {
             seconds = 1;
         }
         return (transferredBytes / 1024d) / seconds;
-        
+
     }
 
+    /**
+     * Updates the transfer rate statistics. If the maximum rate has been exceeded, the method
+     * pauses.
+     * 
+     * @param byteCount The number of bytes previously transfered.
+     */
     public void execute(long byteCount) {
         transferredBytes += byteCount;
         while (maxRate >= 0 && getCurrentTransferRate() > maxRate) {
             try {
-                Thread.sleep(100);
+                Thread.sleep(SLEEP_INTERVAL);
             } catch (InterruptedException e) {
                 break;
             }
         }
     }
-    
 
 }

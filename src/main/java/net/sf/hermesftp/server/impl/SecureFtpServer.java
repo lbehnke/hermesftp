@@ -32,7 +32,6 @@ import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 
 import net.sf.hermesftp.common.FtpSessionContext;
-import net.sf.hermesftp.exception.FtpConfigException;
 import net.sf.hermesftp.server.AbstractFtpServer;
 import net.sf.hermesftp.session.impl.FtpSessionContextImpl;
 
@@ -67,7 +66,7 @@ public class SecureFtpServer
     /**
      * {@inheritDoc}
      */
-    protected ServerSocket createServerSocket() throws IOException, FtpConfigException {
+    protected ServerSocket createServerSocket() throws IOException {
         SSLContext sslContext = getOptions().getSslContext();
         int sslPort = getOptions().getImplicitSslPort();
         SSLServerSocketFactory factory = (SSLServerSocketFactory) sslContext.getServerSocketFactory();

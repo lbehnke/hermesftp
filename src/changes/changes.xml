@@ -10,7 +10,16 @@
 		<!--
 			type: update,fix,remove,add
 		-->
-		<release version="0.13" date="2007-xx-xx"
+		<release version="0.14" date="2007-xx-xx"
+			desc="Bugfix release.">
+			<action dev="lbehnke" type="fix">
+				Loading keystore failed because of illegal password handling.
+			</action>
+			<action dev="lbehnke" type="fix">
+				Code refactoring, cleaned up.
+			</action>
+		</release>
+		<release version="0.13" date="2007-04-13"
 			desc="Bugfix release.">
 			<action dev="lbehnke" type="add">
 				IP black list support.

@@ -42,6 +42,8 @@ public class BlockModeInputStream
     extends InputStream
     implements RecordReadSupport, BlockModeConstants {
 
+    private static final String UNEXPECTED_END_OF_STREAM = "Unexpected end of stream.";
+
     private byte[] buffer;
 
     private int idx;
@@ -97,7 +99,7 @@ public class BlockModeInputStream
             while (!(eor && idx == 0)) {
                 int b = read();
                 if (b == -1) {
-                    throw new IOException("Unexpected end of stream.");
+                    throw new IOException(UNEXPECTED_END_OF_STREAM);
                 }
                 baos.write(b);
             }
@@ -124,7 +126,7 @@ public class BlockModeInputStream
             buffer = new byte[len];
             int realLength = is.read(buffer);
             if (realLength != len) {
-                throw new IOException("Unexpected end of stream.");
+                throw new IOException(UNEXPECTED_END_OF_STREAM);
             }
             eof = (descriptor & BlockModeConstants.DESC_CODE_EOF) > 0;
             eor = (descriptor & BlockModeConstants.DESC_CODE_EOR) > 0;
@@ -150,7 +152,7 @@ public class BlockModeInputStream
 
     private void checkHeader(int descriptor, int hi, int lo) throws IOException {
         if (descriptor == -1 || hi == -1 || lo == -1) {
-            throw new IOException("Unexpected end of stream.");
+            throw new IOException(UNEXPECTED_END_OF_STREAM);
         }
         if ((descriptor & BlockModeConstants.DESC_CODE_ERR) > 0) {
             throw new IOException("Error flag in descriptor code set.");

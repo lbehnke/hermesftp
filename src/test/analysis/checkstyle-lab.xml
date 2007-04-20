@@ -31,7 +31,7 @@ Checkstyle-Konfiguration Lars Behnke
         <module name="StaticVariableName"/>
         <module name="TypeName"/>
         <module name="Header">
-            <property name="headerFile" value="src\test\analysis\gpl_header.txt"/>
+            <property name="headerFile" value="${headerFile}"/>
         </module>
         <module name="AvoidStarImport"/>
         <module name="IllegalImport"/>
@@ -157,4 +157,8 @@ Checkstyle-Konfiguration Lars Behnke
     <module name="NewlineAtEndOfFile"/>
     <module name="SeverityMatchFilter"/>
     <module name="SuppressionCommentFilter"/>
+	    <module name="SuppressionFilter">
+        <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="HermesFTP Suppressions"/>
+        <!--<property name="file" value="${suppressionFilterFile}"/>-->
+    </module>
 </module>

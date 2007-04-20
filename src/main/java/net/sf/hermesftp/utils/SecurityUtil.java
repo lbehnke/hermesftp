@@ -109,6 +109,14 @@ public final class SecurityUtil {
         }
     }
 
+    /**
+     * Create the security context required for SSL communication.
+     * 
+     * @param keyStoreFile The name of the keystore file.
+     * @param keyStorePassword The password for the keystore.
+     * @return The context.
+     * @throws FtpConfigException Thrown on error in configuration.
+     */
     public static SSLContext createSslContext(String keyStoreFile, char[] keyStorePassword)
             throws FtpConfigException {
         SSLContext sslContext = null;

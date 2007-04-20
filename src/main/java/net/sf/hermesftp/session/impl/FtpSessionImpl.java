@@ -31,8 +31,8 @@ import net.sf.hermesftp.common.FtpConstants;
 import net.sf.hermesftp.common.FtpSessionContext;
 import net.sf.hermesftp.exception.FtpCmdException;
 import net.sf.hermesftp.exception.FtpCmdResponseException;
-import net.sf.hermesftp.exception.FtpQuitException;
 import net.sf.hermesftp.exception.FtpIllegalCmdException;
+import net.sf.hermesftp.exception.FtpQuitException;
 import net.sf.hermesftp.parser.FtpCmdReader;
 import net.sf.hermesftp.session.FtpSession;
 
