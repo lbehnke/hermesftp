@@ -172,9 +172,8 @@ public class FtpTestClient {
     public void openConnection(String svr, String user, String pass, int port) throws IOException {
         this.server = svr;
 
-        if (server == null || server.equals("127.0.0.1")) {
-            InetAddress localIp = InetAddress.getLocalHost();
-            this.server = localIp.getHostAddress();
+        if (server == null || server.startsWith("127.0.0.")) {
+            this.server = NetUtils.getMachineAddress().getHostAddress();
         }
         serverSocket = new Socket(server, port);
         in = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));

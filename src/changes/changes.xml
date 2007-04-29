@@ -13,10 +13,13 @@
 		<release version="0.14" date="2007-xx-xx"
 			desc="Bugfix release.">
 			<action dev="lbehnke" type="fix">
-				Loading keystore failed because of illegal password handling.
+				Fixed critical issue: Loading keystore failed because of illegal password handling.
 			</action>
 			<action dev="lbehnke" type="fix">
 				Code refactoring, cleaned up.
+			</action>
+			<action dev="lbehnke" type="fix">
+				Fixed broken Unit tests on Linux platform (Connection issue).
 			</action>
 		</release>
 		<release version="0.13" date="2007-04-13"

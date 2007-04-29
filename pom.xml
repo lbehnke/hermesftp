@@ -318,7 +318,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-checkstyle-plugin</artifactId>     
-				<version>2.2-SNAPSHOT</version>
+				<!-- <version>2.2-SNAPSHOT</version>-->
 				<configuration>
 					<configLocation>
 						${basedir}/src/test/analysis/checkstyle-lab.xml

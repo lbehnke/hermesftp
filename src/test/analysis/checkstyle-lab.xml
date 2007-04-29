@@ -31,7 +31,7 @@ Checkstyle-Konfiguration Lars Behnke
         <module name="StaticVariableName"/>
         <module name="TypeName"/>
         <module name="Header">
-            <property name="headerFile" value="${headerFile}"/>
+            <property name="headerFile" value="src/test/analysis/gpl_header.txt"/>
         </module>
         <module name="AvoidStarImport"/>
         <module name="IllegalImport"/>
