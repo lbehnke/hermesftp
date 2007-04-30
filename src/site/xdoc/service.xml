@@ -74,8 +74,8 @@ chmod 755 hermesftp.sh</source>
 				
 				</p>
 				<p>
-				SuSE users must use the insserv script to register the daemon:
-				<source>insserv hermesftp</source>
+				SuSE users must use the chkconfig (or insserv) script to register the daemon:
+				<source>chkconfig -a hermesftp</source>
 				</p>
 				<p>
 				Now restart the system:
@@ -86,7 +86,7 @@ chmod 755 hermesftp.sh</source>
 				<source>update-rc.d -f hermesftp remove
 rm -f /etc/init.d/hermesftp</source>
 				For SuSE users the corresponding command would be:
-				<source>insserv -r hermesftp</source>
+				<source>chkconfig -d hermesftp</source>
 				For further documentation refer to the
 				<a href="http://wrapper.tanukisoftware.org">Java Service Wrapper</a>
 				website.
