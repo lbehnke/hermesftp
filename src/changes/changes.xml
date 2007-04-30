@@ -10,7 +10,7 @@
 		<!--
 			type: update,fix,remove,add
 		-->
-		<release version="0.14" date="2007-xx-xx"
+		<release version="0.14" date="2007-05-01"
 			desc="Bugfix release.">
 			<action dev="lbehnke" type="fix">
 				Fixed critical issue: Loading keystore failed because of illegal password handling.
