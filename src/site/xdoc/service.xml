@@ -71,6 +71,11 @@ chmod 755 hermesftp.sh</source>
 				<source>update-rc.d hermesftp defaults</source>
 			    This will make links to start the service in runlevels 2, 3, 4, and 5 and stop the service in runlevels 0, 1, and 6. 	
 			    The default sequence code is 20.
+				
+				</p>
+				<p>
+				SuSE users must use the insserv script to register the daemon:
+				<source>insserv hermesftp</source>
 				</p>
 				<p>
 				Now restart the system:
@@ -80,6 +85,8 @@ chmod 755 hermesftp.sh</source>
 				In case you wish to uninstall the daemon, just execute
 				<source>update-rc.d -f hermesftp remove
 rm -f /etc/init.d/hermesftp</source>
+				For SuSE users the corresponding command would be:
+				<source>insserv -r hermesftp</source>
 				For further documentation refer to the
 				<a href="http://wrapper.tanukisoftware.org">Java Service Wrapper</a>
 				website.
