@@ -14,7 +14,7 @@
 				monitoring resource consumption, session statistics, user statistics and log files via web browser.</p>
 
             <p>If you want to change the port (which is by default 9988) find the bean
-				"console" in the application context hermesftp-ctx.xml and change the port
+				"console" in the application context <i>hermesftp-ctx.xml</i> and change the port
 				property into a convenient value.</p>
 				<source>
   &lt;bean id=&quot;console&quot; class=&quot;net.sf.hermesftp.console.ConsoleServer&quot; singleton=&quot;true&quot;&gt;

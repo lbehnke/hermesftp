@@ -26,6 +26,7 @@ package net.sf.hermesftp.utils;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Enumeration;
 
 import org.apache.commons.logging.Log;
@@ -56,7 +57,7 @@ public final class NetUtils {
      * 
      * @return The ip address.
      */
-    public static InetAddress getMachineAddress() {
+    public static InetAddress getMachineAddress(boolean fallBackToLocalhost) {
         InetAddress result = null;
         try {
             Enumeration nis = NetworkInterface.getNetworkInterfaces();
@@ -67,7 +68,13 @@ public final class NetUtils {
                     result = ia;
                 }
             }
+            if (result == null) {
+                result = InetAddress.getLocalHost();
+            }
+            
         } catch (SocketException e) {
+            log.error(e);
+        } catch (UnknownHostException e) {
             log.error(e);
         }
         return result;

@@ -11,15 +11,19 @@ import junit.framework.TestCase;
 public class NetUtilsTest extends TestCase {
 
     public void testGetMachineAddr() {
-        InetAddress addrObj = NetUtils.getMachineAddress();
-        String addr = addrObj.getHostAddress();
+        InetAddress addrObj = NetUtils.getMachineAddress(false);
+        if (addrObj == null) {
+            addrObj = NetUtils.getMachineAddress(true);
+            assertEquals("127.0.0.1", addrObj.getHostAddress());
+        } else {
+            String addr = addrObj.getHostAddress();
 
-        /* Check syntax */
-        assertTrue(addr.matches("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$"));
+            /* Check syntax */
+            assertTrue(addr.matches("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$"));
 
-        /* We don't want the loopback address */
-        assertNotSame("127.0.0.1", addr);
-
+            /* We don't want the loopback address */
+            assertNotSame("127.0.0.1", addr);
+        }
     }
     
     public void testMatchIP() {

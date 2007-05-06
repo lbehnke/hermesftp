@@ -123,7 +123,7 @@ public final class FtpServerApp {
         printOptions(svr.getOptions());
 
         /* Check local ip addresses */
-        InetAddress addr = NetUtils.getMachineAddress();
+        InetAddress addr = NetUtils.getMachineAddress(true);
         if (addr == null) {
             log.error("No local network ip address available.");
             System.exit(1);

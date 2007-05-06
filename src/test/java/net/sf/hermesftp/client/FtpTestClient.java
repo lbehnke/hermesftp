@@ -173,7 +173,7 @@ public class FtpTestClient {
         this.server = svr;
 
         if (server == null || server.startsWith("127.0.0.")) {
-            this.server = NetUtils.getMachineAddress().getHostAddress();
+            this.server = NetUtils.getMachineAddress(true).getHostAddress();
         }
         serverSocket = new Socket(server, port);
         in = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
@@ -203,8 +203,8 @@ public class FtpTestClient {
     }
 
     public String openActiveMode() throws IOException {
-        InetAddress addr = NetUtils.getMachineAddress();
-        String addrStr = addr.getHostAddress();
+        InetAddress addr = NetUtils.getMachineAddress(true);
+        String addrStr = addr != null ? addr.getHostAddress() : "127.0.0.1";
         ServerSocket sock = ServerSocketFactory.getDefault().createServerSocket(0, 1, addr);
         sock.setSoTimeout(10000);
 
@@ -301,7 +301,7 @@ public class FtpTestClient {
         StringBuffer params = new StringBuffer();
 
         params.append("|1|");
-        InetAddress addr = NetUtils.getMachineAddress();
+        InetAddress addr = NetUtils.getMachineAddress(true);
         ServerSocket serverSocket = ServerSocketFactory.getDefault().createServerSocket(0, 1, addr);
         params.append(addr.getHostAddress());
         params.append("|");
