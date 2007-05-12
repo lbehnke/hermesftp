@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -50,7 +51,8 @@ public final class IOUtils {
 
     private static final int        FILE_SIZE_LENGTH_UNIX = 11;
 
-    private static final DateFormat DATE_FORMAT_UNIX      = new SimpleDateFormat("MMM dd HH:mm", Locale.US);
+    private static final DateFormat DATE_FORMAT_UNIX      = new SimpleDateFormat("MMM dd HH:mm",
+                                                                  Locale.US);
 
     private static final String     APP_PROPERTIES        = "/app.properties";
 
@@ -107,10 +109,10 @@ public final class IOUtils {
         String rFlag = read ? "r" : "-";
         String permflags;
         if (file.isDirectory()) {
-            permflags = MessageFormat.format("d{0}{1}x{0}-x{0}-x", new Object[] {rFlag, wFlag});
+            permflags = MessageFormat.format("d{0}{1}x{0}-x{0}-x", new Object[] { rFlag, wFlag });
             size = 0;
         } else {
-            permflags = MessageFormat.format("-{0}{1}-{0}--{0}--", new Object[] {rFlag, wFlag});
+            permflags = MessageFormat.format("-{0}{1}-{0}--{0}--", new Object[] { rFlag, wFlag });
             size = file.length();
         }
         Date date = new Date(file.lastModified());
@@ -171,5 +173,31 @@ public final class IOUtils {
             }
         }
         return appProperties;
+    }
+
+    public static File getHomeDir() {
+        File result = null;
+        String cp = System.getProperty("java.class.path");
+        StringTokenizer tokenizer = new StringTokenizer(cp, File.pathSeparator);
+        if (tokenizer.countTokens() == 1) {
+            File jar = new File(tokenizer.nextToken());
+            try {
+                result = jar.getCanonicalFile().getParentFile().getParentFile();
+            } catch (IOException e) {
+            }
+        } else {
+            File userDir = new File(System.getProperty("user.dir"));
+            result = userDir.getAbsoluteFile().getParentFile();
+        }
+        return result;
+    }
+
+    /**
+     * Checks, if UNC file naming is supported.
+     * 
+     * @return True, if UNC supported.
+     */
+    public static boolean isUNCSupported() {
+        return System.getProperty("os.name").startsWith("Windows");
     }
 }

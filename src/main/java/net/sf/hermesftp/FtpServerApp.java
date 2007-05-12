@@ -33,8 +33,8 @@ import net.sf.hermesftp.common.BeanConstants;
 import net.sf.hermesftp.common.FtpConstants;
 import net.sf.hermesftp.common.FtpServerOptions;
 import net.sf.hermesftp.console.ConsoleServer;
-import net.sf.hermesftp.exception.FtpException;
 import net.sf.hermesftp.server.FtpServer;
+import net.sf.hermesftp.utils.IOUtils;
 import net.sf.hermesftp.utils.NetUtils;
 import net.sf.hermesftp.utils.SecurityUtil;
 
@@ -58,9 +58,9 @@ public final class FtpServerApp {
     private static Log       log                         = LogFactory.getLog(FtpServerApp.class);
 
     /**
-     * Constructor hidden.
+     * Constructor.
      */
-    private FtpServerApp() {
+    public FtpServerApp() {
         super();
     }
 
@@ -70,16 +70,11 @@ public final class FtpServerApp {
      * @param args Optionally the bean resource file can be passed.
      */
     public static void main(String[] args) {
-        try {
-            if (args.length > 0 && args[0].trim().equalsIgnoreCase("-password")) {
-                generatePassword(args);
-            } else {
-                startServer(args);
-            }
-        } catch (FtpException e) {
-            log.error(e, e);
+        if (args.length > 0 && args[0].trim().equalsIgnoreCase("-password")) {
+            generatePassword(args);
+        } else {
+            PluginManager.startApplication(FtpServerApp.class.getName(), "startServer", args);
         }
-
     }
 
     private static void generatePassword(String[] args) {
@@ -98,18 +93,21 @@ public final class FtpServerApp {
         }
     }
 
-    private static void startServer(String[] args) throws FtpException {
+    public void startServer(String[] args) {
         if (!NetUtils.isSSLAvailable()) {
             System.exit(1);
         }
         String beanRes = args.length > 0 ? args[0] : FtpConstants.DEFAULT_BEAN_RES;
         File file = new File(beanRes);
+
+        log.info("Hermes Home: " + IOUtils.getHomeDir());
+
         log.info("Application context: " + file);
         if (file != null && file.getParent() != null) {
             System.setProperty("hermes.ctx.dir", file.getParent());
             log.info("Application context path: " + file.getParent());
         }
-        
+
         /* Prepare three main threads */
         ApplicationContext appContext = getApplicationContext(beanRes, file);
         FtpServer svr = (FtpServer) appContext.getBean(BeanConstants.BEAN_SERVER);
@@ -131,35 +129,41 @@ public final class FtpServerApp {
         log.info("Local ip address: " + addr);
 
         /* Start servers */
-        Thread svrThread = new Thread(svr);
-        svrThread.start();
-        Thread sslSvrThread = new Thread(sslsvr);
-        sslSvrThread.start();
+        Thread svrThread;
+        Thread sslSvrThread;
+        try {
+            svrThread = new Thread(svr);
+            svrThread.start();
+            sslSvrThread = new Thread(sslsvr);
+            sslSvrThread.start();
 
-        /* Start web console */
-        if (svr.getOptions().getBoolean("console.enabled", false)) {
-            console.start();
-        }
-
-        /* Waiting... */
-        while (svrThread.isAlive() || sslSvrThread.isAlive()) {
-            try {
-                Thread.sleep(THREAD_ALIVE_CHECK_INTERVAL);
-            } catch (InterruptedException e) {
-                break;
+            /* Start web console */
+            if (svr.getOptions().getBoolean("console.enabled", false)) {
+                console.start();
             }
+
+            /* Waiting... */
+            while (svrThread.isAlive() || sslSvrThread.isAlive()) {
+                try {
+                    Thread.sleep(THREAD_ALIVE_CHECK_INTERVAL);
+                } catch (InterruptedException e) {
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            log.error("Unexpected error", e);
         }
     }
 
     private static ApplicationContext getApplicationContext(String beanRes, File file) {
         ApplicationContext appContext;
         if (file.exists()) {
-            appContext = new FileSystemXmlApplicationContext(new String[] {beanRes});
+            appContext = new FileSystemXmlApplicationContext(new String[] { beanRes });
         } else {
             log.error("Hermes FTP application context not found: " + file
                     + ". Trying to read context from classpath...");
-            appContext = new ClassPathXmlApplicationContext(
-                                                            new String[] {"/" + FtpConstants.DEFAULT_BEAN_RES});
+            appContext = new ClassPathXmlApplicationContext(new String[] { "/"
+                    + FtpConstants.DEFAULT_BEAN_RES });
         }
         return appContext;
     }

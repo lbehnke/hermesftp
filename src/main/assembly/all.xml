@@ -41,6 +41,10 @@
       <directory>src/main/shell</directory>
       <outputDirectory></outputDirectory>
     </fileSet>
+    <fileSet>
+      <directory>etc/plugins</directory>
+      <outputDirectory>plugins</outputDirectory>
+    </fileSet>
   </fileSets>
   <dependencySets>
   	<dependencySet>
