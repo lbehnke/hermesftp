@@ -10,7 +10,12 @@
 		<!--
 			type: update,fix,remove,add
 		-->
-		<release version="0.14" date="2007-05-01"
+		<release version="1.0" date="2007-xx-xx"
+			desc="Bugfix release.">
+			<action dev="lbehnke" type="add">
+				Added capabilities to load plugin classes dynamically.
+			</action>
+		</release>		<release version="0.14" date="2007-05-01"
 			desc="Bugfix release.">
 			<action dev="lbehnke" type="fix">
 				Fixed critical issue: Loading keystore failed because of illegal password handling.
