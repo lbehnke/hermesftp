@@ -65,11 +65,12 @@ public final class FtpServerApp {
     }
 
     /**
-     * Entry point of the iFTP server application.
-     * 
+     * Entry point of the application.
+     *
      * @param args Optionally the bean resource file can be passed.
      */
     public static void main(String[] args) {
+        // TODO Use commons-cli
         if (args.length > 0 && args[0].trim().equalsIgnoreCase("-password")) {
             generatePassword(args);
         } else {
@@ -145,6 +146,7 @@ public final class FtpServerApp {
             /* Waiting... */
             while (svrThread.isAlive() || sslSvrThread.isAlive()) {
                 try {
+                    // TODO Replace by wait/NotifyAll
                     Thread.sleep(THREAD_ALIVE_CHECK_INTERVAL);
                 } catch (InterruptedException e) {
                     break;
