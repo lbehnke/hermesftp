@@ -132,7 +132,7 @@ public interface FtpConstants {
     /** Konfiguration of the Spring application context. */
     public static final String   DEFAULT_BEAN_RES          = "hermesftp-ctx.xml";
 
-    /** Environment property key that points to the application's home directory. **/
+    /** Environment property key that points to the application's home directory. * */
     public static final String   HERMES_HOME               = "HERMES_HOME";
 
     /** Default key store password. */
@@ -142,8 +142,7 @@ public interface FtpConstants {
     public static final String   DEFAULT_KEYSTORE          = "/keystore";
 
     /** All supported data types. */
-    public static final String[] TYPE_NAMES                = new String[] { "ASCII", "EBCDIC",
-            "BINARY"                                      };
+    public static final String[] TYPE_NAMES                = new String[] {"ASCII", "EBCDIC", "BINARY"};
 
     /* Data types */
 

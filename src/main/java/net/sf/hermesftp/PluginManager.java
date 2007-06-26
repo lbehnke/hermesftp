@@ -1,3 +1,26 @@
+/*
+ ------------------------------
+ Hermes FTP Server
+ Copyright (c) 2006 Lars Behnke
+ ------------------------------
+
+ This file is part of Hermes FTP Server.
+
+ Hermes FTP Server is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ Foobar is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Foobar; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 package net.sf.hermesftp;
 
 import java.io.File;
@@ -21,7 +44,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Utility class that manages the plugin classpath and class loading
+ * Utility class that manages the plugin classpath and class loading.
  * 
  * @author Lars Behnke.
  */
@@ -41,7 +64,7 @@ public final class PluginManager {
         List jars = new LinkedList();
 
         StringBuffer cpExtension = new StringBuffer();
-        File[] jarFiles = collectJars(new String[] { getPluginDir().getPath() });
+        File[] jarFiles = collectJars(new String[] {getPluginDir().getPath()});
 
         for (int i = 0; i < jarFiles.length; i++) {
             try {
@@ -89,6 +112,12 @@ public final class PluginManager {
         return (File[]) jarList.toArray(new File[jarList.size()]);
     }
 
+    /**
+     * Adds a resource to the classpath. Note that the resource is not available before the update
+     * method of the classloader is called.
+     * 
+     * @param jarOrPath The resource to add.
+     */
     public static void addResource(File jarOrPath) {
         try {
             classLoader.addURL(jarOrPath.toURL());
@@ -111,6 +140,7 @@ public final class PluginManager {
         try {
             file = file.getCanonicalFile();
         } catch (IOException e) {
+            log.debug("No canonical path: " + file);
         }
         return file;
     }
@@ -127,21 +157,34 @@ public final class PluginManager {
             classLoader.update();
             Class clazz = classLoader.loadClass(mainClassName);
             Object instance = clazz.newInstance();
-            Method startup = clazz.getMethod(startMethod,
-                    new Class[] { (new String[0]).getClass() });
-            startup.invoke(instance, new Object[] { args });
+            Method startup = clazz.getMethod(startMethod, new Class[] {(new String[0]).getClass()});
+            startup.invoke(instance, new Object[] {args});
         } catch (Exception e) {
             log.error(e, e);
         }
     }
 
+    /**
+     * Filter for JAR files.
+     * 
+     * @author developer
+     */
     private static final class JarFileFilter implements FilenameFilter {
         public boolean accept(File f, String name) {
             return name.endsWith(JAR_EXT);
         }
     }
 
+    /**
+     * Class loader that is capable of adding new resources on the fly. In contrast to the default
+     * class loader the addURL method is public. The approach was inspired by the Apache JMeter
+     * project.
+     * 
+     * @author developer
+     */
     private static class DynClassLoader extends URLClassLoader {
+
+        private static final int EXTENSION_LENGTH = 6;
 
         public DynClassLoader(URL[] urls) {
             super(urls);
@@ -169,13 +212,14 @@ public final class PluginManager {
             for (int i = 0; i < urls.length; i++) {
                 JarInputStream jis = new JarInputStream(urls[0].openStream());
                 JarEntry entry = jis.getNextJarEntry();
-                int loadedCount = 0, totalCount = 0;
+                int loadedCount = 0;
+                int totalCount = 0;
 
                 while ((entry = jis.getNextJarEntry()) != null) {
                     String name = entry.getName();
                     if (name.endsWith(".class")) {
                         totalCount++;
-                        name = name.substring(0, name.length() - 6);
+                        name = name.substring(0, name.length() - EXTENSION_LENGTH);
                         name = name.replace('/', '.');
 
                         try {

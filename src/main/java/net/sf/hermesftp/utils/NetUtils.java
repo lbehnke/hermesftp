@@ -55,6 +55,7 @@ public final class NetUtils {
     /**
      * Returns the machine's network address.
      * 
+     * @param fallBackToLocalhost True if loopback address should be used if there is no net.
      * @return The ip address.
      */
     public static InetAddress getMachineAddress(boolean fallBackToLocalhost) {
@@ -71,7 +72,7 @@ public final class NetUtils {
             if (result == null) {
                 result = InetAddress.getLocalHost();
             }
-            
+
         } catch (SocketException e) {
             log.error(e);
         } catch (UnknownHostException e) {

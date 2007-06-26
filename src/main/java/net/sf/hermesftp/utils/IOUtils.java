@@ -51,8 +51,7 @@ public final class IOUtils {
 
     private static final int        FILE_SIZE_LENGTH_UNIX = 11;
 
-    private static final DateFormat DATE_FORMAT_UNIX      = new SimpleDateFormat("MMM dd HH:mm",
-                                                                  Locale.US);
+    private static final DateFormat DATE_FORMAT_UNIX      = new SimpleDateFormat("MMM dd HH:mm", Locale.US);
 
     private static final String     APP_PROPERTIES        = "/app.properties";
 
@@ -109,10 +108,10 @@ public final class IOUtils {
         String rFlag = read ? "r" : "-";
         String permflags;
         if (file.isDirectory()) {
-            permflags = MessageFormat.format("d{0}{1}x{0}-x{0}-x", new Object[] { rFlag, wFlag });
+            permflags = MessageFormat.format("d{0}{1}x{0}-x{0}-x", new Object[] {rFlag, wFlag});
             size = 0;
         } else {
-            permflags = MessageFormat.format("-{0}{1}-{0}--{0}--", new Object[] { rFlag, wFlag });
+            permflags = MessageFormat.format("-{0}{1}-{0}--{0}--", new Object[] {rFlag, wFlag});
             size = file.length();
         }
         Date date = new Date(file.lastModified());
@@ -175,6 +174,11 @@ public final class IOUtils {
         return appProperties;
     }
 
+    /**
+     * Tries to figure out the application's home directory.
+     * 
+     * @return The directory.
+     */
     public static File getHomeDir() {
         File result = null;
         String cp = System.getProperty("java.class.path");

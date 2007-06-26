@@ -66,7 +66,7 @@ public final class FtpServerApp {
 
     /**
      * Entry point of the application.
-     *
+     * 
      * @param args Optionally the bean resource file can be passed.
      */
     public static void main(String[] args) {
@@ -94,6 +94,11 @@ public final class FtpServerApp {
         }
     }
 
+    /**
+     * Starts the FTP servers(s).
+     * 
+     * @param args The arguments passed with main method.
+     */
     public void startServer(String[] args) {
         if (!NetUtils.isSSLAvailable()) {
             System.exit(1);
@@ -101,13 +106,7 @@ public final class FtpServerApp {
         String beanRes = args.length > 0 ? args[0] : FtpConstants.DEFAULT_BEAN_RES;
         File file = new File(beanRes);
 
-        log.info("Hermes Home: " + IOUtils.getHomeDir());
-
-        log.info("Application context: " + file);
-        if (file != null && file.getParent() != null) {
-            System.setProperty("hermes.ctx.dir", file.getParent());
-            log.info("Application context path: " + file.getParent());
-        }
+        logPaths(file);
 
         /* Prepare three main threads */
         ApplicationContext appContext = getApplicationContext(beanRes, file);
@@ -116,10 +115,8 @@ public final class FtpServerApp {
         ConsoleServer console = (ConsoleServer) appContext.getBean(BeanConstants.BEAN_CONSOLE);
 
         /* Log settings */
-        log.info(svr.getOptions().getAppTitle());
-        log.info("Version " + svr.getOptions().getAppVersion());
-        log.info("Build info: " + svr.getOptions().getAppBuildInfo());
-        printOptions(svr.getOptions());
+
+        logOptions(svr.getOptions());
 
         /* Check local ip addresses */
         InetAddress addr = NetUtils.getMachineAddress(true);
@@ -157,20 +154,34 @@ public final class FtpServerApp {
         }
     }
 
+    private void logPaths(File file) {
+        log.info("Hermes Home: " + IOUtils.getHomeDir());
+
+        log.info("Application context: " + file);
+        if (file != null && file.getParent() != null) {
+            System.setProperty("hermes.ctx.dir", file.getParent());
+            log.info("Application context path: " + file.getParent());
+        }
+    }
+
     private static ApplicationContext getApplicationContext(String beanRes, File file) {
         ApplicationContext appContext;
         if (file.exists()) {
-            appContext = new FileSystemXmlApplicationContext(new String[] { beanRes });
+            appContext = new FileSystemXmlApplicationContext(new String[] {beanRes});
         } else {
             log.error("Hermes FTP application context not found: " + file
                     + ". Trying to read context from classpath...");
-            appContext = new ClassPathXmlApplicationContext(new String[] { "/"
-                    + FtpConstants.DEFAULT_BEAN_RES });
+            appContext = new ClassPathXmlApplicationContext(
+                new String[] {"/" + FtpConstants.DEFAULT_BEAN_RES});
         }
         return appContext;
     }
 
-    private static void printOptions(FtpServerOptions aOptions) {
+    private static void logOptions(FtpServerOptions aOptions) {
+        log.info(aOptions.getAppTitle());
+        log.info("Version " + aOptions.getAppVersion());
+        log.info("Build info: " + aOptions.getAppBuildInfo());
+        
         log.info("Ftp server options:");
         Set keyset = aOptions.getProperties().keySet();
         for (Iterator iter = keyset.iterator(); iter.hasNext();) {

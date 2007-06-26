@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	This configuration file was written by the eclipse-cs plugin configuration editor
+    This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-Checkstyle-Configuration: LAB Checks
-Description:
-Checkstyle-Konfiguration Lars Behnke
+    Checkstyle-Configuration: Hermes Checks
+    Description: none
 -->
 <!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 <module name="Checker">
@@ -31,7 +30,7 @@ Checkstyle-Konfiguration Lars Behnke
         <module name="StaticVariableName"/>
         <module name="TypeName"/>
         <module name="Header">
-            <property name="headerFile" value="src/test/analysis/gpl_header.txt"/>
+            <property name="headerFile" value="/home/developer/workspaces/workspace-lab/hermesftp-server/src/test/analysis/gpl_header.txt"/>
         </module>
         <module name="AvoidStarImport"/>
         <module name="IllegalImport"/>
@@ -133,9 +132,7 @@ Checkstyle-Konfiguration Lars Behnke
         <module name="ClassDataAbstractionCoupling">
             <property name="max" value="10"/>
         </module>
-        <module name="ClassFanOutComplexity">
-            <property name="max" value="20"/>
-        </module>
+        <module name="ClassFanOutComplexity"/>
         <module name="CyclomaticComplexity"/>
         <module name="JavaNCSS"/>
         <module name="NPathComplexity"/>
@@ -157,8 +154,10 @@ Checkstyle-Konfiguration Lars Behnke
     <module name="NewlineAtEndOfFile"/>
     <module name="SeverityMatchFilter"/>
     <module name="SuppressionCommentFilter"/>
-	    <module name="SuppressionFilter">
+    <module name="SuppressionFilter">
         <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="HermesFTP Suppressions"/>
-        <!--<property name="file" value="${suppressionFilterFile}"/>-->
+    </module>
+    <module name="SuppressionFilter">
+        <property name="file" value="/home/developer/workspaces/workspace-lab/hermesftp-server/src/test/analysis/checkstyle-suppression.xml"/>
     </module>
 </module>
