@@ -84,7 +84,11 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<maxmem>256m</maxmem>
+					<source>1.5</source>
+                    <target>1.5</target>
+					<compilerVersion>1.5</compilerVersion>
 				</configuration>
+				
 			</plugin>
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>

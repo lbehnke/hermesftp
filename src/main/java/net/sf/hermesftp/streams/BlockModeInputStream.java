@@ -22,7 +22,6 @@
  * ------------------------------------------------------------------------------
  */
 
-
 package net.sf.hermesftp.streams;
 
 import java.io.ByteArrayOutputStream;
