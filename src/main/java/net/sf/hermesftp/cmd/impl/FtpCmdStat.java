@@ -1,38 +1,38 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.cmd.impl;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 import net.sf.hermesftp.utils.IOUtils;
 
 /**
- *
  * <b>STATUS (STAT)</b>
  * <p>
  * This command shall cause a status response to be sent over the control connection in the form of
@@ -48,12 +48,10 @@ import net.sf.hermesftp.utils.IOUtils;
  * <p>
  * <i>[Excerpt from RFC-959, Postel and Reynolds]</i>
  * </p>
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class FtpCmdStat
-    extends AbstractFtpCmd {
+public class FtpCmdStat extends AbstractFtpCmd {
 
     /**
      * {@inheritDoc}
@@ -62,7 +60,7 @@ public class FtpCmdStat
         String clientHost = getCtx().getClientSocket().getInetAddress().getHostAddress();
         String msg = getCtx().getUser() + "(" + clientHost + ")";
         msgOut(MSG211_STAT, new Object[] {msg});
-        Map map = getCtx().getUserManager().getUserStatistics(getCtx().getUser());
+        Map<String, Long> map = getCtx().getUserManager().getUserStatistics(getCtx().getUser());
         String arg = getArguments();
         if (arg.length() == 0) {
             printUserStatistics(map);
@@ -92,18 +90,20 @@ public class FtpCmdStat
 
     }
 
-    private void printUserStatistics(Map map) {
-        for (Iterator iter = map.entrySet().iterator(); iter.hasNext();) {
-            Map.Entry entry = (Map.Entry) iter.next();
+    private void printUserStatistics(Map<String, Long> map) {
+        Set<Map.Entry<String, Long>> entrySet = map.entrySet();
+        for (Map.Entry<String, Long> entry : entrySet) {
             String statName = (String) entry.getKey();
             Long value = (Long) entry.getValue();
             printOutStats(statName, value);
+
         }
+
     }
 
     private void printOutStats(String statName, Long value) {
-            long statValue = value == null ? 0 : value.longValue();
-            out("211-" + statName + ": " + statValue);
+        long statValue = value == null ? 0 : value.longValue();
+        out("211-" + statName + ": " + statValue);
     }
 
     /**

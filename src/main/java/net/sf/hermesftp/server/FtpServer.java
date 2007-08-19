@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.server;
@@ -28,11 +29,13 @@ import java.util.List;
 
 import net.sf.hermesftp.common.FtpEventListener;
 import net.sf.hermesftp.common.FtpServerOptions;
+import net.sf.hermesftp.session.FtpSession;
 import net.sf.hermesftp.usermanager.UserManager;
 
 /**
- * @author Lars Behnke
+ * Contract for FTP server implementations.
  * 
+ * @author Lars Behnke
  */
 public interface FtpServer extends Runnable {
 
@@ -44,16 +47,16 @@ public interface FtpServer extends Runnable {
     int getConnectionCount();
 
     /**
-     * Maximum number of connections since server has been started.
+     * Maximum number of connections since server started.
      * 
-     * @return The highwater mark.
+     * @return The high water mark.
      */
     int getConnectionCountHWMark();
 
     /**
-     * Date when number of connections reached its maximum since server has been started.
+     * Date when number of connections reached its maximum.
      * 
-     * @return The highwater mark date.
+     * @return The high water mark date.
      */
     Date getConnectionCountHWMarkDate();
 
@@ -74,7 +77,7 @@ public interface FtpServer extends Runnable {
      * 
      * @return The list.
      */
-    List getSessions();
+    List<FtpSession> getSessions();
 
     /**
      * Removes closed sessions from memory.

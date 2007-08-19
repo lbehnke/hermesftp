@@ -1,31 +1,31 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.console;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.Servlet;
 
@@ -51,15 +51,15 @@ import org.mortbay.jetty.servlet.ServletHolder;
  */
 public class ConsoleServerImpl implements ConsoleServer {
 
-    private static final int DEFAULT_PORT = 9988;
+    private static final int     DEFAULT_PORT = 9988;
 
-    private int              port         = DEFAULT_PORT;
+    private int                  port         = DEFAULT_PORT;
 
-    private Map              servlets;
+    private Map<String, Servlet> servlets;
 
-    private UserManager      userManager;
+    private UserManager          userManager;
 
-    private UserRealm        realm;
+    private UserRealm            realm;
 
     /**
      * {@inheritDoc}
@@ -82,11 +82,12 @@ public class ConsoleServerImpl implements ConsoleServer {
     }
 
     private void configureServlets(Context ctx) {
-        for (Iterator iter = getServlets().entrySet().iterator(); iter.hasNext();) {
-            Map.Entry entry = (Map.Entry) iter.next();
+        Set<Map.Entry<String, Servlet>> entrySet = getServlets().entrySet();
+        for (Map.Entry<String, Servlet> entry : entrySet) {
             String path = entry.getKey().toString();
             Servlet servlet = (Servlet) entry.getValue();
             ctx.addServlet(new ServletHolder(servlet), path);
+
         }
     }
 
@@ -122,9 +123,7 @@ public class ConsoleServerImpl implements ConsoleServer {
     protected void configureRealm(UserRealm realm) throws FtpConfigException {
         if (realm instanceof HashUserRealm) {
             HashUserRealm hur = (HashUserRealm) realm;
-            List users = userManager.getUserDataList();
-            for (Iterator iter = users.iterator(); iter.hasNext();) {
-                UserData ud = (UserData) iter.next();
+            for (UserData ud : userManager.getUserDataList()) {
                 hur.put(ud.getUid(), new ConsolePassword(ud.getPassword()));
                 if (ud.isAdminRole()) {
                     hur.addUserToRole(ud.getUid(), ConsoleConstants.ROLE_ADMIN);
@@ -134,7 +133,7 @@ public class ConsoleServerImpl implements ConsoleServer {
     }
 
     /**
-     * Getter methode for property <code>port</code>.
+     * Getter method for property <code>port</code>.
      * 
      * @return Property <code>port</code>.
      */
@@ -170,11 +169,11 @@ public class ConsoleServerImpl implements ConsoleServer {
     }
 
     /**
-     * Getter methode for property <code>servlets</code>.
+     * Getter method for property <code>servlets</code>.
      * 
      * @return Property <code>servlets</code>.
      */
-    public Map getServlets() {
+    public Map<String, Servlet> getServlets() {
         return servlets;
     }
 
@@ -183,12 +182,12 @@ public class ConsoleServerImpl implements ConsoleServer {
      * 
      * @param servlets Value for <code>servlets</code>.
      */
-    public void setServlets(Map servlets) {
+    public void setServlets(Map<String, Servlet> servlets) {
         this.servlets = servlets;
     }
 
     /**
-     * Getter methode for property <code>userManager</code>.
+     * Getter method for property <code>userManager</code>.
      * 
      * @return Property <code>userManager</code>.
      */

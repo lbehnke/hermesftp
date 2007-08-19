@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp;
@@ -34,13 +35,13 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Helper class for accessing the spring application context.
- *
+ * 
  * @author Lars Behnke
  */
-public final class SpringUtil
-    implements FtpConstants {
+public final class SpringUtil implements FtpConstants {
 
-    private static Map appCtx = Collections.synchronizedMap(new HashMap());
+    private static Map<String, ApplicationContext> appCtx = Collections
+                                                              .synchronizedMap(new HashMap<String, ApplicationContext>());
 
     /**
      * Constructor hidden.
@@ -51,9 +52,8 @@ public final class SpringUtil
 
     /**
      * Returns the bean factory that uses a given application context.
-     *
+     * 
      * @param res Application context file.
-     *
      * @return Die Beanfactory des Spring-Frameworks.
      */
     public static ApplicationContext getApplicationContext(String res) {
@@ -68,7 +68,7 @@ public final class SpringUtil
 
     /**
      * Returns the bean factory that uses the default application context.
-     *
+     * 
      * @return Die Beanfactory des Spring-Frameworks.
      */
     public static ApplicationContext getApplicationContext() {
@@ -77,7 +77,7 @@ public final class SpringUtil
 
     /**
      * Convenience method for accessing beans.
-     *
+     * 
      * @param name Name des Beans in der Spring-Konfiguration.
      * @return Das Bean.
      */
@@ -87,7 +87,7 @@ public final class SpringUtil
 
     /**
      * Convenience method for accessing beans.
-     *
+     * 
      * @param appCtx Application context file name.
      * @param name Name des Beans in der Spring-Konfiguration.
      * @return Das Bean.

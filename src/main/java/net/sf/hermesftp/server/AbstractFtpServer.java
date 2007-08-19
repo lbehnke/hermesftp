@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.server;
@@ -30,7 +31,6 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.hermesftp.common.FtpConstants;
@@ -54,27 +54,27 @@ import org.apache.commons.logging.LogFactory;
 public abstract class AbstractFtpServer extends AbstractAppAwareBean implements FtpServer, FtpConstants,
         FtpEventListener {
 
-    private static final int DEFAULT_TIMEOUT           = 3000;
+    private static final int       DEFAULT_TIMEOUT           = 3000;
 
-    private static Log       log                       = LogFactory.getLog(FtpServer.class);
+    private static Log             log                       = LogFactory.getLog(FtpServer.class);
 
-    private List             sessions                  = new ArrayList();
+    private List<FtpSession>       sessions                  = new ArrayList<FtpSession>();
 
-    private boolean          terminated;
+    private boolean                terminated;
 
-    private FtpServerOptions options;
+    private FtpServerOptions       options;
 
-    private String           resources;
+    private String                 resources;
 
-    private int              status                    = SERVER_STATUS_UNDEF;
+    private int                    status                    = SERVER_STATUS_UNDEF;
 
-    private UserManager      userManager;
+    private UserManager            userManager;
 
-    private List             ftpEventListeners         = new ArrayList();
+    private List<FtpEventListener> ftpEventListeners         = new ArrayList<FtpEventListener>();
 
-    private int              connectionCountHWMark;
+    private int                    connectionCountHWMark;
 
-    private Date             connectionCountHWMarkDate = new Date();
+    private Date                   connectionCountHWMarkDate = new Date();
 
     /**
      * Creates a server socket. Depending on the server implementation this can be a SSL or a
@@ -192,13 +192,12 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
         }
     }
 
-    /** 
+    /**
      * {@inheritDoc}
      */
     public void cleanUpSessions() {
-        List newList = new ArrayList();
-        for (Iterator iter = sessions.iterator(); iter.hasNext();) {
-            FtpSession session = (FtpSession) iter.next();
+        List<FtpSession> newList = new ArrayList<FtpSession>();
+        for (FtpSession session : sessions) {
             if (!session.isTerminated()) {
                 newList.add(session);
             }
@@ -207,8 +206,7 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
     }
 
     private void terminateAllClientSessions() {
-        for (Iterator iter = sessions.iterator(); iter.hasNext();) {
-            FtpSession session = (FtpSession) iter.next();
+        for (FtpSession session : sessions) {
             session.abort();
         }
     }
@@ -297,8 +295,7 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
      * {@inheritDoc}
      */
     public void downloadPerformed(String clientId, File file) {
-        for (Iterator iter = ftpEventListeners.iterator(); iter.hasNext();) {
-            FtpEventListener listener = (FtpEventListener) iter.next();
+        for (FtpEventListener listener : ftpEventListeners) {
             listener.downloadPerformed(clientId, file);
         }
         log.debug("Download event delegated to listeners.");
@@ -308,8 +305,7 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
      * {@inheritDoc}
      */
     public void loginPerformed(String clientId, boolean successful) {
-        for (Iterator iter = ftpEventListeners.iterator(); iter.hasNext();) {
-            FtpEventListener listener = (FtpEventListener) iter.next();
+        for (FtpEventListener listener : ftpEventListeners) {
             listener.loginPerformed(clientId, successful);
         }
         log.debug("Login event delegated to listeners.");
@@ -319,8 +315,7 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
      * {@inheritDoc}
      */
     public void uploadPerformed(String clientId, File file) {
-        for (Iterator iter = ftpEventListeners.iterator(); iter.hasNext();) {
-            FtpEventListener listener = (FtpEventListener) iter.next();
+        for (FtpEventListener listener : ftpEventListeners) {
             listener.uploadPerformed(clientId, file);
         }
         log.debug("Upload event delegated to listeners.");
@@ -330,8 +325,7 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
      * {@inheritDoc}
      */
     public void sessionOpened(Object sessionObj) {
-        for (Iterator iter = ftpEventListeners.iterator(); iter.hasNext();) {
-            FtpEventListener listener = (FtpEventListener) iter.next();
+        for (FtpEventListener listener : ftpEventListeners) {
             listener.sessionOpened(sessionObj);
         }
         log.debug("Session opened event delegated to listeners.");
@@ -344,30 +338,27 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
         synchronized (this) {
             sessions.remove(sessionObj);
         }
-        for (Iterator iter = ftpEventListeners.iterator(); iter.hasNext();) {
-            FtpEventListener listener = (FtpEventListener) iter.next();
+        for (FtpEventListener listener : ftpEventListeners) {
             listener.sessionOpened(sessionObj);
         }
         log.debug("Session closed event delegated to listeners.");
     }
 
-    /** 
+    /**
      * {@inheritDoc}
      */
-    public List getSessions() {
+    public List<FtpSession> getSessions() {
         return sessions;
     }
 
-    /** 
+    /**
      * {@inheritDoc}
      */
     public int getConnectionCountHWMark() {
         return connectionCountHWMark;
     }
 
-
-
-    /** 
+    /**
      * {@inheritDoc}
      */
     public Date getConnectionCountHWMarkDate() {
@@ -391,7 +382,5 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
     public void setConnectionCountHWMarkDate(Date connectionCountHWMarkDate) {
         this.connectionCountHWMarkDate = connectionCountHWMarkDate;
     }
-
-
 
 }

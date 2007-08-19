@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp;
@@ -26,7 +27,6 @@ package net.sf.hermesftp;
 import java.io.File;
 import java.net.InetAddress;
 import java.security.NoSuchAlgorithmException;
-import java.util.Iterator;
 import java.util.Set;
 
 import net.sf.hermesftp.common.BeanConstants;
@@ -81,7 +81,7 @@ public final class FtpServerApp {
     private static void generatePassword(String[] args) {
         if (args.length != PASSWORD_ARG_COUNT) {
             System.err
-                    .println("Please adhere to the following synthax: FtpServerApp password <password> <algorithm>");
+                .println("Please adhere to the following synthax: FtpServerApp password <password> <algorithm>");
             return;
         }
         String password = args[1];
@@ -181,12 +181,11 @@ public final class FtpServerApp {
         log.info(aOptions.getAppTitle());
         log.info("Version " + aOptions.getAppVersion());
         log.info("Build info: " + aOptions.getAppBuildInfo());
-        
+
         log.info("Ftp server options:");
-        Set keyset = aOptions.getProperties().keySet();
-        for (Iterator iter = keyset.iterator(); iter.hasNext();) {
-            String key = (String) iter.next();
-            String value = aOptions.getProperty(key);
+        Set<Object> keyset = aOptions.getProperties().keySet();
+        for (Object key : keyset) {
+            String value = aOptions.getProperty(key.toString());
             log.info("    " + key + ": " + value);
         }
     }

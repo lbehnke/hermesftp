@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.utils;
@@ -28,15 +29,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Replaces all placesholder in a given text document with the values of a properties-Object.
+ * Replaces all placeholders in a given text document with the values of a properties-Object.
  * Example: The text "Hello ${name}" becomes "Hello world" provided that passed properties object
  * contains the entry name=world.
  * <p>
  * <code>
- *   VarMerger vm = new VarMerger("Der ${Hund} jagt die ${Katze}");
+ *   VarMerger vm = new VarMerger("The ${dog} chases the ${cat}");
  *   Properties p = new Properties();
- *   p.put("Hund", "Fuchs");
- *   p.put("Katze", "Gans");
+ *   p.put("dog", "fox");
+ *   p.put("cat", "mouse");
  *   vm.merge(p);
  *   String neuerSatz = vm.getText();
  * </code>
@@ -117,7 +118,7 @@ public class VarMerger {
      */
     public void setText(String text) {
         if (text == null) {
-            throw new IllegalArgumentException("NULL-Werte können nicht verarbeitet werden.");
+            throw new IllegalArgumentException("NULL-Werte kï¿½nnen nicht verarbeitet werden.");
         }
         this.text = text;
     }
@@ -130,9 +131,9 @@ public class VarMerger {
     }
 
     /**
-     * Prüft, ob der Text noch Platzhalter enthält, die noch nicht ersetzt wurden.
+     * Prï¿½ft, ob der Text noch Platzhalter enthï¿½lt, die noch nicht ersetzt wurden.
      * 
-     * @return True, falls der Text keine Platzhalter mehr enthält.
+     * @return True, falls der Text keine Platzhalter mehr enthï¿½lt.
      */
     public boolean isReplacementComplete() {
         Pattern pattern = Pattern.compile(VAR_PATTERN);

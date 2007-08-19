@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.cmd.impl;
@@ -45,11 +46,10 @@ import net.sf.hermesftp.utils.IOUtils;
  * <p>
  * <i>[Excerpt from RFC-959, Postel and Reynolds]</i>
  * </p>
- *
+ * 
  * @author Lars Behnke
  */
-public class FtpCmdList
-    extends AbstractFtpCmdList {
+public class FtpCmdList extends AbstractFtpCmdList {
 
     /**
      * {@inheritDoc}
@@ -63,7 +63,7 @@ public class FtpCmdList
      * information/contents about the passed file/path.
      * <p>
      * Example directory in unix mode:
-     *
+     * 
      * <pre>
      *                  drw-rw-rw-   1 user     group           0 Jan 21 19:53 .
      *                  drw-rw-rw-   1 user     group           0 Jan 21 19:53 ..
@@ -72,21 +72,20 @@ public class FtpCmdList
      *                  -rw-rw-rw-   1 user     group     5037072 Jan 19 20:40 spybotsd14.exe
      *                  -rw-rw-rw-   1 user     group        4951 Dec 20 15:18 vvs01_486400002bcd.pdf
      * </pre>
-     *
+     * 
      * Filezilla:
-     *
+     * 
      * <pre>
      *                  drwxr-xr-x 1 ftp ftp              0 Apr 22 11:46 hermesftp-0.3
      *                  -rw-r--r-- 1 ftp ftp           2327 Mar 29 14:04 slapd.conf
      * </pre>
-     *
+     * 
      * @param out The output stream.
      * @param file The file
      * @param ctx The FTP context.
      * @throws IOException Error on data transfer.
      */
-    protected void doPrintFileInfo(PrintWriter out, File file, FtpSessionContext ctx)
-            throws IOException {
+    protected void doPrintFileInfo(PrintWriter out, File file, FtpSessionContext ctx) throws IOException {
         int permission = getCtx().getPermission(file.getAbsolutePath());
         boolean read = (permission & PRIV_READ) > 0;
         boolean write = (permission & PRIV_WRITE) > 0;

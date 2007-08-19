@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.cmd.impl;
@@ -36,7 +37,7 @@ import net.sf.hermesftp.exception.FtpCmdException;
  * available for that command.
  * <p>
  * Request Syntax:
- *
+ * 
  * <pre>
  *            opts             = opts-cmd SP command-name
  *            [ SP command-options ] CRLF
@@ -44,9 +45,9 @@ import net.sf.hermesftp.exception.FtpCmdException;
  *            command-name     = &lt;any FTP command which allows option setting&gt;
  *            command-options  = &lt;format specified by individual FTP command&gt;
  * </pre>
- *
+ * 
  * Response Syntax:
- *
+ * 
  * <pre>
  *            opts-response    = opts-good / opts-bad
  *            opts-good        = &quot;200&quot; SP response-message CRLF
@@ -54,7 +55,7 @@ import net.sf.hermesftp.exception.FtpCmdException;
  *            &quot;501&quot; SP response-message CRLF
  *            response-message = *TCHAR
  * </pre>
- *
+ * 
  * An "opts-good" response (200 reply) MUST be sent when the command- name specified in the OPTS
  * command is recognized, and the command- options, if any, are recognized, and appropriate. An
  * "opts-bad" response is sent in other cases. A 501 reply is appropriate for any permanent error.
@@ -77,18 +78,15 @@ import net.sf.hermesftp.exception.FtpCmdException;
  * obtained by probing the server for the various commands, if the FEAT command were not provided,
  * that method may reveal an attacker by logging the attempts to access various extension commands.
  * This possibility is not considered a serious enough threat to be worthy of any remedial action.
- *
  * The security of any additional features that might be reported by the FEAT command, and
  * manipulated by the OPTS command, should be addressed where those features are defined.
  * <p>
  * <i>[Excerpt from RFC-2389, Hethmon and Elz]</i>
  * </p>
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class FtpCmdOpts
-    extends AbstractFtpCmd {
+public class FtpCmdOpts extends AbstractFtpCmd {
 
     /**
      * {@inheritDoc}
@@ -97,8 +95,7 @@ public class FtpCmdOpts
         String response;
         String[] argParts = getArguments().split(" ");
         if (argParts.length == 2 && argParts[0].equalsIgnoreCase("UTF8")) {
-            getCtx().setAttribute(ATTR_FORCE_UTF8,
-                                  Boolean.valueOf(argParts[1].equalsIgnoreCase("ON")));
+            getCtx().setAttribute(ATTR_FORCE_UTF8, Boolean.valueOf(argParts[1].equalsIgnoreCase("ON")));
             response = msg(MSG200);
         } else {
             response = msg(MSG451);

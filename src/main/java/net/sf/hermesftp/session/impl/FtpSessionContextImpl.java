@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.session.impl;
@@ -67,45 +68,45 @@ import org.apache.commons.logging.LogFactory;
  */
 public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
 
-    private static Log       log               = LogFactory.getLog(FtpSessionContextImpl.class);
+    private static Log          log               = LogFactory.getLog(FtpSessionContextImpl.class);
 
-    private static int       portIdx;
+    private static int          portIdx;
 
-    private String           user;
+    private String              user;
 
-    private String           password;
+    private String              password;
 
-    private boolean          authenticated;
+    private boolean             authenticated;
 
-    private int              dataType          = DT_BINARY;
+    private int                 dataType          = DT_BINARY;
 
-    private int              transmissionMode  = MODE_STREAM;
+    private int                 transmissionMode  = MODE_STREAM;
 
-    private int              storageStructure  = STRUCT_FILE;
+    private int                 storageStructure  = STRUCT_FILE;
 
-    private String           remoteDir;
+    private String              remoteDir;
 
-    private Socket           clientSocket;
+    private Socket              clientSocket;
 
-    private BufferedReader   clientCmdReader;
+    private BufferedReader      clientCmdReader;
 
-    private PrintWriter      clientResponseWriter;
+    private PrintWriter         clientResponseWriter;
 
-    private FtpServerOptions options;
+    private FtpServerOptions    options;
 
-    private FtpEventListener eventListener;
+    private FtpEventListener    eventListener;
 
-    private ResourceBundle   resourceBundle;
+    private ResourceBundle      resourceBundle;
 
-    private SocketProvider   dataSocketProvider;
+    private SocketProvider      dataSocketProvider;
 
-    private UserManager      userManager;
+    private UserManager         userManager;
 
-    private Date             creationTime;
+    private Date                creationTime;
 
-    private Map              attributes;
+    private Map<String, Object> attributes;
 
-    private Map              sessionStatistics = Collections.synchronizedMap(new HashMap());
+    private Map<String, Long>   sessionStatistics = Collections.synchronizedMap(new HashMap<String, Long>());
 
     /**
      * Constructor.
@@ -121,7 +122,7 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
         this.userManager = userManager;
         this.resourceBundle = resourceBundle;
         this.options = options;
-        this.attributes = Collections.synchronizedMap(new HashMap());
+        this.attributes = Collections.synchronizedMap(new HashMap<String, Object>());
         this.eventListener = listener;
     }
 
@@ -330,7 +331,7 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
     public void setClientSocket(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
         this.clientResponseWriter = new LoggingWriter(new OutputStreamWriter(clientSocket.getOutputStream()),
-                                                      true);
+            true);
         this.clientCmdReader = new LoggingReader(new InputStreamReader(clientSocket.getInputStream()));
     }
 
@@ -493,7 +494,7 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
     /**
      * {@inheritDoc}
      */
-    public Map getSessionStatistics() {
+    public Map<String, Long> getSessionStatistics() {
         return sessionStatistics;
     }
 
@@ -542,7 +543,7 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
         getUserManager().updateIncrementalStatistics(getUser(), countKey, value);
 
         /* Current session */
-        Map sessionStats = getSessionStatistics();
+        Map<String, Long> sessionStats = getSessionStatistics();
         Long consumptionObj = (Long) sessionStats.get(countKey);
         long consumption = consumptionObj == null ? 0 : consumptionObj.longValue();
         sessionStats.put(countKey, new Long(consumption + value));
@@ -561,7 +562,7 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
 
         /* Current session */
         String countKey = "Sample count (" + avgKey + ")";
-        Map sessionStats = getSessionStatistics();
+        Map<String, Long> sessionStats = getSessionStatistics();
         Long prevAvgObj = (Long) sessionStats.get(avgKey);
         long prevAvg = prevAvgObj == null ? 0 : prevAvgObj.longValue();
         Long prevCountObj = (Long) sessionStats.get(countKey);

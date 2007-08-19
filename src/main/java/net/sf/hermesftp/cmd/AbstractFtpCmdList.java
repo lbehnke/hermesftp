@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.cmd;
@@ -35,12 +36,10 @@ import net.sf.hermesftp.utils.IOUtils;
 
 /**
  * Abstract precursor for commands that handle LIST or NLST.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public abstract class AbstractFtpCmdList
-    extends AbstractFtpCmd {
+public abstract class AbstractFtpCmdList extends AbstractFtpCmd {
 
     // private static Log log = LogFactory.getLog(AbstractFtpCmdList.class);
 
@@ -53,12 +52,11 @@ public abstract class AbstractFtpCmdList
         PrintWriter dataOut = null;
         try {
             Socket dataSocket = getCtx().getDataSocketProvider().provideSocket();
-            dataOut = new PrintWriter(new OutputStreamWriter(dataSocket.getOutputStream(),
-                                                                charset));
-            
+            dataOut = new PrintWriter(new OutputStreamWriter(dataSocket.getOutputStream(), charset));
+
             String args = getArguments();
             String[] argParts = args.split(" ");
-            
+
             /* Ignore server specific extension to RFC 959 such as LIST -la */
             File dir;
             if (argParts[0].trim().startsWith("-")) {
@@ -66,9 +64,9 @@ public abstract class AbstractFtpCmdList
             } else {
                 dir = new File(getPathArg());
             }
-            
+
             // TODO Allow filtering with wildcards *, ?
-            
+
             if (!dir.exists()) {
                 msgOut(MSG550);
                 return;
@@ -98,7 +96,7 @@ public abstract class AbstractFtpCmdList
 
     /**
      * Prints information about a single file or directory.
-     *
+     * 
      * @param out The output stream.
      * @param file The file.
      * @param ctx The FTP context.

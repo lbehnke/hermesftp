@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.usermanager.impl;
@@ -29,7 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -52,15 +52,16 @@ import org.apache.commons.logging.LogFactory;
  */
 public class XmlFileUserManager implements UserManager {
 
-    private static Log      log                 = LogFactory.getLog(XmlFileUserManager.class);
+    private static Log                     log                 = LogFactory.getLog(XmlFileUserManager.class);
 
-    private XmlFileReader   fileReader;
+    private XmlFileReader                  fileReader;
 
-    private UserManagerData userManagerData;
+    private UserManagerData                userManagerData;
 
-    private Map             resourceConsumption = Collections.synchronizedMap(new HashMap());
+    private Map<String, Map<String, Long>> resourceConsumption = Collections
+                                                                   .synchronizedMap(new HashMap<String, Map<String, Long>>());
 
-    private DateFormat      dateFormat          = new SimpleDateFormat("yyyy-MM-dd");
+    private DateFormat                     dateFormat          = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * {@inheritDoc}
@@ -85,7 +86,7 @@ public class XmlFileUserManager implements UserManager {
         return result;
     }
 
-    /** 
+    /**
      * {@inheritDoc}
      */
     public synchronized GroupDataList getGroupDataList(String username) throws FtpConfigException {
@@ -94,8 +95,7 @@ public class XmlFileUserManager implements UserManager {
             throw new FtpConfigException("User " + username + " not configured.");
         }
         GroupDataList groupList = new GroupDataList();
-        for (Iterator iter = userData.getGroupNames().iterator(); iter.hasNext();) {
-            String groupName = (String) iter.next();
+        for (String groupName : userData.getGroupNames()) {
             GroupData groupData = userManagerData.getGroupData(groupName);
             groupList.addGroup(groupData);
         }
@@ -103,10 +103,10 @@ public class XmlFileUserManager implements UserManager {
 
     }
 
-    /** 
+    /**
      * {@inheritDoc}
      */
-    public synchronized List getUserDataList() throws FtpConfigException {
+    public synchronized List<UserData> getUserDataList() throws FtpConfigException {
         return userManagerData.getUserData();
     }
 
@@ -139,20 +139,20 @@ public class XmlFileUserManager implements UserManager {
      * {@inheritDoc}
      */
     public void checkResourceConsumption(String user, String[] limitNames) throws FtpQuotaException {
-        Map userConsumptions = getUserStatistics(user);
-        for (int i = 0; i < limitNames.length; i++) {
-            Long consumptionObj = (Long) userConsumptions.get(limitNames[i]);
+        Map<String, Long> userConsumptions = getUserStatistics(user);
+        for (String limitName : userConsumptions.keySet()) {
+            Long consumptionObj = userConsumptions.get(limitName);
             long consumption = consumptionObj == null ? 0 : consumptionObj.longValue();
             long limit;
             try {
                 GroupDataList list = getGroupDataList(user);
-                limit = list.getUpperLimit(limitNames[i]);
+                limit = list.getUpperLimit(limitName);
             } catch (FtpConfigException e) {
                 log.error(e);
                 limit = 0;
             }
             if (consumption >= limit) {
-                throw new FtpQuotaException(createQuotaMessage(limitNames[i], consumption, limit));
+                throw new FtpQuotaException(createQuotaMessage(limitName, consumption, limit));
             }
         }
 
@@ -163,7 +163,7 @@ public class XmlFileUserManager implements UserManager {
      */
     public void updateIncrementalStatistics(String user, String limitName, long value)
             throws FtpQuotaException {
-        Map userConsumptions = getUserStatistics(user);
+        Map<String, Long> userConsumptions = getUserStatistics(user);
         Long consumptionObj = (Long) userConsumptions.get(limitName);
         long consumption = consumptionObj == null ? 0 : consumptionObj.longValue();
         consumption += value;
@@ -187,7 +187,7 @@ public class XmlFileUserManager implements UserManager {
      */
     public void updateAverageStatistics(String user, String avgKey, long value) {
         String countKey = "Sample count (" + avgKey + ")";
-        Map userConsumptions = getUserStatistics(user);
+        Map<String, Long> userConsumptions = getUserStatistics(user);
         Long prevAvgObj = (Long) userConsumptions.get(avgKey);
         long prevAvg = prevAvgObj == null ? 0 : prevAvgObj.longValue();
         Long prevCountObj = (Long) userConsumptions.get(countKey);
@@ -200,17 +200,15 @@ public class XmlFileUserManager implements UserManager {
     /**
      * {@inheritDoc}
      */
-    public Map getUserStatistics(String user) {
+    public Map<String, Long> getUserStatistics(String user) {
         String userAndDate = getUserAndDateKey(user);
-        Map userConsumptions = getUserResourceConsumptions(userAndDate);
-        return userConsumptions;
-
+        return getUserResourceConsumptions(userAndDate);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Map getAllStatistics() {
+    public Map<String, Map<String, Long>> getAllStatistics() {
         return resourceConsumption;
     }
 
@@ -234,10 +232,10 @@ public class XmlFileUserManager implements UserManager {
         return userAndDate;
     }
 
-    private Map getUserResourceConsumptions(String userAndDate) {
-        Map userConsumption = (Map) resourceConsumption.get(userAndDate);
+    private Map<String, Long> getUserResourceConsumptions(String userAndDate) {
+        Map<String, Long> userConsumption = resourceConsumption.get(userAndDate);
         if (userConsumption == null) {
-            userConsumption = Collections.synchronizedMap(new HashMap());
+            userConsumption = Collections.synchronizedMap(new HashMap<String, Long>());
             resourceConsumption.put(userAndDate, userConsumption);
         }
         return userConsumption;

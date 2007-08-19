@@ -1,31 +1,31 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.usermanager.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -36,38 +36,37 @@ import net.sf.hermesftp.exception.FtpConfigException;
  * Model data of a user group including the configured limits and path permissions. Note that the
  * order of the configured permission entries is important, since the first path match provides the
  * permission value.
- *
+ * 
  * @author Lars Behnke
- *
  */
 public class GroupData {
 
     /**
      * Control code for unlimited.
      */
-    public static final long UNLIMITED = -1;
+    public static final long     UNLIMITED = -1;
 
-    private String name;
+    private String               name;
 
-    private Map limits;
+    private Map<String, Long>    limits;
 
-    private List permissions;
+    private List<PermissionData> permissions;
 
     /**
      * Getter method for the java bean <code>limits</code>.
-     *
+     * 
      * @return Returns the value of the java bean <code>limits</code>.
      */
-    public Map getLimits() {
+    public Map<String, Long> getLimits() {
         if (limits == null) {
-            limits = new HashMap();
+            limits = new HashMap<String, Long>();
         }
         return limits;
     }
 
     /**
      * Convenience method for returning the limit specified by the passed name.
-     *
+     * 
      * @param name The limit name.
      * @return The value.
      */
@@ -82,28 +81,27 @@ public class GroupData {
 
     /**
      * Getter method for the java bean <code>permissions</code>.
-     *
+     * 
      * @return Returns the value of the java bean <code>permissions</code>.
      */
-    public List getPermissions() {
+    public List<PermissionData> getPermissions() {
         if (permissions == null) {
-            permissions = new ArrayList();
+            permissions = new ArrayList<PermissionData>();
         }
         return permissions;
     }
 
     /**
      * Returns the group permission on the passed path.
-     *
+     * 
      * @param path The path to check.
      * @param ftproot The FTP root folder.
-     * @param user The username.
+     * @param user The user's name.
      * @return The permission.
      * @throws FtpConfigException Error on reading or processing a configuration file.
      */
     public int getPermission(String path, String ftproot, String user) throws FtpConfigException {
-        for (Iterator iter = getPermissions().iterator(); iter.hasNext();) {
-            PermissionData permission = (PermissionData) iter.next();
+        for (PermissionData permission : getPermissions()) {
             if (permission.matches(path, ftproot, user)) {
                 return permission.getPermission();
             }
@@ -114,7 +112,7 @@ public class GroupData {
 
     /**
      * Getter method for the java bean <code>name</code>.
-     *
+     * 
      * @return Returns the value of the java bean <code>name</code>.
      */
     public String getName() {
@@ -123,7 +121,7 @@ public class GroupData {
 
     /**
      * Setter method for the java bean <code>name</code>.
-     *
+     * 
      * @param name The value of name to set.
      */
     public void setName(String name) {

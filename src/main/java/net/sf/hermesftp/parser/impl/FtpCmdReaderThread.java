@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.parser.impl;
@@ -45,29 +46,26 @@ import org.apache.commons.logging.LogFactory;
  * This Command reader thread listens for client input and mantains an FIFO list of incoming command
  * lines. The thread is active during the execution of transfer commands (STOR, RETR) and informs
  * these commands asynchronously when a status or abort is requested by the client.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class FtpCmdReaderThread
-    extends Thread
-    implements FtpCmdReader {
+public class FtpCmdReaderThread extends Thread implements FtpCmdReader {
 
-    private static Log log = LogFactory.getLog(FtpCmdReaderThread.class);
+    private static Log        log        = LogFactory.getLog(FtpCmdReaderThread.class);
 
     private FtpSessionContext ctx;
 
-    private List cmdQueue = Collections.synchronizedList(new ArrayList());
+    private List<FtpCmd>      cmdQueue   = Collections.synchronizedList(new ArrayList<FtpCmd>());
 
-    private List errorQueue = Collections.synchronizedList(new ArrayList());
+    private List<String>      errorQueue = Collections.synchronizedList(new ArrayList<String>());
 
-    private boolean terminated;
+    private boolean           terminated;
 
-    private FtpCmdParser parser;
+    private FtpCmdParser      parser;
 
-    private Object cmdLock = new Object();
+    private Object            cmdLock    = new Object();
 
-    private FtpCmd lastCmd;
+    private FtpCmd            lastCmd;
 
     /**
      * Constructor.
@@ -82,7 +80,7 @@ public class FtpCmdReaderThread
      * that can be send during a file transfer operation. If the currently executed command (RETR,
      * STOR,...) implements the AsyncAbortListener interface, the responsibility to handle these
      * requests is delegated to this command.
-     *
+     * 
      * @see java.lang.Runnable#run()
      */
     public void run() {
@@ -108,16 +106,6 @@ public class FtpCmdReaderThread
         FtpCmd cmd = null;
         String token = getParser().findCommandToken(cmdLine);
         synchronized (cmdLock) {
-//            while (cmdAvailable() || errAvailable()) {
-//                try {
-//                    cmdLock.wait(DEFAULT_TIMEOUT);
-//                } catch (InterruptedException e) {
-//                    log.debug("Thread " + this.getName() + " has been interrupted.");
-//                }
-//                if (isTerminated()) {
-//                    break;
-//                }
-//            }
             if (token == null) {
                 enqueueErr(cmdLine);
             } else {
@@ -162,10 +150,10 @@ public class FtpCmdReaderThread
         return cmd;
     }
 
-    private List createCommandList() {
+    private List<FtpCmd> createCommandList() {
         String[] tokens = getParser().getCommandTokens();
         Arrays.sort(tokens);
-        List cmdList = new ArrayList();
+        List<FtpCmd> cmdList = new ArrayList<FtpCmd>();
         for (int i = 0; i < tokens.length; i++) {
             cmdList.add(getParser().createCommandByToken(tokens[i]));
         }
@@ -194,11 +182,11 @@ public class FtpCmdReaderThread
 
     /**
      * Gets next Object from the queue. Has to be called within a synchronized method.
-     *
+     * 
      * @param queue The list that stores the objects.
      * @return The next Object.
      */
-    private Object consumeNext(List queue) {
+    private Object consumeNext(List<?> queue) {
         Object result;
         if (queue.size() > 0) {
             result = queue.size() > 0 ? queue.get(0) : null;
@@ -213,8 +201,7 @@ public class FtpCmdReaderThread
     /**
      * {@inheritDoc}
      */
-    public FtpCmd waitForNextCommand(int timeout) throws FtpIllegalCmdException,
-            SocketTimeoutException {
+    public FtpCmd waitForNextCommand(int timeout) throws FtpIllegalCmdException, SocketTimeoutException {
         FtpCmd cmd = null;
         synchronized (cmdLock) {
             long startStamp = System.currentTimeMillis();
@@ -259,7 +246,7 @@ public class FtpCmdReaderThread
 
     /**
      * Getter method for the java bean <code>ctx</code>.
-     *
+     * 
      * @return Returns the value of the java bean <code>ctx</code>.
      */
     public FtpSessionContext getCtx() {
@@ -268,7 +255,7 @@ public class FtpCmdReaderThread
 
     /**
      * Setter method for the java bean <code>ctx</code>.
-     *
+     * 
      * @param ctx The value of ctx to set.
      */
     public void setCtx(FtpSessionContext ctx) {

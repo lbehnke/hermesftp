@@ -21,7 +21,6 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
 package net.sf.hermesftp.streams;
 
 import java.io.ByteArrayInputStream;
@@ -36,24 +35,20 @@ import junit.framework.TestCase;
 
 /**
  * Testcase for block mode streams.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class BlockModeStreamTest
-    extends TestCase {
+public class BlockModeStreamTest extends TestCase {
 
     /**
      * Testcase : input stream.
      */
     public void testBlockInputStream() {
         try {
-            Map markers = new HashMap();
+            Map<Long, Long> markers = new HashMap<Long, Long>();
             byte[] data = createBlockData();
             byte[] eor = new byte[] {0x25};
-            BlockModeInputStream bmis = new BlockModeInputStream(new ByteArrayInputStream(data),
-                                                                 eor,
-                                                                 markers);
+            BlockModeInputStream bmis = new BlockModeInputStream(new ByteArrayInputStream(data), eor, markers);
             ByteArrayOutputStream destData = new ByteArrayOutputStream();
             int b;
             while ((b = bmis.read()) >= 0) {
@@ -117,7 +112,7 @@ public class BlockModeStreamTest
             assertEquals(6, destBytes[13]);
 
             assertEquals(BlockModeConstants.DESC_CODE_EOF | BlockModeConstants.DESC_CODE_EOR,
-                         destBytes[314] & 0xff);
+                destBytes[314] & 0xff);
             assertEquals(0, destBytes[315]);
             assertEquals(2, destBytes[316]);
             assertEquals(6, destBytes[317]);

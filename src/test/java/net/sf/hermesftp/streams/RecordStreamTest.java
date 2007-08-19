@@ -1,26 +1,26 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
-
 
 package net.sf.hermesftp.streams;
 
@@ -31,16 +31,14 @@ import java.io.InputStream;
 
 import junit.framework.TestCase;
 
-//CHECKSTYLE:OFF
+// CHECKSTYLE:OFF
 
 /**
  * Test cases for record stream classes.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class RecordStreamTest
-    extends TestCase {
+public class RecordStreamTest extends TestCase {
 
     /**
      * Test case: reading a record stream.
@@ -50,7 +48,7 @@ public class RecordStreamTest
             byte[] data = createRecordData();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             InputStream bais = new ByteArrayInputStream(data);
-            RecordInputStream ris = new RecordInputStream(bais, new byte[]{10, 13});
+            RecordInputStream ris = new RecordInputStream(bais, new byte[] {10, 13});
             int b;
             while ((b = ris.read()) != -1) {
                 baos.write(b);
@@ -79,7 +77,7 @@ public class RecordStreamTest
         try {
             byte[] data = createRecordData();
             InputStream bais = new ByteArrayInputStream(data);
-            RecordInputStream ris = new RecordInputStream(bais, new byte[]{10, 13});
+            RecordInputStream ris = new RecordInputStream(bais, new byte[] {10, 13});
             byte[] record;
             record = ris.readRecord();
             assertEquals("ABC", new String(record, "ASCII"));
@@ -128,7 +126,6 @@ public class RecordStreamTest
             assertEquals(255, resultBytes[12] & 255);
             assertEquals(3, resultBytes[13]);
 
-
         } catch (IOException e) {
             fail(e.toString());
         }
@@ -138,7 +135,7 @@ public class RecordStreamTest
             RecordOutputStream ros = new RecordOutputStream(baos);
             ros.writeRecord("ABC".getBytes("ASCII"), false);
             ros.writeRecord("DEF".getBytes("ASCII"), false);
-            ros.writeRecord(new byte[]{(byte)255}, true);
+            ros.writeRecord(new byte[] {(byte) 255}, true);
             ros.close();
 
             byte[] resultBytes = baos.toByteArray();
@@ -184,5 +181,5 @@ public class RecordStreamTest
     }
 }
 
-//CHECKSTYLE:ON
+// CHECKSTYLE:ON
 

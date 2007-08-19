@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp;
@@ -30,8 +31,8 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.jar.JarEntry;
@@ -44,7 +45,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Utility class that manages the plugin classpath and class loading.
+ * Utility class that manages the plug-in classpath and class loading.
  * 
  * @author Lars Behnke.
  */
@@ -61,7 +62,7 @@ public final class PluginManager {
     private static DynClassLoader classLoader;
 
     static {
-        List jars = new LinkedList();
+        List<URL> jars = new ArrayList<URL>();
 
         StringBuffer cpExtension = new StringBuffer();
         File[] jarFiles = collectJars(new String[] {getPluginDir().getPath()});
@@ -96,7 +97,7 @@ public final class PluginManager {
     }
 
     private static File[] collectJars(String[] paths) {
-        Set jarList = new HashSet();
+        Set<File> jarList = new HashSet<File>();
         for (int i = 0; i < paths.length; i++) {
             File dir = new File(paths[i]);
             if (log.isWarnEnabled() && !dir.exists()) {
@@ -155,7 +156,7 @@ public final class PluginManager {
     public static void startApplication(String mainClassName, String startMethod, String[] args) {
         try {
             classLoader.update();
-            Class clazz = classLoader.loadClass(mainClassName);
+            Class<?> clazz = classLoader.loadClass(mainClassName);
             Object instance = clazz.newInstance();
             Method startup = clazz.getMethod(startMethod, new Class[] {(new String[0]).getClass()});
             startup.invoke(instance, new Object[] {args});

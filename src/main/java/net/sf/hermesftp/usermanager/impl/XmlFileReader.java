@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.usermanager.impl;
@@ -29,7 +30,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.hermesftp.exception.FtpConfigException;
@@ -47,53 +47,52 @@ import org.dom4j.io.SAXReader;
 
 /**
  * Reads the user management configuration data from a file.
- *
+ * 
  * @author Lars Behnke
- *
  */
 public class XmlFileReader {
 
-    private static Log log = LogFactory.getLog(XmlFileReader.class);
+    private static Log          log                          = LogFactory.getLog(XmlFileReader.class);
 
     private static final String DEFAULT_HERMESFTP_USERS_FILE = "hermesftp-users.xml";
 
-    private static final String ATTR_PATH = "path";
+    private static final String ATTR_PATH                    = "path";
 
-    private static final String XPATH_PERMISSIONS = "permissions/permission";
+    private static final String XPATH_PERMISSIONS            = "permissions/permission";
 
-    private static final String ATTR_VALUE = "value";
+    private static final String ATTR_VALUE                   = "value";
 
-    private static final String ATTR_FLAG = "flag";
+    private static final String ATTR_FLAG                    = "flag";
 
-    private static final String XPATH_LIMITS = "limits/limit";
+    private static final String XPATH_LIMITS                 = "limits/limit";
 
-    private static final String XPATH_GROUPS = "/user-manager/groups/group";
+    private static final String XPATH_GROUPS                 = "/user-manager/groups/group";
 
-    private static final String ATTR_NAME = "name";
+    private static final String ATTR_NAME                    = "name";
 
-    private static final String ELEM_GROUP_REF = "group-ref";
+    private static final String ELEM_GROUP_REF               = "group-ref";
 
-    private static final String ATTR_DIR = "dir";
+    private static final String ATTR_DIR                     = "dir";
 
-    private static final String ATTR_PASSWORD = "password";
+    private static final String ATTR_PASSWORD                = "password";
 
-    private static final String ATTR_FULLNAME = "fullname";
+    private static final String ATTR_FULLNAME                = "fullname";
 
-    private static final String ATTR_ADMINROLE = "adminrole";
+    private static final String ATTR_ADMINROLE               = "adminrole";
 
-    private static final String ATTR_UID = "uid";
+    private static final String ATTR_UID                     = "uid";
 
-    private static final String ELEM_USER = "user";
+    private static final String ELEM_USER                    = "user";
 
-    private static final String ATTR_DEFAULT_DIR = "default-dir";
+    private static final String ATTR_DEFAULT_DIR             = "default-dir";
 
-    private static final String XPATH_USERS = "/user-manager/users";
+    private static final String XPATH_USERS                  = "/user-manager/users";
 
-    private String filename;
+    private String              filename;
 
     /**
      * Getter method for the java bean <code>filename</code>.
-     *
+     * 
      * @return Returns the value of the java bean <code>filename</code>.
      */
     public String getFilename() {
@@ -113,7 +112,7 @@ public class XmlFileReader {
 
     /**
      * Setter method for the java bean <code>filename</code>.
-     *
+     * 
      * @param filename The value of filename to set.
      */
     public void setFilename(String filename) {
@@ -123,7 +122,7 @@ public class XmlFileReader {
     /**
      * Reads the user management data from a file. If the file was not found the classpath is
      * searched.
-     *
+     * 
      * @return The user management data.
      * @throws FtpConfigException Error on reading or processing a configuration file.
      */
@@ -163,9 +162,8 @@ public class XmlFileReader {
         Element usersElement = (Element) doc.selectSingleNode(XPATH_USERS);
         String defaultDir = usersElement.attributeValue(ATTR_DEFAULT_DIR);
 
-        List userElements = usersElement.selectNodes(ELEM_USER);
-        for (Iterator iter = userElements.iterator(); iter.hasNext();) {
-            Element userElement = (Element) iter.next();
+        List<Element> userElements = usersElement.selectNodes(ELEM_USER);
+        for (Element userElement : userElements) {
             String uid = userElement.attributeValue(ATTR_UID);
             String fullName = userElement.attributeValue(ATTR_FULLNAME);
             String password = userElement.attributeValue(ATTR_PASSWORD);
@@ -180,30 +178,27 @@ public class XmlFileReader {
             userData.setPassword(password);
             userData.setAdminRole(new Boolean(adminrole).booleanValue());
             userData.setDir(dir);
-            List groupRefElements = userElement.selectNodes(ELEM_GROUP_REF);
-            for (Iterator iterator = groupRefElements.iterator(); iterator.hasNext();) {
-                Element element = (Element) iterator.next();
+            List<Element> groupRefElements = userElement.selectNodes(ELEM_GROUP_REF);
+            for (Element element : groupRefElements) {
                 String groupRefName = element.attributeValue(ATTR_NAME);
                 if (groupRefName != null) {
                     userData.addGroupName(groupRefName.trim());
                 }
             }
             umd.getUserData().add(userData);
+
         }
     }
 
     private void processGroupData(Document doc, UserManagerData umd) {
-        List groupElements = doc.selectNodes(XPATH_GROUPS);
-        
-        for (Iterator iter = groupElements.iterator(); iter.hasNext();) {
-            Element groupElement = (Element) iter.next();
+        List<Element> groupElements = doc.selectNodes(XPATH_GROUPS);
+        for (Element groupElement : groupElements) {
             String name = groupElement.attributeValue(ATTR_NAME);
             GroupData groupData = new GroupData();
             groupData.setName(name);
 
-            List limitElements = groupElement.selectNodes(XPATH_LIMITS);
-            for (Iterator iterator = limitElements.iterator(); iterator.hasNext();) {
-                Element limitElement = (Element) iterator.next();
+            List<Element> limitElements = groupElement.selectNodes(XPATH_LIMITS);
+            for (Element limitElement : limitElements) {
                 String limitName = limitElement.attributeValue(ATTR_NAME);
                 String limitValue = limitElement.attributeValue(ATTR_VALUE);
                 if (limitName != null && limitValue != null) {
@@ -211,9 +206,8 @@ public class XmlFileReader {
                     groupData.getLimits().put(limitName, limitLong);
                 }
             }
-            List permissionElements = groupElement.selectNodes(XPATH_PERMISSIONS);
-            for (Iterator iterator = permissionElements.iterator(); iterator.hasNext();) {
-                Element permissionElement = (Element) iterator.next();
+            List<Element> permissionElements = groupElement.selectNodes(XPATH_PERMISSIONS);
+            for (Element permissionElement : permissionElements) {
                 String path = permissionElement.attributeValue(ATTR_PATH);
 
                 /* value attribute is supported for backward compatibility */
@@ -232,7 +226,7 @@ public class XmlFileReader {
     /**
      * Decides on the permission value based on the passed arguments. Value attribute is supported
      * for backward compatibility
-     *
+     * 
      * @param value The permission value 1=read, 3=read/write.
      * @param flag The permission flag R=read, RW=read/write.
      * @return The permission value.

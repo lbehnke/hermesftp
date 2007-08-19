@@ -1,26 +1,26 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
-
 
 package net.sf.hermesftp.streams;
 
@@ -35,12 +35,10 @@ import net.sf.hermesftp.utils.IOUtils;
 
 /**
  * Testcase for block mode streams.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class TextStreamTest
-    extends TestCase {
+public class TextStreamTest extends TestCase {
 
     /**
      * Testcase : input text stream.
@@ -67,13 +65,13 @@ public class TextStreamTest
     /**
      * Testcase : input text records.
      */
-    public void testLineRecord()  {
+    public void testLineRecord() {
         TextInputStream lis = null;
         TextOutputStream los = null;
         try {
             String lineSep = System.getProperty("line.separator");
-            String text = "ABC" + lineSep + "DEF" + lineSep + "123" + lineSep
-                + "\u00C4\u00D6\u00DC" + lineSep;
+            String text = "ABC" + lineSep + "DEF" + lineSep + "123" + lineSep + "\u00C4\u00D6\u00DC"
+                    + lineSep;
             ByteArrayInputStream bais = new ByteArrayInputStream(text.getBytes("Cp273"));
             lis = new TextInputStream(bais, "Cp273");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();

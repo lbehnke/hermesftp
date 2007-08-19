@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.session.impl;
@@ -44,21 +45,19 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author Lars Behnke
  */
-public class FtpSessionImpl
-    extends Thread
-    implements FtpSession, FtpConstants {
+public class FtpSessionImpl extends Thread implements FtpSession, FtpConstants {
 
-    private static final int DEFAULT_IDLE_SECONDS = 60;
+    private static final int  DEFAULT_IDLE_SECONDS = 60;
 
-    private static final int COMMAND_TIMEOUT = 3000;
+    private static final int  COMMAND_TIMEOUT      = 3000;
 
-    private static Log log = LogFactory.getLog(FtpSessionImpl.class);
+    private static Log        log                  = LogFactory.getLog(FtpSessionImpl.class);
 
-    private FtpCmdReader cmdReader;
+    private FtpCmdReader      cmdReader;
 
     private FtpSessionContext ftpContext;
 
-    private boolean terminated;
+    private boolean           terminated;
 
     /**
      * Constructor.
@@ -87,8 +86,29 @@ public class FtpSessionImpl
                     out(msg);
                 } catch (SocketTimeoutException e) {
                     long maxIdleSecs = getFtpContext().getOptions().getInt(OPT_MAX_IDLE_SECONDS,
-                                                                           DEFAULT_IDLE_SECONDS);
-                    if (System.currentTimeMillis() - startWaiting > (maxIdleSecs * MILLI)) {
+                        DEFAULT_IDLE_SECONDS);
+                    if (System.currentTimeMillis(/*
+                                                     * ------------------------------ Hermes FTP
+                                                     * Server Copyright (c) 2006 Lars Behnke
+                                                     * ------------------------------ This file is
+                                                     * part of Hermes FTP Server. Hermes FTP Server
+                                                     * is free software; you can redistribute it
+                                                     * and/or modify it under the terms of the GNU
+                                                     * General Public License as published by the
+                                                     * Free Software Foundation; either version 2 of
+                                                     * the License, or (at your option) any later
+                                                     * version. Foobar is distributed in the hope
+                                                     * that it will be useful, but WITHOUT ANY
+                                                     * WARRANTY; without even the implied warranty
+                                                     * of MERCHANTABILITY or FITNESS FOR A
+                                                     * PARTICULAR PURPOSE. See the GNU General
+                                                     * Public License for more details. You should
+                                                     * have received a copy of the GNU General
+                                                     * Public License along with Foobar; if not,
+                                                     * write to the Free Software Foundation, Inc.,
+                                                     * 51 Franklin St, Fifth Floor, Boston, MA
+                                                     * 02110-1301 USA
+                                                     */) - startWaiting > (maxIdleSecs * MILLI)) {
                         out(formatResString(MSG421, new Object[0]));
                         log.debug("Session timeout after " + maxIdleSecs + " seconds");
                         terminated = true;

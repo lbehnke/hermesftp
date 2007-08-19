@@ -1,30 +1,31 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.parser.impl;
 
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.hermesftp.cmd.FtpCmd;
 import net.sf.hermesftp.parser.FtpCmdParser;
@@ -34,16 +35,14 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * Default implementation of a command container.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class FtpCmdParserImpl
-    implements FtpCmdParser, BeanFactoryAware {
+public class FtpCmdParserImpl implements FtpCmdParser, BeanFactoryAware {
 
-    private Map commands;
+    private Map<String, String> commands;
 
-    private BeanFactory factory;
+    private BeanFactory         factory;
 
     /**
      * Constructor.
@@ -55,7 +54,7 @@ public class FtpCmdParserImpl
     /**
      * {@inheritDoc}
      */
-    public void setCommands(Map map) {
+    public void setCommands(Map<String, String> map) {
         this.commands = map;
     }
 
@@ -66,8 +65,8 @@ public class FtpCmdParserImpl
         String result = null;
         if (cmdString != null) {
             cmdString = cmdString.trim().toUpperCase();
-            for (Iterator iter = commands.entrySet().iterator(); iter.hasNext();) {
-                Map.Entry entry = (Map.Entry) iter.next();
+            Set<Map.Entry<String, String>> entrySet = commands.entrySet();
+            for (Map.Entry<String, String> entry : entrySet) {
                 String token = entry.getKey().toString();
                 if (cmdString.startsWith(token)) {
                     result = token;
@@ -83,7 +82,7 @@ public class FtpCmdParserImpl
      */
     public FtpCmd createCommandByToken(String token) {
         FtpCmd result = null;
-        String cmdBeanName = (String) commands.get(token);
+        String cmdBeanName = commands.get(token);
         if (cmdBeanName != null) {
             result = (FtpCmd) factory.getBean(cmdBeanName);
         }
@@ -99,8 +98,9 @@ public class FtpCmdParserImpl
     public String[] getCommandTokens() {
         String[] result = new String[commands.size()];
         int i = 0;
-        for (Iterator iter = commands.keySet().iterator(); iter.hasNext();) {
-            result[i++] = (String) iter.next();
+        Set<String> keySet = commands.keySet();
+        for (String key : keySet) {
+            result[i++] = key;
         }
         return result;
     }

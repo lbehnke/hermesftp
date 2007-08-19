@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.server.impl;
@@ -37,23 +38,21 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Test case that covers RFC 959 functionality.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class ServerRFC959Test
-    extends AbstractClientServerTestCase {
-	
-	private static Log log = LogFactory.getLog(ServerRFC959Test.class);
+public class ServerRFC959Test extends AbstractClientServerTestCase {
 
-    private String testFile = "test.txt";
+    private static Log log      = LogFactory.getLog(ServerRFC959Test.class);
 
-    private String testText = "ABC \u00C4\u00D6\u00DC 123";
+    private String     testFile = "test.txt";
+
+    private String     testText = "ABC \u00C4\u00D6\u00DC 123";
 
     /**
      * Test case: Rename and size.
      */
-    public void testRenameAndSize()  {
+    public void testRenameAndSize() {
         String str;
         try {
             getClient().sendAndReceive("DELE text.renamed");
@@ -186,7 +185,7 @@ public class ServerRFC959Test
             assertTrue(str.startsWith("213"));
             String[] parts = str.split(" ");
             int fileSize = Integer.parseInt(parts[1]);
-            
+
             getClient().retrieveText(testFile);
             str = getClient().getTextData();
             assertEquals(testText, str);
@@ -201,7 +200,7 @@ public class ServerRFC959Test
             assertTrue(str.startsWith("213"));
             parts = str.split(" ");
             int doublefileSize = Integer.parseInt(parts[1]);
-            assertEquals(fileSize*2, doublefileSize);
+            assertEquals(fileSize * 2, doublefileSize);
             getClient().sendAndReceive("DELE " + testFile);
             getClient().list(testFile);
             str = getClient().getTextData();
@@ -215,7 +214,7 @@ public class ServerRFC959Test
     /**
      * Test case: Block transfer, record structures.
      */
-    public void testBlockTransfer()  {
+    public void testBlockTransfer() {
         try {
             byte[] data = createBlockData();
             String str = getClient().sendAndReceive("MODE B");
@@ -245,13 +244,13 @@ public class ServerRFC959Test
             getClient().sendAndReceive("TYPE E");
             getClient().retrieveRaw(testFile);
             raw = getClient().getRawData();
-            assertTrue(Arrays.equals(ArrayUtils.subarray(raw, 0, 11), new byte[] {-128, 0, 4,
-                (byte) 0xC1, (byte) 0xC2, (byte) 0xC2, (byte) 0xC2, -64, 1, 2, (byte) 0xC3}));
+            assertTrue(Arrays.equals(ArrayUtils.subarray(raw, 0, 11), new byte[] {
+                    -128, 0, 4, (byte) 0xC1, (byte) 0xC2, (byte) 0xC2, (byte) 0xC2, -64, 1, 2, (byte) 0xC3}));
             getClient().sendAndReceive("DELE " + testFile);
         } catch (IOException e) {
             log.error(e);
         }
-  
+
     }
 
     private byte[] createBlockData() throws IOException {

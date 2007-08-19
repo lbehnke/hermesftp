@@ -1,29 +1,29 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.console;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
@@ -36,7 +36,6 @@ import net.sf.hermesftp.session.FtpSession;
  * Provides an overview of system and application properties.
  * 
  * @author Administrator
- * 
  */
 public class SessionsServlet extends AbstractConsoleServlet {
 
@@ -55,9 +54,8 @@ public class SessionsServlet extends AbstractConsoleServlet {
         result.put("page.title", getPageTitle());
         result.put("session.count", formatNum(count));
         result.put("session.count.hwm", formatNum(getServer().getConnectionCountHWMark()));
-        result.put("session.count.hwm.date", ""
-                + formatDate(getServer().getConnectionCountHWMarkDate()));
-        
+        result.put("session.count.hwm.date", "" + formatDate(getServer().getConnectionCountHWMarkDate()));
+
         String table = count == 0 ? "" : createSessionTable();
         result.put("session.table", table);
 
@@ -71,25 +69,20 @@ public class SessionsServlet extends AbstractConsoleServlet {
         int rowCount = 0;
         getServer().cleanUpSessions();
         synchronized (getServer()) {
-            for (Iterator iter = getServer().getSessions().iterator(); iter.hasNext();) {
-                FtpSession session = (FtpSession) iter.next();
+            for (FtpSession session : getServer().getSessions()) {
                 FtpSessionContext ctx = session.getFtpContext();
                 rowCount++;
                 fillRow(sb, rowCount, session, ctx);
             }
-
             sb.append(ConsoleConstants.TABLE_END_TAG);
         }
-        
-       
         return sb.toString();
     }
-    
-
 
     private void fillRow(StringBuffer sb, int rowCount, FtpSession session, FtpSessionContext ctx) {
-        
-        String band = rowCount % 2 == 0 ? ConsoleConstants.TR_START_TAG_CLASS_A : ConsoleConstants.TR_START_TAG_CLASS_B;
+
+        String band = rowCount % 2 == 0 ? ConsoleConstants.TR_START_TAG_CLASS_A
+                : ConsoleConstants.TR_START_TAG_CLASS_B;
         sb.append(band);
 
         fillField(sb, ctx.getClientSocket().getInetAddress().getHostName());
@@ -106,8 +99,6 @@ public class SessionsServlet extends AbstractConsoleServlet {
         sb.append(ConsoleConstants.TR_END_TAG);
     }
 
-
-    
     private void fillColumnHeader(StringBuffer sb) {
         sb.append(ConsoleConstants.TABLE_START_TAG);
         sb.append(ConsoleConstants.TR_START_TAG);
@@ -126,7 +117,7 @@ public class SessionsServlet extends AbstractConsoleServlet {
 
     private String getSessionStat(FtpSessionContext ctx, String key) {
         String result;
-        Map userStats = ctx.getSessionStatistics();
+        Map<String, Long> userStats = ctx.getSessionStatistics();
         if (userStats != null) {
             Object val = userStats.get(key);
             result = val == null ? "0" : formatNum(val);
@@ -171,7 +162,5 @@ public class SessionsServlet extends AbstractConsoleServlet {
     public void setServer(FtpServer server) {
         this.server = server;
     }
-
-
 
 }

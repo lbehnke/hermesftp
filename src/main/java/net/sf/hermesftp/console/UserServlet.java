@@ -1,29 +1,29 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.console;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -57,7 +57,7 @@ public class UserServlet extends AbstractConsoleServlet {
 
     private String createUserTable() {
 
-        List list = null;
+        List<UserData> list = null;
         try {
             list = getUserManager().getUserDataList();
         } catch (Exception e) {
@@ -68,10 +68,9 @@ public class UserServlet extends AbstractConsoleServlet {
         createColumnHeaders(sb);
 
         int rowCount = 0;
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-            UserData user = (UserData) iter.next();
+        for (UserData userData : list) {
             rowCount++;
-            fillRow(sb, rowCount, user);
+            fillRow(sb, rowCount, userData);
         }
 
         sb.append(ConsoleConstants.TABLE_END_TAG);
@@ -110,9 +109,9 @@ public class UserServlet extends AbstractConsoleServlet {
 
     private String getUserStat(String uid, String key) {
         String result;
-        Map userStats = getUserManager().getUserStatistics(uid);
+        Map<String, Long> userStats = getUserManager().getUserStatistics(uid);
         if (userStats != null) {
-            Object val = userStats.get(key);
+            Long val = userStats.get(key);
             result = val == null ? "0" : formatNum(val);
         } else {
             result = NOT_APPLICABLE;

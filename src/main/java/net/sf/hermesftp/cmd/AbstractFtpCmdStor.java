@@ -1,24 +1,25 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
 
 package net.sf.hermesftp.cmd;
@@ -86,7 +87,7 @@ public abstract class AbstractFtpCmdStor extends AbstractFtpCmd {
             doPerformAccessChecks(unique, file, fileOffset);
 
             /* Initialize restart markers (block transfer mode) */
-            Map restartMarkers = new HashMap();
+            Map<Long, Long> restartMarkers = new HashMap<Long, Long>();
             getCtx().setAttribute(ATTR_RESTART_MARKERS, restartMarkers);
 
             /* Wrap inbound data stream and call handler method */
@@ -138,8 +139,8 @@ public abstract class AbstractFtpCmdStor extends AbstractFtpCmd {
      * @return The stream object.
      * @throws UnsupportedEncodingException Thrown if encoding is unknown.
      */
-    private InputStream createInputStream(InputStream is, int mode, Map restartMarkers, String charset)
-            throws UnsupportedEncodingException {
+    private InputStream createInputStream(InputStream is, int mode, Map<Long, Long> restartMarkers,
+                                          String charset) throws UnsupportedEncodingException {
         InputStream result = null;
         if (mode == MODE_BLOCK) {
             byte[] eorBytes = getEorBytes(null);
@@ -169,7 +170,8 @@ public abstract class AbstractFtpCmdStor extends AbstractFtpCmd {
      * @throws UnsupportedEncodingException Thrown if encoding unknown.
      */
     private RecordReadSupport createRecInputStream(InputStream is, int mode, String charset,
-                                                   Map restartMarkers) throws UnsupportedEncodingException {
+                                                   Map<Long, Long> restartMarkers)
+            throws UnsupportedEncodingException {
         RecordReadSupport result = null;
         byte[] eorBytes = charset == null ? new byte[0] : getEorBytes(charset);
         if (mode == MODE_BLOCK) {
