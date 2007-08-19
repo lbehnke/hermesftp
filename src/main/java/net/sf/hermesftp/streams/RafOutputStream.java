@@ -1,26 +1,26 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
-
 
 package net.sf.hermesftp.streams;
 
@@ -31,22 +31,20 @@ import java.io.RandomAccessFile;
 
 /**
  * Wrapper class for writing to a RandomAccessFile through the OutputStream abstraction.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class RafOutputStream
-    extends OutputStream implements RecordWriteSupport {
+public class RafOutputStream extends OutputStream implements RecordWriteSupport {
 
     private RandomAccessFile raf;
 
-    private File file;
+    private File             file;
 
-    private long offset;
+    private long             offset;
 
     /**
      * Constructor.
-     *
+     * 
      * @param file The output file;
      */
     public RafOutputStream(File file) {
@@ -57,7 +55,7 @@ public class RafOutputStream
 
     /**
      * Constructor.
-     *
+     * 
      * @param file The output file;
      * @param offset The number of bytes to be skipped, when writing to the file.
      */
@@ -69,7 +67,7 @@ public class RafOutputStream
 
     /**
      * Constructor.
-     *
+     * 
      * @param file The output file;
      * @param append Indication whether the data is to be appended to the output file.
      */

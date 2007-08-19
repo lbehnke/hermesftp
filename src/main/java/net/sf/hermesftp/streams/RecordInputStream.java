@@ -1,33 +1,32 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
-
 
 package net.sf.hermesftp.streams;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -38,26 +37,24 @@ import java.util.List;
  * on the last byte transmitted by turning both low order bits on (i.e., the value 3). If a byte of
  * all ones was intended to be sent as data, it should be repeated in the second byte of the control
  * code.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class RecordInputStream
-    extends InputStream implements RecordReadSupport {
+public class RecordInputStream extends InputStream implements RecordReadSupport {
 
     private static final int ESCAPE_CODE = 0xFF;
 
-    private InputStream is;
+    private InputStream      is;
 
-    private byte[] eorMarker;
+    private byte[]           eorMarker;
 
-    private int eorMarkerIdx;
+    private int              eorMarkerIdx;
 
-    private boolean completed;
+    private boolean          completed;
 
     /**
      * Constructor.
-     *
+     * 
      * @param is The input stream.
      */
     public RecordInputStream(InputStream is) {
@@ -66,7 +63,7 @@ public class RecordInputStream
 
     /**
      * Constructor.
-     *
+     * 
      * @param is The input stream.
      * @param eorMarker The byte sequence the EOR marker is translated to (e.g. line break).
      */
@@ -101,7 +98,7 @@ public class RecordInputStream
 
     /**
      * Reads a complete record, excluding the end marker.
-     *
+     * 
      * @return The record without EOR/EOF marker.
      * @throws IOException If something goes wrong.
      */
@@ -109,7 +106,7 @@ public class RecordInputStream
         if (completed) {
             return null;
         }
-        List byteList = new ArrayList();
+        List<Byte> byteList = new ArrayList<Byte>();
         boolean done = false;
         while (!done) {
             int b = is.read();
@@ -146,11 +143,10 @@ public class RecordInputStream
         }
     }
 
-    private byte[] createByteArrayByList(List byteList) {
+    private byte[] createByteArrayByList(List<Byte> byteList) {
         int idx = 0;
         byte[] result = new byte[byteList.size()];
-        for (Iterator iter = byteList.iterator(); iter.hasNext();) {
-            Byte bObj = (Byte) iter.next();
+        for (Byte bObj : byteList) {
             result[idx++] = bObj.byteValue();
         }
         return result;
@@ -158,7 +154,7 @@ public class RecordInputStream
 
     /**
      * Processes the control code and returns the next data byte.
-     *
+     * 
      * @return The next data byte.
      * @throws IOException
      */

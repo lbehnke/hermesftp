@@ -1,26 +1,26 @@
 /*
- ------------------------------
- Hermes FTP Server
- Copyright (c) 2006 Lars Behnke
- ------------------------------
-
- This file is part of Hermes FTP Server.
-
- Hermes FTP Server is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Foobar is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Foobar; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
+ * Hermes FTP Server
+ * Copyright (c) 2005-2007 Lars Behnke
+ * ------------------------------------------------------------------------------
+ * 
+ * This file is part of Hermes FTP Server.
+ * 
+ * Hermes FTP Server is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Hermes FTP Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Hermes FTP Server; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * ------------------------------------------------------------------------------
  */
-
 
 package net.sf.hermesftp.streams;
 
@@ -35,25 +35,22 @@ import java.io.OutputStream;
  * on the last byte transmitted by turning both low order bits on (i.e., the value 3). If a byte of
  * all ones was intended to be sent as data, it should be repeated in the second byte of the control
  * code.
- *
+ * 
  * @author Lars Behnke
- *
  */
-public class RecordOutputStream
-    extends OutputStream
-    implements RecordWriteSupport {
+public class RecordOutputStream extends OutputStream implements RecordWriteSupport {
 
     private static final int ESCAPE_CODE = 0xFF;
 
-    private OutputStream os;
+    private OutputStream     os;
 
-    private boolean fileCompleted;
+    private boolean          fileCompleted;
 
-    private boolean recordCompleted;
+    private boolean          recordCompleted;
 
     /**
      * Constructor.
-     *
+     * 
      * @param os The output stream.
      */
     public RecordOutputStream(OutputStream os) {
@@ -63,7 +60,7 @@ public class RecordOutputStream
 
     /**
      * Writes a whole record and sets the end marker.
-     *
+     * 
      * @param record The record to transmit.
      * @param eof End of file is reached.
      * @throws IOException Thrown if somethings goes wrong.
@@ -87,9 +84,7 @@ public class RecordOutputStream
     }
 
     /**
-     * A flush ends the current record.
-     *
-     * {@inheritDoc}
+     * A flush ends the current record. {@inheritDoc}
      */
     public void flush() throws IOException {
         os.flush();
@@ -97,7 +92,7 @@ public class RecordOutputStream
 
     /**
      * Flushes the buffer and sets an EOR / EOF marker.
-     *
+     * 
      * @param eof True if end of file.
      * @throws IOException thrown if writing to stream fails.
      */
@@ -116,9 +111,7 @@ public class RecordOutputStream
     }
 
     /**
-     * Before the stream is closed and EOF marker is set.
-     *
-     * {@inheritDoc}
+     * Before the stream is closed and EOF marker is set. {@inheritDoc}
      */
     public void close() throws IOException {
         finalizeRecord(true);
