@@ -2,7 +2,7 @@
 <project name="hermesftp">
   <bannerLeft>
     <name>Hermes FTP Server</name>
-    <src>images/hermes-logo-2.png</src>
+    <src>images/hermesftp-logo-3.png</src>
   </bannerLeft>
 
   <body>

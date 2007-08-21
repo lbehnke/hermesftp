@@ -260,7 +260,7 @@
         #end
         #if( $poweredBy.isEmpty() )
           <a href="http://maven.apache.org/" title="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" id="poweredBy">
-            <img alt="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" src="$relativePath/images/logos/maven-feather.png"></img>
+            <img alt="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" border="1" src="$relativePath/images/logos/maven-feather.png"></img>
           </a>
         #end
     #else
@@ -311,13 +311,14 @@
 		<div id="navcolumn">
 			#publishDate( "navigation-top" $decoration.publishDate $decoration.version )
 			#mainMenu( $decoration.body.menus )
+			<br/>
+			<br/>
 			#poweredByLogo( $decoration.poweredBy )
-			<a href="http://sourceforge.net/project/showfiles.php?group_id=164846" title="HermesFTP on SourceForge" id="sourceForge">
-              <img alt="HermesFTP on SourceForge" border="1" src="http://sflogo.sourceforge.net/sflogo.php?group_id=164846&type=1" />
-            </a>
-			
-			#publishDate( "navigation-bottom" $decoration.publishDate $decoration.version )
-			<p></p>
+			<p>
+			  <a href="http://sourceforge.net/project/showfiles.php?group_id=164846" title="HermesFTP on SourceForge" id="sourceForge">
+                <img alt="HermesFTP on SourceForge" border="1" src="http://sflogo.sourceforge.net/sflogo.php?group_id=164846&type=1" />
+              </a>
+            </p>
             <p>
               <a href="http://validator.w3.org/check?uri=referer">
               <img
