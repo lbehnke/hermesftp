@@ -11,7 +11,7 @@
 		<section name="Extending the Hermes FTP Server">
 			<p>Its IoC based architecture allows for extending or customizing the Hermes FTP Server easily. 
 			Moreover, if you need to embed the ftp server in your own application you certainly can do so.
-			The following paragraphs describe both scenarios.</p>
+			The following paragraphs describe both of the scenarios.</p>
 		<subsection name="Customizing the FTP Server">
 		In this example we extend the ftp server by an SITE command returning server specific information
 		to the caller.
@@ -19,7 +19,8 @@
         Now add the highlighted line to the list of properties:
         </p>
 <source>
-    &lt;bean id="parser" singleton="true" class="net.sf.hermesftp.parser.impl.FtpCmdParserImpl"&gt;
+    &lt;bean id="parser" singleton="true" 
+             class="net.sf.hermesftp.parser.impl.FtpCmdParserImpl"&gt;
 		&lt;property name="commands"&gt;
 			&lt;map&gt;
 				...
@@ -33,8 +34,8 @@
 <source>
    	&lt;bean id="cmdSite" class="example.FtpCmdSite" singleton="false" /&gt;
 </source>        
-<p>Now its time to fire up your IDE (if not already done). Extend the class <i>net.sf.hermesftp.cmd.AbstractFtpCmd</i>
-as outlined in the following snippet:
+<p>Now open your IDE (if not already done) and extend the class <i>net.sf.hermesftp.cmd.AbstractFtpCmd</i>
+as outlined in the snippet below.
 </p>
 <source>
 
@@ -43,7 +44,7 @@ package example;
 import net.sf.hermesftp.cmd.AbstractFtpCmd;
 import net.sf.hermesftp.exception.FtpCmdException;
 
-ublic class FtpCmdSite
+public class FtpCmdSite
     extends AbstractFtpCmd {
 
     /**
@@ -79,12 +80,31 @@ ublic class FtpCmdSite
 </source>
         
 <p>
-  Copy the compiled class file into the folder $HERMES_HOME/ext/classes and restart the application.
-  Hermes FTP Server will find the extension and resolve the dependencies to the new class.
+  After wrapping the compiled class into a JAR file you must copy the archive into the folder 
+  <i>$HERMES_HOME/plugins</i>. All classes found in this folder are loaded automatically after starting up the application.
+  In the same way all parts of Hermes FTP Server represented by a Spring bean can be replaced or modified.   
 </p>        
         
         </subsection>
 		<subsection name="Embedding the FTP Server">
+		
+		The snippet below demonstrates how to fire up Hermes FTP Server from within your own application.
+<source>
+
+    private void startServer(String beanRes) throws FtpException {
+
+        ApplicationContext appContext = 
+           new FileSystemXmlApplicationContextEx (new String[] {beanRes});
+
+        FtpServer svr = (FtpServer) appContext.getBean(
+            BeanConstants.BEAN_SERVER);
+        Thread svrThread = new Thread(svr);
+        svrThread.start();
+    }
+
+</source>
+		
+		
         </subsection>
         
 		</section>

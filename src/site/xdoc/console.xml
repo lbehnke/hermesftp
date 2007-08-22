@@ -17,7 +17,8 @@
 				"console" in the application context <i>hermesftp-ctx.xml</i> and change the port
 				property into a convenient value.</p>
 				<source>
-  &lt;bean id=&quot;console&quot; class=&quot;net.sf.hermesftp.console.ConsoleServer&quot; singleton=&quot;true&quot;&gt;
+  &lt;bean id=&quot;console&quot; class=&quot;net.sf.hermesftp.console.ConsoleServer&quot; 
+           singleton=&quot;true&quot;&gt;
     &lt;property name=&quot;port&quot; value=&quot;9988&quot; /&gt;
     &lt;property name=&quot;userManager&quot; ref=&quot;userManager&quot; /&gt;
     &lt;property name=&quot;servlets&quot;&gt;

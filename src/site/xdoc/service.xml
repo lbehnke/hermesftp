@@ -20,7 +20,7 @@
 				Before you install the service/daemon please check the settings in the
 				application context file
 				<i>hermesftp-ctx.xml</i>
-				. In particular, find the option "ftp.root.dir" and set the value to an appropriate ftp data folder 
+				. In particular, find the option "ftp.root.dir" and set the value to an appropriate FTP data folder 
 				(e.g. <i>c:/ftpdata</i> or <i>/home/ftp/data</i>) .
 			</p>
 			<subsection name="Running Hermes FTP as NT Service">

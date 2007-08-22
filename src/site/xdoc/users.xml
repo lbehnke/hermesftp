@@ -119,7 +119,7 @@ c:\develop>
 &lt;/users&gt;</source>
 
 		<p>You may omit the password to enable anonymous login. 
-		Anonymous users must provide a valid email address as password to login.</p>
+		Anonymous users must provide an email address as password.</p>
 		</subsection>
 
 		</section>

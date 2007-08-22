@@ -83,7 +83,9 @@
 	&lt;property name=&quot;properties&quot;&gt;
 		&lt;props&gt;
 			...
-			&lt;prop key=&quot;allowed.passive.ports&quot;&gt;9000-9200,12000-12500&lt;/prop&gt;
+			&lt;prop key=&quot;allowed.passive.ports&quot;&gt;
+			    9000-9200,12000-12500
+			&lt;/prop&gt;
 			...
 		&lt;/props&gt;
 	&lt;/property&gt;
