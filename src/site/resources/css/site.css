@@ -18,7 +18,7 @@ body {
 	margin: 0;
 }
 
-div {
+# {
 	position: relative;
 }
 
@@ -40,19 +40,20 @@ div {
 
 #banner {
 	height: 100px;
-	background-color: white;
-	background-image: url('banner-bg.png');
+	background-color: #e4e4ff;
+	/*background-image: url('banner-bg.png');*/
 	background-repeat: repeat-x;
 	background-position: top left;
 	background-attachment: scroll;
-
-	padding-left: 1px;
-	padding-right: 1px;
+   border: 1px solid #b0b0e8;
+	padding-left: 8px;
+	padding-top: 8px;
+	padding-right: 8px;
 }
 
 #breadcrumbs {
 	padding-left: 25px;
-	color: #c3c3c3;
+	color: #c0c0c0;
 	background-color: none;
 	margin-top: -25px;
 	font-family: 'Courier New', 'Courier', 'Monospace';
@@ -61,11 +62,10 @@ div {
 	
 }
 
+
 div .xright {
 	display: none;
 }
-
-
 
 
 #leftColumn {
@@ -114,7 +114,7 @@ div .xright {
 }
 
 #navcolumn h5 {
-	font-size: 1.2em;
+	font-size: 1em;
 	margin-bottom: 0;
 	margin-top: 20px;
 	padding-bottom: 0;
@@ -258,9 +258,10 @@ a.none {
 }
 
 .logoLink {
+   border: 1px solid #c0c0c0;
 	background: transparent;
-	padding-right: 20px;
-	margin-top: 32px;
+	margin-right: 20px;
+	margin-top: 8px;
 }
 
 a.externalLink,a.externalLink:link,a.externalLink:visited,a.externalLink:active,a.externalLink:hover

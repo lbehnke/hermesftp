@@ -229,47 +229,6 @@
   #end
 #end
 
-#macro ( poweredByLogo $poweredBy )
-    #if( $poweredBy )
-        #foreach ($item in $poweredBy)
-            #if( $item.href )
-                #set ( $href = $PathTool.calculateLink( $item.href, $relativePath ) )
-                #set ( $href = $href.replaceAll( "\\", "/" ) )
-            #else
-                #set ( $href="http://maven.apache.org/" )
-            #end
-
-            #if( $item.name )
-                #set ( $name = $item.name )
-            #else
-                #set ( $name = $i18n.getString( "site-renderer", $locale, "template.builtby" )  )
-                #set ( $name = "${name} Maven"  )
-            #end
-
-            #if( $item.img )
-                #set ( $img = $item.img )
-            #else
-                #set ( $img = "images/logos/maven-feather.png" )
-            #end
-
-            <a href="$href" title="$name" id="poweredBy">
-              #set ( $img = $PathTool.calculateLink( $img, $relativePath ) )
-              #set ( $img = $img.replaceAll( "\\", "/" ) )
-              <img alt="$name" src="$img" />
-            </a>
-        #end
-        #if( $poweredBy.isEmpty() )
-          <a href="http://maven.apache.org/" title="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" id="poweredBy">
-            <img alt="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" border="1" src="$relativePath/images/logos/maven-feather.png"></img>
-          </a>
-        #end
-    #else
-        <a href="http://maven.apache.org/" title="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" id="poweredBy">
-          <img alt="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" src="$relativePath/images/logos/maven-feather.png"></img>
-        </a>
-    #end
-#end
-
 <html>
   <head>
     <title>$title</title>
@@ -278,7 +237,7 @@
     </style>
     <link rel="stylesheet" href="$relativePath/css/print.css" type="text/css" media="print" />
     #foreach( $author in $authors )
-      <meta name="author" content="$author" />
+      <meta name="author" content="Oracle User"/>
     #end
     <meta http-equiv="Content-Type" content="text/html; charset=${outputEncoding}" />
     #if ( $decoration.body.head )
@@ -313,19 +272,17 @@
 			#mainMenu( $decoration.body.menus )
 			<br/>
 			<br/>
-			#poweredByLogo( $decoration.poweredBy )
 			<p>
-			  <a href="http://sourceforge.net/project/showfiles.php?group_id=164846" title="HermesFTP on SourceForge" id="sourceForge">
-                <img alt="HermesFTP on SourceForge" border="1" src="http://sflogo.sourceforge.net/sflogo.php?group_id=164846&type=1" />
+			 <a href="http://maven.apache.org/" title="Built by Maven" >
+          <img alt="Built by Maven" src="images/logos/maven-feather.png" style="margin-top: 40px;" class="logoLink"></img>
+          </a>
+			</p>
+			<p>
+			  <a href="http://sourceforge.net/project/showfiles.php?group_id=164846" title="HermesFTP on SourceForge" >
+                <img alt="HermesFTP on SourceForge" src="http://sflogo.sourceforge.net/sflogo.php?group_id=164846&type=1" class="logoLink" />
               </a>
-            </p>
-            <p>
-              <a href="http://validator.w3.org/check?uri=referer">
-              <img
-                 src="http://www.w3.org/Icons/valid-xhtml10" class="logoLink"
-                 alt="Valid XHTML 1.0 Strict" height="31" width="88" />
-              </a>
-            </p>
+          </p>
+          
 			<p></p>
 		
 		</div>

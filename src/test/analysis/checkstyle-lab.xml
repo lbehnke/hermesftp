@@ -30,7 +30,7 @@
         <module name="StaticVariableName"/>
         <module name="TypeName"/>
         <module name="Header">
-            <property name="headerFile" value="/home/developer/workspaces/workspace-lab/hermesftp-server/src/test/analysis/gpl_header.txt"/>
+            <property name="headerFile" value="${checkstyle.header.file}"/>
         </module>
         <module name="AvoidStarImport"/>
         <module name="IllegalImport"/>
@@ -158,6 +158,6 @@
         <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="HermesFTP Suppressions"/>
     </module>
     <module name="SuppressionFilter">
-        <property name="file" value="/home/developer/workspaces/workspace-lab/hermesftp-server/src/test/analysis/checkstyle-suppression.xml"/>
+            <!-- <property name="file" value="${checkstyle.suppressions.location}" /> -->
     </module>
 </module>
