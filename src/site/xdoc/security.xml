@@ -11,7 +11,7 @@
 		<section name="Security">
 		<subsection name="Keystore Usage">
 			<p>
-				The keytool is a utility shipped with your Java SDK. It enables you to manage keys
+				<i>keytool</i> is a utility shipped with your Java SDK. It enables you to manage keys
 				and certificates used for self-authentication or data integrity and authentication
 				services. The security related data is stored in a so-called keystore, which is
 				basically a file in your local file system. Besides your own private/public key

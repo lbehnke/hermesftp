@@ -23,7 +23,7 @@
 					<li>Authentication via implicit or explicit SSL/TLS.</li>
 					<li>Network protocols IPv4 and IPv6.</li>
 					<li>Data compression (MODE Z).</li>
-					<li>Preconfigured Windows service or Linux daemon.</li>
+					<li>Pre-configured Windows service or Linux daemon.</li>
 					<li>Management of users and user groups via XML file.</li>
 					<li>Global and group based bandwidth limits.</li>
 					<li>Group based transfer volume limits</li>

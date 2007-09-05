@@ -10,7 +10,7 @@
 	<body>
 		<section name="Getting Started">
 			<subsection name="Prerequisites">
-				Hermes FTP Server requires Java 1.4.2 or later. Please check the java version
+				Since version 0.15 Hermes FTP Server requires Java 5 or later. Please check the java version
 				installed on your system by typing the following command at the command prompt:
 				<source>java -version</source>
 				In case you have no java (or an outdated version) installed, you can get the latest version

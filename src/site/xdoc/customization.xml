@@ -82,7 +82,7 @@ public class FtpCmdSite
 <p>
   After wrapping the compiled class into a JAR file you must copy the archive into the folder 
   <i>$HERMES_HOME/plugins</i>. All classes found in this folder are loaded automatically after starting up the application.
-  In the same way all parts of Hermes FTP Server represented by a Spring bean can be replaced or modified.   
+  In the same way all parts of Hermes FTP Server represented by a Spring bean can be replaced.   
 </p>        
         
         </subsection>

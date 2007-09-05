@@ -39,8 +39,8 @@
 
   <p>The web console is protected against unauthorized access. Only users
   holding the administration role have permission to access the console.
-  The administration role is granted in the file hermesftp-users.xml by
-  setting the optional user attribute "adminrole" to true (default is false).
+  The administration role is granted in <i>hermesftp-users.xml</i> by
+  setting the optional user attribute <i>adminrole</i> to <i>true</i> (default is <i>false</i>).
   </p>
   <p>By default, only the user "admin" (password "admin") may access the console</p>
 
@@ -51,7 +51,7 @@
     &lt;group-ref name=&quot;administrators&quot;/&gt;
   &lt;/user&gt;</source>
 
-   <p>You can disable the web console by setting the property console.enabled (hermesftp-ctx.xml) to false.</p>
+   <p>You can disable the web console by setting the property <i>console.enabled</i> (in <i>hermesftp-ctx.xml</i>) to false.</p>
    
 
 <source>

@@ -10,7 +10,7 @@
 	<body>
 		<section name="Installing a Service">
 			<p>
-				In many cases it makes sense to start the FTP server as soon as the system is
+				You may want to start the FTP server as soon as the system is
 				up an running. Therefore, the binary distribution of Hermes FTP server was bundled
 				with a precustomized
 				<a href="http://wrapper.tanukisoftware.org">Java Service Wrapper</a>
