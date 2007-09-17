@@ -57,8 +57,11 @@ public interface FtpConstants {
     /** The key for the allowed passive ports. */
     public static final String   OPT_ALLOWED_PASSIVE_PORTS = "allowed.passive.ports";
 
-    /** The key for the black list of ip addresses. */
-    public static final String   OPT_IP_BLACK_LIST         = "ip.black.list";
+    /** The key for the black list of ip v4 addresses. */
+    public static final String   OPT_IPV4_BLACK_LIST         = "ipv4.black.list";
+
+    /** The key for the black list of ip v4 addresses. */
+    public static final String   OPT_IPV6_BLACK_LIST         = "ipv6.black.list";
 
     /** The key for the global maximum upload rate in KB/s. */
     public static final String   OPT_MAX_UPLOAD_RATE       = "max.upload.rate";

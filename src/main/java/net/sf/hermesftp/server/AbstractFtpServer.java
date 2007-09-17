@@ -26,6 +26,7 @@ package net.sf.hermesftp.server;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -136,11 +137,14 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
                     continue;
                 }
 
-                /* Check blacklisted IP addresses */
-                String ipBlackList = getOptions().getString(FtpConstants.OPT_IP_BLACK_LIST, "");
-                String ipClient = clientSocket.getInetAddress().getHostAddress();
-                if (NetUtils.checkIPMatch(ipBlackList, ipClient)) {
-                    log.info("Client with IP address " + ipClient + " rejected (blacklisted).");
+                /* Check blacklisted IP v4 addresses */
+                
+                InetAddress addr = clientSocket.getInetAddress();
+                String listKey = NetUtils.isIPv6(addr) ? FtpConstants.OPT_IPV6_BLACK_LIST : FtpConstants.OPT_IPV4_BLACK_LIST;
+                String ipBlackList = getOptions().getString(listKey, "");
+                
+                if (NetUtils.checkIPMatch(ipBlackList, addr)) {
+                    log.info("Client with IP address " + addr.getHostAddress() + " rejected (blacklisted).");
                     IOUtils.closeGracefully(clientSocket);
                     continue;
                 }
@@ -153,7 +157,7 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
                 session.setFtpContext(ctx);
 
                 /* Start session */
-                log.debug("Accepting connection to " + ipClient);
+                log.debug("Accepting connection to " + addr.getHostAddress());
                 session.start();
                 registerSession(session);
 

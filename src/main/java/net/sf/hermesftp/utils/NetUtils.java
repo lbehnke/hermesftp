@@ -24,6 +24,8 @@
 
 package net.sf.hermesftp.utils;
 
+import java.net.Inet4Address;
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -41,10 +43,13 @@ import org.apache.commons.logging.LogFactory;
 public final class NetUtils {
 
     private static final String REGEX_POINT   = "\\.";
+    private static final String REGEX_COLON   = ":";
 
     private static final int    QUADRUPLE_LEN = 4;
+    private static final int    OCTUPLE_LEN = 8;
 
-    private static Log          log           = LogFactory.getLog(NetUtils.class);
+    private static Log          log           = LogFactory
+                                                      .getLog(NetUtils.class);
 
     /**
      * Hidden constructor.
@@ -56,13 +61,15 @@ public final class NetUtils {
     /**
      * Returns the machine's network address.
      * 
-     * @param fallBackToLocalhost True if loopback address should be used if there is no net.
+     * @param fallBackToLocalhost True if loopback address should be used if
+     *            there is no net.
      * @return The ip address.
      */
     public static InetAddress getMachineAddress(boolean fallBackToLocalhost) {
         InetAddress result = null;
         try {
-            Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
+            Enumeration<NetworkInterface> nis = NetworkInterface
+                    .getNetworkInterfaces();
             while (nis.hasMoreElements()) {
                 NetworkInterface ni = nis.nextElement();
                 InetAddress ia = getMachineAddress(ni);
@@ -80,6 +87,16 @@ public final class NetUtils {
             log.error(e);
         }
         return result;
+    }
+
+    /**
+     * Checks the IP protocol version (IPv4 or IPv6)
+     * 
+     * @param addr The address to check.
+     * @return True, if IPv6.
+     */
+    public static boolean isIPv6(InetAddress addr) {
+        return addr instanceof Inet6Address;
     }
 
     /**
@@ -118,17 +135,34 @@ public final class NetUtils {
     }
 
     /**
-     * Checks if the passed IP complies to a given pattern.
+     * Checks if the passed IP address complies to a given pattern.
      * 
-     * @param ipTemplateList String list of patterns that may contain wild cards, such as:
-     *            192.168.*.*, 127.0.0.1, !85.0.0.0
+     * @param ipTemplateList String list of patterns. Wild cards are allowed: 192.168.*.*, 127.0.0.1, !85.0.0.0
      * @param ip The IP address to check.
-     * @return True, if the passed IP address matches at least one of the patterns.
+     * @return True, if the passed IP address matches at least one of the
+     *         patterns.
      */
-    public static boolean checkIPMatch(String ipTemplateList, String ip) {
-        String[] chk = ip.split(REGEX_POINT);
+    public static boolean checkIPMatch(String ipTemplateList, InetAddress addr) {
+        if (isIPv6(addr)) {
+            return checkIPv6Match(ipTemplateList, (Inet6Address)addr);
+        } else {
+            return checkIPv4Match(ipTemplateList, (Inet4Address)addr);
+        }
+    }
+    
+    /**
+     * Checks if the passed IPv4 complies to a given pattern.
+     * 
+     * @param ipTemplateList String list of patterns. Wild cards are allowed: 192.168.*.*, 127.0.0.1, !85.0.0.0
+     * @param ip The IP address to check.
+     * @return True, if the passed IP address matches at least one of the
+     *         patterns.
+     */
+    public static boolean checkIPv4Match(String ipTemplateList, Inet4Address addr) {
+        String ipStr = addr.getHostAddress();
+        String[] chk = ipStr.split(REGEX_POINT);
         if (chk.length != QUADRUPLE_LEN) {
-            throw new IllegalArgumentException("Illegal IP address: " + ip);
+            throw new IllegalArgumentException("Illegal IPv4 address: " + ipStr);
         }
 
         boolean inverse = false;
@@ -144,7 +178,8 @@ public final class NetUtils {
             String[] tmpl = t.split(REGEX_POINT);
             boolean match = true;
             for (int j = 0; j < tmpl.length; j++) {
-                match &= ("*".equals(tmpl[j].trim())) || (tmpl[j].trim().equals(chk[j].trim())) ^ inverse;
+                match &= ("*".equals(tmpl[j].trim()))
+                        || (tmpl[j].trim().equals(chk[j].trim())) ^ inverse;
             }
             if (match) {
                 return true;
@@ -155,4 +190,43 @@ public final class NetUtils {
 
     }
 
+    /**
+     * Checks if the passed IPv6 complies to a given pattern.
+     * 
+     * @param ipTemplateList String list of patterns. Wild cards are allowed.
+     * @param ip The IP address to check.
+     * @return True, if the passed IP address matches at least one of the
+     *         patterns.
+     */
+    public static boolean checkIPv6Match(String ipTemplateList, Inet6Address addr) {
+        String ipStr = addr.getHostAddress();
+        String[] chk = ipStr.split(REGEX_COLON);
+        if (chk.length != OCTUPLE_LEN) {
+            throw new IllegalArgumentException("Illegal IPv6 address: " + ipStr);
+        }
+
+        boolean inverse = false;
+        String[] ipTemplateArr = ipTemplateList.split(",");
+        for (int i = 0; i < ipTemplateArr.length; i++) {
+            String t;
+            if (ipTemplateArr[i].trim().startsWith("!")) {
+                t = ipTemplateArr[i].substring(1).trim();
+                inverse = true;
+            } else {
+                t = ipTemplateArr[i].trim();
+            }
+            String[] tmpl = t.split(REGEX_COLON);
+            boolean match = true;
+            for (int j = 0; j < tmpl.length; j++) {
+                match &= ("*".equals(tmpl[j].trim()))
+                        || (tmpl[j].trim().equals(chk[j].trim())) ^ inverse;
+            }
+            if (match) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
 }

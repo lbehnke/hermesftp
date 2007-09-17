@@ -118,14 +118,14 @@
 				<prop key="ssl.force">false</prop>
 				<prop key="ssl.allow.explicit">true</prop>
 				<prop key="ssl.allow.implicit">true</prop>
-				<prop key="ssl.port.implicit">990</prop>
+				<prop key="ssl.port.implicit">9900</prop>
 				<prop key="ssl.keystore.file">keystore</prop>
 				<prop key="ssl.keystore.password">secret</prop>
 				<prop key="ssl.cipher.suites"></prop>
 				<prop key="charset.ebcdic">CP1047</prop>
 				<prop key="charset.ascii">ISO-8859-1</prop>
 				<prop key="console.enabled">true</prop>
-				<!-- <prop key="ip.black.list">!127.0.0.1,!192.*.*.*</prop> -->
+				<!-- <prop key="ipv4.black.list">!127.0.0.1,!192.*.*.*</prop> -->
 			</props>
 		</property>
 	</bean>

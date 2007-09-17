@@ -35,9 +35,9 @@ import org.apache.commons.logging.LogFactory;
 /**
  * <b>The EPRT Command (EPRT)</b>
  * <p>
- * The EPRT command allows for the specification of an extended address for the data connection. The
- * extended address MUST consist of the network protocol as well as the network and transport
- * addresses. The format of EPRT is:
+ * The EPRT command allows for the specification of an extended address for the
+ * data connection. The extended address MUST consist of the network protocol as
+ * well as the network and transport addresses. The format of EPRT is:
  * </p>
  * 
  * <pre>
@@ -45,16 +45,18 @@ import org.apache.commons.logging.LogFactory;
  * </pre>
  * 
  * <p>
- * The EPRT command keyword MUST be followed by a single space (ASCII 32). Following the space, a
- * delimiter character (&lt;d&gt;) MUST be specified. The delimiter character MUST be one of the
- * ASCII characters in range 33-126 inclusive. The character "|" (ASCII 124) is recommended unless
- * it coincides with a character needed to encode the network address.
+ * The EPRT command keyword MUST be followed by a single space (ASCII 32).
+ * Following the space, a delimiter character (&lt;d&gt;) MUST be specified. The
+ * delimiter character MUST be one of the ASCII characters in range 33-126
+ * inclusive. The character "|" (ASCII 124) is recommended unless it coincides
+ * with a character needed to encode the network address.
  * </p>
  * <p>
- * The &lt;net-prt&gt; argument MUST be an address family number defined by IANA in the latest
- * Assigned Numbers RFC (RFC 1700 [RP94] as of the writing of this document). This number indicates
- * the protocol to be used (and, implicitly, the address length). This document will use two of
- * address family numbers from [RP94] as examples, according to the following table:
+ * The &lt;net-prt&gt; argument MUST be an address family number defined by IANA
+ * in the latest Assigned Numbers RFC (RFC 1700 [RP94] as of the writing of this
+ * document). This number indicates the protocol to be used (and, implicitly,
+ * the address length). This document will use two of address family numbers
+ * from [RP94] as examples, according to the following table:
  * </p>
  * 
  * <pre>
@@ -65,9 +67,9 @@ import org.apache.commons.logging.LogFactory;
  * </pre>
  * 
  * <p>
- * The &lt;net-addr&gt; is a protocol specific string representation of the network address. For the
- * two address families specified above (AF Number 1 and 2), addresses MUST be in the following
- * format:
+ * The &lt;net-addr&gt; is a protocol specific string representation of the
+ * network address. For the two address families specified above (AF Number 1
+ * and 2), addresses MUST be in the following format:
  * </p>
  * 
  * <pre>
@@ -80,8 +82,9 @@ import org.apache.commons.logging.LogFactory;
  * </pre>
  * 
  * <p>
- * The &lt;tcp-port&gt; argument must be the string representation of the number of the TCP port on
- * which the host is listening for the data connection. The following are sample EPRT commands:
+ * The &lt;tcp-port&gt; argument must be the string representation of the number
+ * of the TCP port on which the host is listening for the data connection. The
+ * following are sample EPRT commands:
  * 
  * <pre>
  *       EPRT |1|132.235.1.2|6275|
@@ -90,17 +93,19 @@ import org.apache.commons.logging.LogFactory;
  * </pre>
  * 
  * <p>
- * The first command specifies that the server should use IPv4 to open a data connection to the host
- * "132.235.1.2" on TCP port 6275. The second command specifies that the server should use the IPv6
- * network protocol and the network address "1080::8:800:200C:417A" to open a TCP data connection on
- * port 5282.
+ * The first command specifies that the server should use IPv4 to open a data
+ * connection to the host "132.235.1.2" on TCP port 6275. The second command
+ * specifies that the server should use the IPv6 network protocol and the
+ * network address "1080::8:800:200C:417A" to open a TCP data connection on port
+ * 5282.
  * </p>
  * <p>
- * Upon receipt of a valid EPRT command, the server MUST return a code of 200 (Command OK). The
- * standard negative error code 500 and 501 [PR85] are sufficient to handle most errors (e.g.,
- * syntax errors) involving the EPRT command. However, an additional error code is needed. The
- * response code 522 indicates that the server does not support the requested network protocol. The
- * interpretation of this new error code is:
+ * Upon receipt of a valid EPRT command, the server MUST return a code of 200
+ * (Command OK). The standard negative error code 500 and 501 [PR85] are
+ * sufficient to handle most errors (e.g., syntax errors) involving the EPRT
+ * command. However, an additional error code is needed. The response code 522
+ * indicates that the server does not support the requested network protocol.
+ * The interpretation of this new error code is:
  * </p>
  * 
  * <pre>
@@ -110,8 +115,9 @@ import org.apache.commons.logging.LogFactory;
  * </pre>
  * 
  * <p>
- * The text portion of the response MUST indicate which network protocols the server does support.
- * If the network protocol is unsupported, the format of the response string MUST be:
+ * The text portion of the response MUST indicate which network protocols the
+ * server does support. If the network protocol is unsupported, the format of
+ * the response string MUST be:
  * </p>
  * 
  * <pre>
@@ -120,13 +126,16 @@ import org.apache.commons.logging.LogFactory;
  * </pre>
  * 
  * <p>
- * Both the numeric code specified above and the protocol information between the characters '(' and
- * ')' are intended for the software automata receiving the response; the textual message between
- * the numeric code and the '(' is intended for the human user and can be any arbitrary text, but
- * MUST NOT include the characters '(' and ')'. In the above case, the text SHOULD indicate that the
- * network protocol in the EPRT command is not supported by the server. The list of protocols inside
- * the parenthesis MUST be a comma separated list of address family numbers. Two example response
- * strings follow: Network protocol not supported, use (1) Network protocol not supported, use (1,2)
+ * Both the numeric code specified above and the protocol information between
+ * the characters '(' and ')' are intended for the software automata receiving
+ * the response; the textual message between the numeric code and the '(' is
+ * intended for the human user and can be any arbitrary text, but MUST NOT
+ * include the characters '(' and ')'. In the above case, the text SHOULD
+ * indicate that the network protocol in the EPRT command is not supported by
+ * the server. The list of protocols inside the parenthesis MUST be a comma
+ * separated list of address family numbers. Two example response strings
+ * follow: Network protocol not supported, use (1) Network protocol not
+ * supported, use (1,2)
  * </p>
  * <p>
  * <i>[Excerpt from RFC-2428, Allman]</i>
@@ -138,13 +147,10 @@ public class FtpCmdEprt extends AbstractFtpCmdPort {
 
     private static final String EPRT_ARG_PATTERN = "^(.)([12])\\1([A-Fa-f0-9\\.\\:]+)\\1([0-9]*)\\1$";
 
-    private static Log          log              = LogFactory.getLog(FtpCmdEprt.class);
+    private static Log          log              = LogFactory
+                                                         .getLog(FtpCmdEprt.class);
 
     private static Pattern      pattern;
-
-    static {
-        pattern = Pattern.compile(EPRT_ARG_PATTERN);
-    }
 
     private int                 port;
 
@@ -153,6 +159,10 @@ public class FtpCmdEprt extends AbstractFtpCmdPort {
     private int                 protocolIdx;
 
     private String              lastArgs;
+
+    static {
+        pattern = Pattern.compile(EPRT_ARG_PATTERN);
+    }
 
     /**
      * {@inheritDoc}
@@ -203,7 +213,8 @@ public class FtpCmdEprt extends AbstractFtpCmdPort {
             int protocolIdx = Integer.parseInt(matcher.group(2));
             String ipAddr = matcher.group(3);
             int port = Integer.parseInt(matcher.group(4));
-            log.debug("Protocol: " + protocolIdx + ", IPAddr: " + ipAddr + ", Port: " + port);
+            log.debug("Protocol: " + protocolIdx + ", IPAddr: " + ipAddr
+                    + ", Port: " + port);
             this.addr = ipAddr;
             this.port = port;
             this.protocolIdx = protocolIdx;

@@ -56,7 +56,7 @@ public abstract class AbstractFtpCmdPasv extends AbstractFtpCmd {
             out(createResponseMessage(info.getProtocolIdx(), info.getAddress(), info.getPort()));
 
             /*
-             * Connecting the client (ServerSocket.accetp()) is deferred until data channel is
+             * Connecting the client (ServerSocket.accept()) is deferred until data channel is
              * needed.
              */
 

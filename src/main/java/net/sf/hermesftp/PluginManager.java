@@ -70,7 +70,7 @@ public final class PluginManager {
         for (int i = 0; i < jarFiles.length; i++) {
             try {
                 File file = jarFiles[i];
-                jars.add(file.toURL());
+                jars.add(file.toURI().toURL());
                 cpExtension.append(System.getProperty(PATH_SEPARATOR));
                 cpExtension.append(file.toString());
             } catch (MalformedURLException e) {
@@ -121,7 +121,7 @@ public final class PluginManager {
      */
     public static void addResource(File jarOrPath) {
         try {
-            classLoader.addURL(jarOrPath.toURL());
+            classLoader.addURL(jarOrPath.toURI().toURL());
         } catch (MalformedURLException e) {
             log.error(e);
         }

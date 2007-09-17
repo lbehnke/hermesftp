@@ -53,7 +53,7 @@ import org.apache.commons.logging.LogFactory;
  * </p>
  * 
  * <pre>
- *   &lt;text indicating server is entering extended passive mode&gt; \
+ *   &lt;text indicating server is entering extended passive mode&gt; 
  *   (&lt;d&gt;&lt;d&gt;&lt;d&gt;&lt;tcp-port&gt;&lt;d&gt;)
  * </pre>
  * 
@@ -135,7 +135,7 @@ public class FtpCmdEpsv extends AbstractFtpCmdPasv {
     protected int getPreferredProtocol() {
         int result = 0;
         String args = getArguments();
-        if (args != null) {
+        if (args != null && args.length() > 0) {
             try {
                 result = Integer.parseInt(args.trim());
             } catch (Exception e) {

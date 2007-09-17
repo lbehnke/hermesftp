@@ -24,7 +24,9 @@
 
 package net.sf.hermesftp.utils;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import junit.framework.TestCase;
 
@@ -50,22 +52,28 @@ public class NetUtilsTest extends TestCase {
     }
 
     public void testMatchIP() {
-        String ip = "127.0.0.1";
+        Inet4Address ip;
+        try {
+            ip = (Inet4Address)Inet4Address.getLocalHost();
+            /* Check no match */
+            assertFalse(NetUtils.checkIPv4Match("85.*.*.*", ip));
+            assertFalse(NetUtils.checkIPv4Match("127.0.0.2", ip));
+            assertFalse(NetUtils.checkIPv4Match("*.1.*.*", ip));
+            assertFalse(NetUtils.checkIPv4Match("127.1", ip));
+            assertFalse(NetUtils.checkIPv4Match("85.*.*.*,!127.0.0.1", ip));
+            assertFalse(NetUtils.checkIPv4Match("127.0.0.2,!127.0.0.*", ip));
+            assertFalse(NetUtils.checkIPv4Match("*.1.*.*,!127.*.*.*", ip));
 
-        /* Check no match */
-        assertFalse(NetUtils.checkIPMatch("85.*.*.*", ip));
-        assertFalse(NetUtils.checkIPMatch("127.0.0.2", ip));
-        assertFalse(NetUtils.checkIPMatch("*.1.*.*", ip));
-        assertFalse(NetUtils.checkIPMatch("127.1", ip));
-        assertFalse(NetUtils.checkIPMatch("85.*.*.*,!127.0.0.1", ip));
-        assertFalse(NetUtils.checkIPMatch("127.0.0.2,!127.0.0.*", ip));
-        assertFalse(NetUtils.checkIPMatch("*.1.*.*,!127.*.*.*", ip));
+            /* Check match */
+            assertTrue(NetUtils.checkIPv4Match("85.*.*.*,127.0.0.1", ip));
+            assertTrue(NetUtils.checkIPv4Match("127.0.0.2,127.0.0.*", ip));
+            assertTrue(NetUtils.checkIPv4Match("*.1.*.*,127.*.*.*", ip));
+            assertTrue(NetUtils.checkIPv4Match("127.1,127,0", ip));
+        } catch (UnknownHostException e) {
+            fail("Cannot get local host address.");
+        }
 
-        /* Check match */
-        assertTrue(NetUtils.checkIPMatch("85.*.*.*,127.0.0.1", ip));
-        assertTrue(NetUtils.checkIPMatch("127.0.0.2,127.0.0.*", ip));
-        assertTrue(NetUtils.checkIPMatch("*.1.*.*,127.*.*.*", ip));
-        assertTrue(NetUtils.checkIPMatch("127.1,127,0", ip));
+
 
     }
 
