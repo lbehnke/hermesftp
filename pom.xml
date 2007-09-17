@@ -85,10 +85,27 @@
 				<configuration>
 					<maxmem>256m</maxmem>
 					<source>1.5</source>
-                    <target>1.5</target>
+					<target>1.5</target>
 					<compilerVersion>1.5</compilerVersion>
 				</configuration>
-				
+
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>maven-buildnumber-plugin</artifactId>
+				<!--  <version>0.9.4</version>-->
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<doCheck>true</doCheck>
+					<doUpdate>true</doUpdate>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -239,6 +256,11 @@
 			<name>mortbay-repo</name>
 			<url>http://www.mortbay.org/maven2/snapshot</url>
 		</pluginRepository>
+		<pluginRepository>
+			<id>tlc</id>
+			<name>TLC Repository</name>
+			<url>http://commons.ucalgary.ca/pub/m2</url>
+		</pluginRepository>
 	</pluginRepositories>
 	<dependencies>
 		<dependency>
@@ -321,34 +343,34 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 			</plugin>
 			<!--
-			<plugin>
+				<plugin>
 				<artifactId>maven-checkstyle-plugin</artifactId>     
 				<configuration>
-					<configLocation>
-						${basedir}/src/test/analysis/checkstyle-lab.xml
-					</configLocation>
-					<includes>net/sf/hermesftp/**/*.java</includes>
-                    <consoleOutput>true</consoleOutput>
-                    <failsOnError>true</failsOnError>
-					<suppressionsLocation>${basedir}/src/test/analysis/checkstyle-suppression.xml</suppressionsLocation>
-					<headerLocation>${basedir}/src/test/analysis/gpl_header.txt</headerLocation>
+				<configLocation>
+				${basedir}/src/test/analysis/checkstyle-lab.xml
+				</configLocation>
+				<includes>net/sf/hermesftp/**/*.java</includes>
+				<consoleOutput>true</consoleOutput>
+				<failsOnError>true</failsOnError>
+				<suppressionsLocation>${basedir}/src/test/analysis/checkstyle-suppression.xml</suppressionsLocation>
+				<headerLocation>${basedir}/src/test/analysis/gpl_header.txt</headerLocation>
 				</configuration>
-			</plugin>
+				</plugin>
 			-->
-			
+
 			<!--
-			<plugin>
+				<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>changes-maven-plugin</artifactId>
 				<inherited>false</inherited>
 				<reportSets>
-					<reportSet>
-						<reports>
-							<report>changes-report</report>
-						</reports>
-					</reportSet>
+				<reportSet>
+				<reports>
+				<report>changes-report</report>
+				</reports>
+				</reportSet>
 				</reportSets>
-			</plugin>
+				</plugin>
 			-->
 			<plugin>
 				<artifactId>maven-site-plugin</artifactId>
@@ -380,11 +402,11 @@
 				</configuration>
 			</plugin>
 			<!--
-			<plugin>
+				<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>javancss-maven-plugin</artifactId>
 				<version>2.0-beta-1</version>
-			</plugin>
+				</plugin>
 			-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
