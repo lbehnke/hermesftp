@@ -144,9 +144,9 @@ public final class NetUtils {
      */
     public static boolean checkIPMatch(String ipTemplateList, InetAddress addr) {
         if (isIPv6(addr)) {
-            return checkIPv6Match(ipTemplateList, (Inet6Address)addr);
+            return checkIPv6Match(ipTemplateList, addr.getHostAddress());
         } else {
-            return checkIPv4Match(ipTemplateList, (Inet4Address)addr);
+            return checkIPv4Match(ipTemplateList, addr.getHostAddress());
         }
     }
     
@@ -154,12 +154,12 @@ public final class NetUtils {
      * Checks if the passed IPv4 complies to a given pattern.
      * 
      * @param ipTemplateList String list of patterns. Wild cards are allowed: 192.168.*.*, 127.0.0.1, !85.0.0.0
-     * @param ip The IP address to check.
+     * @param ipStr The IP address to check.
      * @return True, if the passed IP address matches at least one of the
      *         patterns.
      */
-    public static boolean checkIPv4Match(String ipTemplateList, Inet4Address addr) {
-        String ipStr = addr.getHostAddress();
+    public static boolean checkIPv4Match(String ipTemplateList, String ipStr) {
+
         String[] chk = ipStr.split(REGEX_POINT);
         if (chk.length != QUADRUPLE_LEN) {
             throw new IllegalArgumentException("Illegal IPv4 address: " + ipStr);
@@ -194,12 +194,11 @@ public final class NetUtils {
      * Checks if the passed IPv6 complies to a given pattern.
      * 
      * @param ipTemplateList String list of patterns. Wild cards are allowed.
-     * @param ip The IP address to check.
+     * @param ipStr The IP address to check.
      * @return True, if the passed IP address matches at least one of the
      *         patterns.
      */
-    public static boolean checkIPv6Match(String ipTemplateList, Inet6Address addr) {
-        String ipStr = addr.getHostAddress();
+    public static boolean checkIPv6Match(String ipTemplateList, String ipStr) {
         String[] chk = ipStr.split(REGEX_COLON);
         if (chk.length != OCTUPLE_LEN) {
             throw new IllegalArgumentException("Illegal IPv6 address: " + ipStr);
