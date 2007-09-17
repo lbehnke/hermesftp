@@ -23,13 +23,17 @@
 
 package net.sf.hermesftp.streams;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 // CHECKSTYLE:OFF
 
@@ -38,17 +42,19 @@ import junit.framework.TestCase;
  * 
  * @author Lars Behnke
  */
-public class BlockModeStreamTest extends TestCase {
+public class BlockModeStreamTest {
 
     /**
      * Testcase : input stream.
      */
+    @Test
     public void testBlockInputStream() {
         try {
             Map<Long, Long> markers = new HashMap<Long, Long>();
             byte[] data = createBlockData();
-            byte[] eor = new byte[] {0x25};
-            BlockModeInputStream bmis = new BlockModeInputStream(new ByteArrayInputStream(data), eor, markers);
+            byte[] eor = new byte[] { 0x25 };
+            BlockModeInputStream bmis = new BlockModeInputStream(
+                    new ByteArrayInputStream(data), eor, markers);
             ByteArrayOutputStream destData = new ByteArrayOutputStream();
             int b;
             while ((b = bmis.read()) >= 0) {
@@ -74,6 +80,7 @@ public class BlockModeStreamTest extends TestCase {
     /**
      * Testcase : input stream.
      */
+    @Test
     public void testBlockOutputStream() {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -111,8 +118,8 @@ public class BlockModeStreamTest extends TestCase {
             assertEquals(16, destBytes[12]);
             assertEquals(6, destBytes[13]);
 
-            assertEquals(BlockModeConstants.DESC_CODE_EOF | BlockModeConstants.DESC_CODE_EOR,
-                destBytes[314] & 0xff);
+            assertEquals(BlockModeConstants.DESC_CODE_EOF
+                    | BlockModeConstants.DESC_CODE_EOR, destBytes[314] & 0xff);
             assertEquals(0, destBytes[315]);
             assertEquals(2, destBytes[316]);
             assertEquals(6, destBytes[317]);
@@ -160,7 +167,8 @@ public class BlockModeStreamTest extends TestCase {
         baos.write(1);
         baos.write(5);
 
-        baos.write(BlockModeConstants.DESC_CODE_EOR | BlockModeConstants.DESC_CODE_EOF);
+        baos.write(BlockModeConstants.DESC_CODE_EOR
+                | BlockModeConstants.DESC_CODE_EOF);
         baos.write(1);
         baos.write(2);
         len = (1 << 8) + 2;

@@ -24,12 +24,15 @@
 
 package net.sf.hermesftp.utils;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Properties;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class VarMergerTest extends TestCase {
+public class VarMergerTest  {
 
+    @Test
     public void testMerge() {
         VarMerger vm = new VarMerger("ABC ${abc} DEF ${def} GHI ${ghi}");
         Properties props = new Properties();

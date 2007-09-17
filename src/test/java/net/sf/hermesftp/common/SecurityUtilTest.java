@@ -26,28 +26,30 @@ package net.sf.hermesftp.common;
 
 import java.security.NoSuchAlgorithmException;
 
-import junit.framework.TestCase;
-
 import net.sf.hermesftp.utils.SecurityUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests password encoding / decoding.
  * 
  * @author Lars Behnke
  */
-public class SecurityUtilTest extends TestCase {
+public class SecurityUtilTest {
 
     private static final String TEST_PASSWORD = "xxxxxxxx";
 
-    private static Log          log           = LogFactory.getLog(SecurityUtilTest.class);
+    private static Log          log           = LogFactory
+                                                      .getLog(SecurityUtilTest.class);
 
     /**
      * Checks the encoding of some password using different algorithms.
      */
-    public void testPasswordEncodeDecode() {
+    @Test public void testPasswordEncodeDecode() {
         try {
             checkPassword(TEST_PASSWORD, "MD5");
             checkPassword(TEST_PASSWORD, "SHA");
@@ -58,7 +60,8 @@ public class SecurityUtilTest extends TestCase {
 
     }
 
-    private void checkPassword(String pw, String alg) throws NoSuchAlgorithmException {
+    private void checkPassword(String pw, String alg)
+            throws NoSuchAlgorithmException {
         String encodedPw;
         encodedPw = SecurityUtil.encodePassword(pw, alg);
         log.info("Encoding: " + pw + " -> " + encodedPw);

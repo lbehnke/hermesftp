@@ -24,19 +24,23 @@
 
 package net.sf.hermesftp.usermanager.impl;
 
-import java.io.File;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import junit.framework.TestCase;
+import java.io.File;
 
 import net.sf.hermesftp.exception.FtpConfigException;
 import net.sf.hermesftp.usermanager.model.PermissionData;
 
 import org.apache.commons.io.FilenameUtils;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author Lars Behnke
  */
-public class PermissionDataTest extends TestCase {
+public class PermissionDataTest {
 
     private String ftproot;
 
@@ -45,8 +49,10 @@ public class PermissionDataTest extends TestCase {
     /**
      * {@inheritDoc}
      */
-    protected void setUp() throws Exception {
-        ftproot = new File(System.getProperty("user.home"), "hermesftp").getAbsolutePath();
+    @Before
+    public void setUp() throws Exception {
+        ftproot = new File(System.getProperty("user.home"), "hermesftp")
+                .getAbsolutePath();
         user = "tester";
     }
 
@@ -58,6 +64,7 @@ public class PermissionDataTest extends TestCase {
     /**
      * Tests the ant style path matching.
      */
+    @Test
     public void testPathMatch() {
         // CHECKSTYLE:OFF
         PermissionData perm = new PermissionData();

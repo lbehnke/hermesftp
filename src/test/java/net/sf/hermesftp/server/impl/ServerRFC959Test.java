@@ -24,6 +24,11 @@
 
 package net.sf.hermesftp.server.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
@@ -33,6 +38,7 @@ import net.sf.hermesftp.streams.BlockModeConstants;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Test;
 
 // CHECKSTYLE:OFF
 
@@ -52,6 +58,7 @@ public class ServerRFC959Test extends AbstractClientServerTestCase {
     /**
      * Test case: Rename and size.
      */
+    @Test
     public void testRenameAndSize() {
         String str;
         try {
@@ -82,6 +89,7 @@ public class ServerRFC959Test extends AbstractClientServerTestCase {
     /**
      * Test case: Folder creation, deletion and navigation.
      */
+    @Test
     public void testFolderHandling() {
         String str;
         try {
@@ -111,6 +119,7 @@ public class ServerRFC959Test extends AbstractClientServerTestCase {
     /**
      * Test case: System commands.
      */
+    @Test
     public void testSystem() {
         String str;
         try {
@@ -137,6 +146,7 @@ public class ServerRFC959Test extends AbstractClientServerTestCase {
     /**
      * Test case: Statistics.
      */
+    @Test
     public void testStats() {
         String str;
         try {
@@ -159,6 +169,7 @@ public class ServerRFC959Test extends AbstractClientServerTestCase {
     /**
      * Test case: change file date.
      */
+    @Test
     public void testTouch() {
         String str;
         try {
@@ -177,6 +188,7 @@ public class ServerRFC959Test extends AbstractClientServerTestCase {
     /**
      * Test case: Store, retrieve and delete.
      */
+    @Test
     public void testStoreRetrieve() {
         String str;
         try {
@@ -214,6 +226,7 @@ public class ServerRFC959Test extends AbstractClientServerTestCase {
     /**
      * Test case: Block transfer, record structures.
      */
+    @Test
     public void testBlockTransfer() {
         try {
             byte[] data = createBlockData();

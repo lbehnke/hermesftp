@@ -26,8 +26,6 @@ package net.sf.hermesftp.server.impl;
 
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
 import net.sf.hermesftp.SpringUtil;
 import net.sf.hermesftp.client.FtpTestClient;
 import net.sf.hermesftp.common.BeanConstants;
@@ -36,19 +34,24 @@ import net.sf.hermesftp.server.FtpServer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.After;
+import org.junit.Before;
 
 // CHECKSTYLE:OFF
 
 /**
- * Abstract test case that sets up the communication infrastructure between FTP client and server.
+ * Abstract test case that sets up the communication infrastructure between FTP
+ * client and server.
  * 
  * @author Lars Behnke
  */
-public abstract class AbstractClientServerTestCase extends TestCase implements FtpConstants, BeanConstants {
+public abstract class AbstractClientServerTestCase implements FtpConstants,
+        BeanConstants {
 
     private static final int SERVER_DELAY = 800;
 
-    private static Log       log          = LogFactory.getLog(ServerRFC959Test.class);
+    private static Log       log          = LogFactory
+                                                  .getLog(ServerRFC959Test.class);
 
     private FtpTestClient    client;
 
@@ -73,7 +76,8 @@ public abstract class AbstractClientServerTestCase extends TestCase implements F
     /**
      * {@inheritDoc}
      */
-    protected void setUp() {
+    @Before
+    public void setUp() {
         try {
             getClient().openConnection(null, "user", "user");
             getClient().openPassiveMode();
@@ -85,7 +89,8 @@ public abstract class AbstractClientServerTestCase extends TestCase implements F
     /**
      * {@inheritDoc}
      */
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         getClient().closeConnection();
     }
 

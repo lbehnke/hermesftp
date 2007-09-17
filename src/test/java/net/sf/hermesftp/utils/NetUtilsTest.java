@@ -24,17 +24,21 @@
 
 package net.sf.hermesftp.utils;
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
-import junit.framework.TestCase;
+import java.net.InetAddress;
+
+import org.junit.Test;
 
 /**
  * @author Behnke
  */
-public class NetUtilsTest extends TestCase {
+public class NetUtilsTest {
 
+    @Test
     public void testGetMachineAddr() {
         InetAddress addrObj = NetUtils.getMachineAddress(false);
         if (addrObj == null) {
@@ -51,6 +55,7 @@ public class NetUtilsTest extends TestCase {
         }
     }
 
+    @Test
     public void testMatchIP() {
         String ip = "127.0.0.1";
 

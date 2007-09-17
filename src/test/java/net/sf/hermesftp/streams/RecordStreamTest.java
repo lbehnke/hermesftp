@@ -29,7 +29,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 // CHECKSTYLE:OFF
 
@@ -38,17 +39,19 @@ import junit.framework.TestCase;
  * 
  * @author Lars Behnke
  */
-public class RecordStreamTest extends TestCase {
+public class RecordStreamTest {
 
     /**
      * Test case: reading a record stream.
      */
+    @Test
     public void testReadRecordStream() {
         try {
             byte[] data = createRecordData();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             InputStream bais = new ByteArrayInputStream(data);
-            RecordInputStream ris = new RecordInputStream(bais, new byte[] {10, 13});
+            RecordInputStream ris = new RecordInputStream(bais, new byte[] {
+                    10, 13 });
             int b;
             while ((b = ris.read()) != -1) {
                 baos.write(b);
@@ -77,7 +80,8 @@ public class RecordStreamTest extends TestCase {
         try {
             byte[] data = createRecordData();
             InputStream bais = new ByteArrayInputStream(data);
-            RecordInputStream ris = new RecordInputStream(bais, new byte[] {10, 13});
+            RecordInputStream ris = new RecordInputStream(bais, new byte[] {
+                    10, 13 });
             byte[] record;
             record = ris.readRecord();
             assertEquals("ABC", new String(record, "ASCII"));
@@ -96,6 +100,7 @@ public class RecordStreamTest extends TestCase {
     /**
      * Test case: writing records.
      */
+    @Test
     public void testWriteRecordStream() {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -135,7 +140,7 @@ public class RecordStreamTest extends TestCase {
             RecordOutputStream ros = new RecordOutputStream(baos);
             ros.writeRecord("ABC".getBytes("ASCII"), false);
             ros.writeRecord("DEF".getBytes("ASCII"), false);
-            ros.writeRecord(new byte[] {(byte) 255}, true);
+            ros.writeRecord(new byte[] { (byte) 255 }, true);
             ros.close();
 
             byte[] resultBytes = baos.toByteArray();

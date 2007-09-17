@@ -24,10 +24,14 @@
 
 package net.sf.hermesftp.utils;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-public class StringUtilsTest extends TestCase {
+import org.junit.Test;
 
+public class StringUtilsTest {
+
+    @Test
     public void testValidateEmail() {
         boolean result;
         result = StringUtils.validateEmail("lbehnke@users.sourceforge.net");

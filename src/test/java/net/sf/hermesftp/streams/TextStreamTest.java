@@ -24,12 +24,15 @@
 
 package net.sf.hermesftp.streams;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import junit.framework.TestCase;
-
 import net.sf.hermesftp.utils.IOUtils;
+
+import org.junit.Test;
 
 // CHECKSTYLE:OFF
 
@@ -38,15 +41,17 @@ import net.sf.hermesftp.utils.IOUtils;
  * 
  * @author Lars Behnke
  */
-public class TextStreamTest extends TestCase {
+public class TextStreamTest {
 
     /**
      * Testcase : input text stream.
      */
+    @Test
     public void testLineStream() {
         try {
             String text = "ABC\nDEF\n123\n\u00C4\u00D6\u00DC";
-            ByteArrayInputStream bais = new ByteArrayInputStream(text.getBytes("UTF16"));
+            ByteArrayInputStream bais = new ByteArrayInputStream(text
+                    .getBytes("UTF16"));
             TextInputStream lis = new TextInputStream(bais, "UTF16");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             TextOutputStream los = new TextOutputStream(baos, "ISO-8859-1");
@@ -65,14 +70,16 @@ public class TextStreamTest extends TestCase {
     /**
      * Testcase : input text records.
      */
+    @Test
     public void testLineRecord() {
         TextInputStream lis = null;
         TextOutputStream los = null;
         try {
             String lineSep = System.getProperty("line.separator");
-            String text = "ABC" + lineSep + "DEF" + lineSep + "123" + lineSep + "\u00C4\u00D6\u00DC"
-                    + lineSep;
-            ByteArrayInputStream bais = new ByteArrayInputStream(text.getBytes("Cp273"));
+            String text = "ABC" + lineSep + "DEF" + lineSep + "123" + lineSep
+                    + "\u00C4\u00D6\u00DC" + lineSep;
+            ByteArrayInputStream bais = new ByteArrayInputStream(text
+                    .getBytes("Cp273"));
             lis = new TextInputStream(bais, "Cp273");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             los = new TextOutputStream(baos, "ISO-8859-1");

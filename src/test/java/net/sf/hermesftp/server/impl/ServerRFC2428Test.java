@@ -24,10 +24,14 @@
 
 package net.sf.hermesftp.server.impl;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Test;
 
 // CHECKSTYLE:OFF
 
@@ -43,6 +47,7 @@ public class ServerRFC2428Test extends AbstractClientServerTestCase {
     /**
      * Test case: Extended passive port.
      */
+    @Test
     public void testExtendedPassivePort() {
         String str;
         try {
@@ -63,6 +68,7 @@ public class ServerRFC2428Test extends AbstractClientServerTestCase {
     /**
      * Test case: Extended active port.
      */
+    @Test
     public void testExtendedActivePort() {
         String str;
         try {

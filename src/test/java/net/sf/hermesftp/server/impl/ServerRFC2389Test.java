@@ -25,6 +25,9 @@ package net.sf.hermesftp.server.impl;
 
 import java.io.IOException;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 // CHECKSTYLE:OFF
 
 /**
@@ -35,9 +38,9 @@ import java.io.IOException;
 public class ServerRFC2389Test extends AbstractClientServerTestCase {
 
     /**
-     * Test case: Feature negociation.
+     * Test case: Feature negotiation.
      */
-    public void testFeatureNegociation() {
+    @Test public void testFeatureNegociation() {
         try {
             String str;
             str = getClient().sendAndReceive("FEAT");
