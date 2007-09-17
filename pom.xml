@@ -4,7 +4,7 @@
 	<groupId>net.sf.hermesftp</groupId>
 	<artifactId>hermesftp</artifactId>
 	<name>Hermes FTP Server</name>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.15-SNAPSHOT</version>
 	<description>A cross-platform FTP server</description>
 	<url>http://hermesftp.sourceforge.net</url>
 	<issueManagement>
@@ -103,7 +103,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<doCheck>true</doCheck>
+					<doCheck>false</doCheck>
 					<doUpdate>true</doUpdate>
 				</configuration>
 			</plugin>
