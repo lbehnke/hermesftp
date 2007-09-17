@@ -24,7 +24,6 @@
 
 package net.sf.hermesftp.utils;
 
-import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
