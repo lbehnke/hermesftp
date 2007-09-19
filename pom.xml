@@ -165,7 +165,7 @@
 				<configuration>
 					<tagBase>
 						https://hermesftp.svn.sourceforge.net/svnroot/hermesftp/hermesftp-server/branches
-					</tagBase>
+                                        </tagBase>
 				</configuration>
 			</plugin>
 
