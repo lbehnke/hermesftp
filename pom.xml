@@ -4,7 +4,7 @@
 	<groupId>net.sf.hermesftp</groupId>
 	<artifactId>hermesftp</artifactId>
 	<name>Hermes FTP Server</name>
-	<version>0.16</version>
+	<version>0.17-SNAPSHOT</version>
 	<description>A cross-platform FTP server</description>
 	<url>http://hermesftp.sourceforge.net</url>
 	<issueManagement>
@@ -56,9 +56,9 @@
 			<tag></tag>
 			<url>http://hermesftp.cvs.sourceforge.net/hermesftp/</url>
 		-->
-		<connection>scm:svn:https://hermesftp.svn.sourceforge.net/svnroot/hermesftp/hermesftp-server/tags/hermesftp-0.16</connection>
-		<developerConnection>scm:svn:https://hermesftp.svn.sourceforge.net/svnroot/hermesftp/hermesftp-server/tags/hermesftp-0.16</developerConnection>
-		<url>https://hermesftp.svn.sourceforge.net/svnroot/hermesftp/hermesftp-server/tags/hermesftp-0.16</url>
+		<connection>scm:svn:https://hermesftp.svn.sourceforge.net/svnroot/hermesftp/hermesftp-server/tags/0.15</connection>
+		<developerConnection>scm:svn:https://hermesftp.svn.sourceforge.net/svnroot/hermesftp/hermesftp-server/tags/0.15</developerConnection>
+		<url>http://svn.sourceforge.net/viewcvs.cgi/hermesftp/hermesftp-server/tags/0.15</url>
 
 	</scm>
 	<organization>
