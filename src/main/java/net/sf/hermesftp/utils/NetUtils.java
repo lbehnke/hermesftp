@@ -74,6 +74,7 @@ public final class NetUtils {
                 InetAddress ia = getMachineAddress(ni);
                 if (ia != null) {
                     result = ia;
+                    break;
                 }
             }
             if (result == null) {

@@ -80,7 +80,7 @@ public class DataChannelInfo {
     }
 
     /**
-     * Getter methode for <code>address</code>.
+     * Getter method for <code>address</code>.
      * 
      * @return The property <code>address</code>.
      */
@@ -89,7 +89,7 @@ public class DataChannelInfo {
     }
 
     /**
-     * Setter methode for <code>address</code>.
+     * Setter method for <code>address</code>.
      * 
      * @param address the address to set
      */
@@ -98,7 +98,7 @@ public class DataChannelInfo {
     }
 
     /**
-     * Getter methode for <code>port</code>.
+     * Getter method for <code>port</code>.
      * 
      * @return The property <code>port</code>.
      */
@@ -107,7 +107,7 @@ public class DataChannelInfo {
     }
 
     /**
-     * Setter methode for <code>port</code>.
+     * Setter method for <code>port</code>.
      * 
      * @param port the port to set
      */

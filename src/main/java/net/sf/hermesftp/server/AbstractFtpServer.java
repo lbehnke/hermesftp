@@ -66,6 +66,8 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
     private FtpServerOptions       options;
 
     private String                 resources;
+    
+    private String                 name;
 
     private int                    status                    = SERVER_STATUS_UNDEF;
 
@@ -139,12 +141,16 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
 
                 /* Check blacklisted IP v4 addresses */
                 
-                InetAddress addr = clientSocket.getInetAddress();
-                String listKey = NetUtils.isIPv6(addr) ? FtpConstants.OPT_IPV6_BLACK_LIST : FtpConstants.OPT_IPV4_BLACK_LIST;
+                InetAddress clientAddr = clientSocket.getInetAddress();
+                InetAddress localAddr = clientSocket.getLocalAddress();
+                
+                log.info("Client requests connection. ClientAddr.: " +  clientAddr + ", LocalAddr.: " + localAddr);
+                
+                String listKey = NetUtils.isIPv6(clientAddr) ? FtpConstants.OPT_IPV6_BLACK_LIST : FtpConstants.OPT_IPV4_BLACK_LIST;
                 String ipBlackList = getOptions().getString(listKey, "");
                 
-                if (NetUtils.checkIPMatch(ipBlackList, addr)) {
-                    log.info("Client with IP address " + addr.getHostAddress() + " rejected (blacklisted).");
+                if (NetUtils.checkIPMatch(ipBlackList, clientAddr)) {
+                    log.info("Client with IP address " + clientAddr.getHostAddress() + " rejected (blacklisted).");
                     IOUtils.closeGracefully(clientSocket);
                     continue;
                 }
@@ -157,7 +163,7 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
                 session.setFtpContext(ctx);
 
                 /* Start session */
-                log.debug("Accepting connection to " + addr.getHostAddress());
+                log.debug("Accepting connection to " + clientAddr.getHostAddress());
                 session.start();
                 registerSession(session);
 
@@ -385,6 +391,16 @@ public abstract class AbstractFtpServer extends AbstractAppAwareBean implements 
      */
     public void setConnectionCountHWMarkDate(Date connectionCountHWMarkDate) {
         this.connectionCountHWMarkDate = connectionCountHWMarkDate;
+    }
+
+    
+    public String getName() {
+        return name;
+    }
+
+    
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

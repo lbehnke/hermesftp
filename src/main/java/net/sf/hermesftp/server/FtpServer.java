@@ -40,6 +40,13 @@ import net.sf.hermesftp.usermanager.UserManager;
 public interface FtpServer extends Runnable {
 
     /**
+     * Returns the name of the FTP server.
+     * 
+     * @return The name.
+     */
+    String getName();
+
+    /**
      * Returns the number of FTP connections currently active.
      * 
      * @return The number of connections.

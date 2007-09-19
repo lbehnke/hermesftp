@@ -68,14 +68,12 @@ public class ConsoleServerImpl implements ConsoleServer {
 
         try {
             Server server = new Server(getPort());
-
             ContextHandlerCollection contexts = new ContextHandlerCollection();
             server.setHandler(contexts);
             Context ctx = new Context(contexts, "/", Context.SESSIONS | Context.SECURITY);
             configureSecurity(ctx);
             configureServlets(ctx);
             server.start();
-            server.join();
         } catch (Exception e) {
             throw new FtpConsoleException("Starting web server failed: " + e);
         }

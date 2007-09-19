@@ -27,6 +27,8 @@ package net.sf.hermesftp;
 import java.io.File;
 import java.net.InetAddress;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import net.sf.hermesftp.common.BeanConstants;
@@ -51,7 +53,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  */
 public final class FtpServerApp {
 
-    private static final int THREAD_ALIVE_CHECK_INTERVAL = 1000;
+    //private static final int THREAD_ALIVE_CHECK_INTERVAL = 1000;
 
     private static final int PASSWORD_ARG_COUNT          = 3;
 
@@ -74,7 +76,9 @@ public final class FtpServerApp {
         if (args.length > 0 && args[0].trim().equalsIgnoreCase("-password")) {
             generatePassword(args);
         } else {
+            log.info("Starting Hermes FTP Server...");
             PluginManager.startApplication(FtpServerApp.class.getName(), "startServer", args);
+            log.info("Hermes FTP Server ready.");
         }
     }
 
@@ -139,21 +143,36 @@ public final class FtpServerApp {
             if (svr.getOptions().getBoolean("console.enabled", false)) {
                 console.start();
             }
-
-            /* Waiting... */
-            while (svrThread.isAlive() || sslSvrThread.isAlive()) {
-                try {
-                    // TODO Replace by wait/NotifyAll
-                    Thread.sleep(THREAD_ALIVE_CHECK_INTERVAL);
-                } catch (InterruptedException e) {
-                    break;
-                }
-            }
+            
+            /* Register Shutdown Hook */
+            List<FtpServer> serverList = new ArrayList<FtpServer>();
+            serverList.add(svr);
+            serverList.add(sslsvr);
+            addShutdownHook(serverList);
+            
         } catch (Exception e) {
             log.error("Unexpected error", e);
         }
     }
 
+    /**
+     * Add shutdown hook.
+     */
+    private static void addShutdownHook(final List<FtpServer> servers) {
+
+        Runnable shutdownHook = new Runnable() {
+            public void run() {
+                for (FtpServer ftpServer : servers) {
+                    log.info("Stopping server '" + ftpServer.getName() + "'.");
+                    ftpServer.abort();
+                }
+                log.info("All servers down.");
+            }
+        };
+        Runtime runtime = Runtime.getRuntime();
+        runtime.addShutdownHook(new Thread(shutdownHook));
+    }
+    
     private void logPaths(File file) {
         log.info("Hermes Home: " + IOUtils.getHomeDir());
 

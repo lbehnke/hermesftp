@@ -290,20 +290,6 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
         this.transmissionMode = transmissionMode;
     }
 
-    // /**
-    // * {@inheritDoc}
-    // */
-    // public ServerSocket getPassiveModeServerSocket() {
-    // return passiveModeServerSocket;
-    // }
-    //
-    // /**
-    // * {@inheritDoc}
-    // */
-    // public void setPassiveModeServerSocket(ServerSocket passiveSocket) {
-    // this.passiveModeServerSocket = passiveSocket;
-    // }
-
     /**
      * {@inheritDoc}
      */

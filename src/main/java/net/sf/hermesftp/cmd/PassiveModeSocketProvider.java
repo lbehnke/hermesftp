@@ -39,7 +39,6 @@ import javax.net.ssl.SSLServerSocketFactory;
 import net.sf.hermesftp.common.FtpConstants;
 import net.sf.hermesftp.common.FtpSessionContext;
 import net.sf.hermesftp.utils.IOUtils;
-import net.sf.hermesftp.utils.NetUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -82,7 +81,7 @@ public class PassiveModeSocketProvider implements SocketProvider {
     public DataChannelInfo init() throws IOException {
 
         /* Get local machine address and check protocol version. */
-        InetAddress localIp = NetUtils.getMachineAddress(true);
+        InetAddress localIp = ctx.getClientSocket().getLocalAddress();
         int currentProtocol = getProtocolIdxByAddr(localIp);
         boolean ok = (preferredProtocol == currentProtocol) || (preferredProtocol == 0);
         if (!ok) {

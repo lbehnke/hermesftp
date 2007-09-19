@@ -163,12 +163,14 @@
 	</bean>
 
 	<bean id="server" class="net.sf.hermesftp.server.impl.DefaultFtpServer" singleton="true">
+		<property name="name" value="Default FTP Server" />
 		<property name="options" ref="options" />
 		<property name="resources" value="hermesftp-resources"/>
 		<property name="userManager" ref="userManager" />
 	</bean>
 
 	<bean id="sslserver" class="net.sf.hermesftp.server.impl.SecureFtpServer" singleton="true">
+		<property name="name" value="Secure FTP Server" />
 		<property name="options" ref="options" />
 		<property name="resources" value="hermesftp-resources"/>
 		<property name="userManager" ref="userManager" />
