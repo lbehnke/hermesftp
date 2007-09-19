@@ -56,28 +56,51 @@ Hermes FTP Server
    its underlying concept of dependency injection  you will get started quickly developing customized
    extensions.
 
+Maven2 Settings
+---------------
+Add these server configuration to the Maven 2 settings.conf:
+    
+    <server>
+      <id>sourceforge-site</id>
+      <username>your-sourceforge-user-name</username>
+      <password>your-sourceforge-password</password>
+    </server>
+    
+    <server>
+      <id>sourceforge-repo</id>
+      <username>your-sourceforge-user-name</username>
+      <password>your-sourceforge-password</password>
+    </server>
+
+
 Building the Application
 ------------------------
-
 Please make sure the Ports 2121 is not bound already, since test server and client
 make use of this port.
-
-mvn install
+# mvn install
 
 Assembling the application
 -------------------------
-mvn assembly:assembly
+# mvn assembly:assembly
 
 Creating the project site
 -------------------------
-mvn site
+# mvn site
 
 Deploying the project site
 --------------------------
-mvn site-deploy
+# mvn site-deploy
 
 Creating a bundle for deployment on remote repository
 -----------------------------------------------------
-mvn repository:bundle-create
-mvn deploy
+# mvn repository:bundle-create
+# mvn deploy
+
+Releasing the application
+-------------------------
+# mvn release:clean
+# mvn --batch-mode release:prepare
+# mvn --batch-mode release:perform
+
+
 
