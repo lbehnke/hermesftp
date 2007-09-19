@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.hermesftp</groupId>
 	<artifactId>hermesftp</artifactId>
 	<name>Hermes FTP Server</name>
-	<version>0.15-SNAPSHOT</version>
+	<version>0.15</version>
 	<description>A cross-platform FTP server</description>
 	<url>http://hermesftp.sourceforge.net</url>
 	<issueManagement>
@@ -56,15 +56,9 @@
 			<tag></tag>
 			<url>http://hermesftp.cvs.sourceforge.net/hermesftp/</url>
 		-->
-		<connection>
-			scm:svn:https://hermesftp.svn.sourceforge.net/svnroot/hermesftp/hermesftp-server/trunk
-		</connection>
-		<developerConnection>
-			scm:svn:https://hermesftp.svn.sourceforge.net/svnroot/hermesftp/hermesftp-server/trunk
-		</developerConnection>
-		<url>
-			http://svn.sourceforge.net/viewcvs.cgi/hermesftp/hermesftp-server/trunk
-		</url>
+		<connection>scm:svn:https://hermesftp.svn.sourceforge.net/svnroot/hermesftp/hermesftp-server/tags/0.15</connection>
+		<developerConnection>scm:svn:https://hermesftp.svn.sourceforge.net/svnroot/hermesftp/hermesftp-server/tags/0.15</developerConnection>
+		<url>http://svn.sourceforge.net/viewcvs.cgi/hermesftp/hermesftp-server/tags/0.15</url>
 
 	</scm>
 	<organization>
