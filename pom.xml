@@ -4,7 +4,7 @@
 	<groupId>net.sf.hermesftp</groupId>
 	<artifactId>hermesftp</artifactId>
 	<name>Hermes FTP Server</name>
-	<version>0.15</version>
+	<version>0.15-SNAPSHOT</version>
 	<description>A cross-platform FTP server</description>
 	<url>http://hermesftp.sourceforge.net</url>
 	<issueManagement>
@@ -158,8 +158,8 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
 					<tagBase>
-						https://hermesftp.svn.sourceforge.net/svnroot/hermesftp/hermesftp-server/branches
-                                        </tagBase>
+						https://hermesftp.svn.sourceforge.net/svnroot/hermesftp/hermesftp-server/tags
+                    </tagBase>
 				</configuration>
 			</plugin>
 
