@@ -158,6 +158,7 @@ public class XmlFileReader {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     private void processUserData(Document doc, UserManagerData umd) {
         Element usersElement = (Element) doc.selectSingleNode(XPATH_USERS);
         String defaultDir = usersElement.attributeValue(ATTR_DEFAULT_DIR);
@@ -190,6 +191,7 @@ public class XmlFileReader {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void processGroupData(Document doc, UserManagerData umd) {
         List<Element> groupElements = doc.selectNodes(XPATH_GROUPS);
         for (Element groupElement : groupElements) {
