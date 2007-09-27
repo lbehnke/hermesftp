@@ -430,14 +430,14 @@
 			<id>sourceforge-repo</id>
 			<name>Maven Central Repository</name>
 			<url>
-				scp://${pom.artifactId}.sourceforge.net/home/groups/${pom.artifactId.substring(0,1)}/${pom.artifactId.substring(0,2)}/${pom.artifactId}/htdocs/maven2
+				scp://${pom.artifactId}.sourceforge.net/home/groups/h/he/${pom.artifactId}/htdocs/maven2
 			</url>
 		</repository>
 		<site>
 			<id>sourceforge-site</id>
 			<name>Sourceforge Project Site</name>
 			<url>
-				scp://${pom.artifactId}.sourceforge.net/home/groups/${pom.artifactId.substring(0,1)}/${pom.artifactId.substring(0,2)}/${pom.artifactId}/htdocs/
+				scp://${pom.artifactId}.sourceforge.net/home/groups/h/he/${pom.artifactId}/htdocs/
 			</url>
 		</site>
 	</distributionManagement>

@@ -26,6 +26,7 @@ package net.sf.hermesftp;
 
 import java.io.File;
 import java.net.InetAddress;
+import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -200,7 +201,9 @@ public final class FtpServerApp {
         log.info(aOptions.getAppTitle());
         log.info("Version " + aOptions.getAppVersion());
         log.info("Build info: " + aOptions.getAppBuildInfo());
-
+        log.info("OS name: " + System.getProperty("os.name"));
+        log.info("OS file encoding (System): " + System.getProperty( "file.encoding"));
+        log.info("OS file encoding (NIO): " + Charset.defaultCharset().name());
         log.info("Ftp server options:");
         Set<Object> keyset = aOptions.getProperties().keySet();
         for (Object key : keyset) {
