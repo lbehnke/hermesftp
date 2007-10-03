@@ -92,7 +92,7 @@ public final class FtpServerApp {
         String password = args[1];
         String algorithm = args[2];
         try {
-            String hash = SecurityUtil.encodePassword(password, algorithm);
+            String hash = SecurityUtil.digestPassword(password, algorithm);
             System.out.print("Hash: " + hash + "\n");
         } catch (NoSuchAlgorithmException e) {
             System.err.println("ERROR: " + e);

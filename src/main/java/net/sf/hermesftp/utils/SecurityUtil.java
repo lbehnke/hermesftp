@@ -62,15 +62,15 @@ public final class SecurityUtil {
     }
 
     /**
-     * Calculates based on the passed parameters an hash code and returns it as BASE64-String. The
+     * Calculates based on the passed parameters an hash code and returns its BASE64 representation. The
      * used algorithm is prepended.
      * 
      * @param password The password to encode.
-     * @param algorithm The alogrithm to use (MD5 e.g.)
+     * @param algorithm The algorithm to use (MD5 e.g.)
      * @return The encoded password as string.
-     * @throws NoSuchAlgorithmException Passed alogrith is not supported.
+     * @throws NoSuchAlgorithmException Passed algorithm is not supported.
      */
-    public static String encodePassword(String password, String algorithm) throws NoSuchAlgorithmException {
+    public static String digestPassword(String password, String algorithm) throws NoSuchAlgorithmException {
         if (password == null) {
             throw new IllegalArgumentException("No password passed");
         }
@@ -86,7 +86,7 @@ public final class SecurityUtil {
     }
 
     /**
-     * Checks the validity of the password password based on a given hashcode. The hashcode to check
+     * Checks the validity of the password password based on a given hash code. The hash code to check
      * against contains the used algorithm has prefix. Example: {MD5}Cwz8B/yoHJVquRgdhXb0qA==.
      * 
      * @param passwordHash The hash code to check against.
@@ -103,7 +103,7 @@ public final class SecurityUtil {
         int endIdx = passwordHash.indexOf(ALG_END);
         if (startIdx == 0 && endIdx > startIdx) {
             algorithm = passwordHash.substring(startIdx + 1, endIdx);
-            String hashStr = encodePassword(password.trim(), algorithm);
+            String hashStr = digestPassword(password.trim(), algorithm);
             return passwordHash.equals(hashStr);
         } else {
             return passwordHash.trim().equals(password.trim());

@@ -63,7 +63,7 @@ public class SecurityUtilTest {
     private void checkPassword(String pw, String alg)
             throws NoSuchAlgorithmException {
         String encodedPw;
-        encodedPw = SecurityUtil.encodePassword(pw, alg);
+        encodedPw = SecurityUtil.digestPassword(pw, alg);
         log.info("Encoding: " + pw + " -> " + encodedPw);
         assertTrue(SecurityUtil.checkPassword(encodedPw, pw));
     }
