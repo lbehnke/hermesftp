@@ -10,7 +10,7 @@
             <subsection name="Overview">
                 <p>
                     Hermes FTP Server is a free, cross-platform FTP server adhering to RFC 959, RFC 2228, RFC 2389, and RFC
-                    2428. It is being developed in Java with a strong focus on security and extensibility. Currently, these
+                    2428. It is being developed in Java with a focus on security and extensibility. Currently, these
                     features are supported:
                     <ul>
                         <li>Active and passive transfer mode.</li>
