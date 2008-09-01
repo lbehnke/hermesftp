@@ -75,7 +75,7 @@ Add these server configuration to the Maven 2 settings.conf:
 
 Building the Application
 ------------------------
-Please make sure the Ports 2121 is not bound already, since test server and client
+Please make sure the port 2121 is not bound already, since test server and client
 make use of this port.
 # mvn install
 
