@@ -48,7 +48,9 @@ import net.sf.hermesftp.utils.VarMerger;
  */
 public abstract class AbstractConsoleServlet extends HttpServlet {
 
-    private static final int          DEFAULT_REFRESH_SECONDS = 10;
+	private static final long serialVersionUID = 1L;
+
+	private static final int          DEFAULT_REFRESH_SECONDS = 10;
 
     private static final DateFormat   DATE_FORMAT             = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
