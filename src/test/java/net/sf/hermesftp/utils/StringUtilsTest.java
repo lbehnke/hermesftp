@@ -34,13 +34,13 @@ public class StringUtilsTest {
     @Test
     public void testValidateEmail() {
         boolean result;
-        result = StringUtils.validateEmail("lbehnke@users.sourceforge.net");
+        result = StringUtils.validateEmail("lbehnkex@users.sourceforge.net");
         assertTrue(result);
-        result = StringUtils.validateEmail("lbehnke AT users.sourceforge.net");
+        result = StringUtils.validateEmail("lbehnkex AT users.sourceforge.net");
         assertFalse(result);
-        result = StringUtils.validateEmail("lbehnke@users@sourceforge.net");
+        result = StringUtils.validateEmail("lbehnkex@users@sourceforge.net");
         assertFalse(result);
-        result = StringUtils.validateEmail("lars behnke@users.sourceforge.net");
+        result = StringUtils.validateEmail("lars behnkex@users.sourceforge.net");
         assertFalse(result);
     }
 
