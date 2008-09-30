@@ -1,16 +1,17 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.hermesftp</groupId>
 	<artifactId>hermesftp</artifactId>
 	<name>Hermes FTP Server</name>
 	<version>0.17-SNAPSHOT</version>
 	<description>A cross-platform FTP server</description>
-	<url>http://hermesftp.sourceforge.net</url>
+	<url>http://hermesftp.sourceforge.net
+	</url>
 	<issueManagement>
 		<system>Sourceforge</system>
-		<url>
-			https://sourceforge.net/tracker/?atid=833334&amp;group_id=164846&amp;func=browse
+		<url> https://sourceforge.net/tracker/?atid=833334&amp;group_id=164846&amp;func=browse
 		</url>
 	</issueManagement>
 	<inceptionYear>2005</inceptionYear>
@@ -58,7 +59,6 @@
 		-->
 		<connection>scm:svn:https://${pom.artifactId}.svn.sourceforge.net/svnroot/${pom.artifactId}/${pom.artifactId}-server/trunk</connection>
 		<developerConnection>scm:svn:https://${pom.artifactId}.svn.sourceforge.net/svnroot/${pom.artifactId}/${pom.artifactId}-server/trunk</developerConnection>
-		<url>http://svn.sourceforge.net/viewcvs.cgi/${pom.artifactId}/${pom.artifactId}-server/trunk</url>
 
 	</scm>
 	<organization>
@@ -84,9 +84,11 @@
 				</configuration>
 
 			</plugin>
+			
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>maven-buildnumber-plugin</artifactId>
+				<artifactId>buildnumber-maven-plugin
+				</artifactId>
 				<executions>
 					<execution>
 						<phase>validate</phase>
@@ -96,8 +98,10 @@
 					</execution>
 				</executions>
 				<configuration>
-					<doCheck>false</doCheck>
-					<doUpdate>true</doUpdate>
+					<format>{0,date,yyyy-MM-dd-HHmmss}</format>
+					<items>
+						<item>timestamp</item>
+					</items>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -353,21 +357,24 @@
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 			</plugin>
-			<!--
-				<plugin>
-				<artifactId>maven-checkstyle-plugin</artifactId>     
+			<plugin>
+				<artifactId>maven-checkstyle-plugin
+				</artifactId>
 				<configuration>
-				<configLocation>
-				${basedir}/src/test/analysis/checkstyle-lab.xml
-				</configLocation>
-				<includes>net/sf/hermesftp/**/*.java</includes>
-				<consoleOutput>true</consoleOutput>
-				<failsOnError>true</failsOnError>
-				<suppressionsLocation>${basedir}/src/test/analysis/checkstyle-suppression.xml</suppressionsLocation>
-				<headerLocation>${basedir}/src/test/analysis/gpl_header.txt</headerLocation>
+					<configLocation> ${basedir}/src/test/analysis/checkstyle-lab.xml
+					</configLocation>
+					<includes>net/sf/hermesftp/**/*.java
+					</includes>
+					<consoleOutput>true</consoleOutput>
+					<failsOnError>true</failsOnError>
+					<suppressionsLocation>
+						${basedir}/src/test/analysis/checkstyle-suppression.xml
+					</suppressionsLocation>
+					<headerLocation>${basedir}/src/test/analysis/gpl_header.txt
+					</headerLocation>
 				</configuration>
-				</plugin>
-			-->
+			</plugin>
+		
 
 			<!--
 				<plugin>
