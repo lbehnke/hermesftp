@@ -347,14 +347,7 @@ public class FtpTestClient {
 
         BufferedReader in = new BufferedReader(new InputStreamReader(transIs, "ISO-8859-1"));
         TextReceiver l = new TextReceiver(in, false);
-        synchronized (lock) {
-            try {
-                new Thread(l).start();
-                lock.wait();
-            } catch (InterruptedException e) {
-                log.error(e);
-            }
-        }
+        executeReceive(l);
         resetDataSockets();
         response = getResponse();
         return response;
@@ -392,15 +385,7 @@ public class FtpTestClient {
         initializeIOStreams();
         BufferedReader in = new BufferedReader(new InputStreamReader(transIs, "ISO-8859-1"));
         TextReceiver l = new TextReceiver(in, false);
-        synchronized (lock) {
-            try {
-                new Thread(l).start();
-
-                lock.wait();
-            } catch (InterruptedException e) {
-                log.error(e);
-            }
-        }
+        executeReceive(l);
 
         response = getResponse();
         resetDataSockets();
@@ -431,19 +416,20 @@ public class FtpTestClient {
 
         BufferedReader in = new BufferedReader(new InputStreamReader(transIs, "ISO-8859-1"));
         TextReceiver l = new TextReceiver(in, true);
-        synchronized (lock) {
-            try {
-                new Thread(l).start();
-                lock.wait();
-            } catch (InterruptedException e) {
-                log.error(e);
-            }
-        }
+        executeReceive(l);
 
         getResponse();
         resetDataSockets();
         return l.getCount();
     }
+
+	private void executeReceive(TextReceiver l) {
+		Thread t = new Thread(l);
+        t.start();
+        while (t.isAlive()) {
+        	Thread.yield();
+        }
+	}
 
     /**
      * Retrieves a raw data file.
@@ -464,19 +450,20 @@ public class FtpTestClient {
         }
         initializeIOStreams();
         RawReceiver l = new RawReceiver(transIs);
-        new Thread(l).start();
-        synchronized (lock) {
-            try {
-                lock.wait();
-            } catch (InterruptedException e) {
-                log.error(e);
-            }
-        }
-
+        executeReceive(l);
+        
         response = getResponse();
         resetDataSockets();
         return response;
     }
+
+	private void executeReceive(RawReceiver l) {
+		Thread t = new Thread(l);
+        t.start();
+        while (t.isAlive()) {
+        	Thread.yield();
+        }
+	}
 
     /**
      * Stores a text file on the remote system.
@@ -523,14 +510,8 @@ public class FtpTestClient {
         initializeIOStreams();
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(transOut, "ISO-8859-1"));
         TextSender l = new TextSender(out, textToStore);
-        new Thread(l).start();
-        synchronized (lock) {
-            try {
-                lock.wait();
-            } catch (InterruptedException e) {
-                log.error(e);
-            }
-        }
+        executeSend(l);
+        
         response = getResponse();
         resetDataSockets();
         return response;
@@ -562,19 +543,20 @@ public class FtpTestClient {
         initializeIOStreams();
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(transOut, "ISO-8859-1"));
         TextSender l = new TextSender(out, size);
-        new Thread(l).start();
-        synchronized (lock) {
-            try {
-                lock.wait();
-            } catch (InterruptedException e) {
-                log.error(e);
-            }
-        }
+        executeSend(l);
         response = getResponse();
         resetDataSockets();
         return response;
 
     }
+
+	private void executeSend(TextSender l) {
+		Thread t = new Thread(l);
+        t.start();
+        while (t.isAlive()) {
+        	Thread.yield();
+        }
+	}
 
     /**
      * Stores a data file on the remote system.
@@ -619,19 +601,20 @@ public class FtpTestClient {
 
         BufferedOutputStream out = new BufferedOutputStream(transOut);
         RawSender l = new RawSender(out, data);
-        synchronized (lock) {
-            new Thread(l).start();
-            try {
-                lock.wait();
-            } catch (InterruptedException e) {
-                log.error(e);
-            }
-        }
+        executeSend(l);
         response = getResponse();
         resetDataSockets();
         return response;
 
     }
+
+	private void executeSend(RawSender l) {
+		Thread t = new Thread(l);
+        t.start();
+        while (t.isAlive()) {
+        	Thread.yield();
+        }
+	}
 
     /**
      * Sends a command string to the server.
