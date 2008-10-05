@@ -436,16 +436,14 @@
 		<repository>
 			<id>sourceforge-repo</id>
 			<name>Maven Central Repository</name>
-			<url>
-				scp://${pom.artifactId}.sourceforge.net/home/groups/h/he/${pom.artifactId}/htdocs/maven2
-			</url>
+			<url>scp://lbehnke,hermesftp@web.sourceforge.net/home/groups/h/he/hermesftp/htdocs/maven2</url>
 		</repository>
 		<site>
 			<id>sourceforge-site</id>
 			<name>Sourceforge Project Site</name>
-			<url>
-				scp://${pom.artifactId}.sourceforge.net/home/groups/h/he/${pom.artifactId}/htdocs/
-			</url>
+			<!--<url>scp://shell.sourceforge.net/home/groups/h/he/hermesftp/htdocs</url>-->
+			<url>scp://lbehnke,hermesftp@web.sourceforge.net/home/groups/h/he/hermesftp/htdocs</url>
+			
 		</site>
 	</distributionManagement>
 	<properties>
