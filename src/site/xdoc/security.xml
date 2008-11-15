@@ -67,6 +67,58 @@ keytool -genkey -alias hermes -keyalg DSA -keystore keystore -validity 365
 				keystore.
 			</p>
 	    </subsection>
+	    <subsection name="FTPS Client Configuration">
+	        <p>
+	        	An FTP client software that supports FTP over SSL/TLS (FTPS or FTPES) is required to establish a secure 
+	        	connection to HermesFTP server. Don't mix FTPS up with SFTP. The latter one requires SSH and is currently
+	        	<i>not</i> supported by HermesFTP.
+	        </p>
+	        <p>
+	        	Here is a short guide how to set up a secure connection using 
+	        	the Filezilla FTP client.  
+	        	
+	        	<br/>
+	        	Let's start with setting up an implicit FTPS connection. 
+	        	Implicit FTPS is an older, but still widely implemented, style in which 
+	        	the client connects to a different control port, 
+	        	and an SSL handshake is performed before any FTP commands are sent. 
+	        	The entire FTPS session is encrypted. 
+	        	Implicit FTPS does not allow for negotiation and the client should 
+	        	immediately challenge the FTPS Server with the TLS/SSL handshake. 
+	        	The Internet Assigned Numbers Authority (IANA) officially designates 
+	        	port 990 as the FTPS control channel port and port 989 as the FTPS 
+	        	data channel port. You can change the default port by setting
+	        	the option <i>ssl.port.implicit</i>.
+	        </p>
+	        <p>	
+	        	Open the server manager and create a new connection. Choose server name
+	        	and ftps port the server listens to (e.g. 990 or 9900). The server type should be FTPS.
+	            Enter user name and password and click connect.
+	        </p>
+	        	
+	        <img alt="filezilla1" src="images/screenshots/ftps.png"/>
+	        <p>When connecting the first time the client asks you to accept the server certificate.</p>
+	        <img alt="filezilla2" src="images/screenshots/cert.png"/>
+	        	
+	        <p>The second way to establish a secure connection is explicit FTPS 
+	        	(aka FTPES, aka AUTH TLS). This is the preferred method 
+	        	according to RFC 4217. The client connects using plain text commands on port 21 
+	        	and may negotiate a secure TLS connection during the FTP setup or at 
+	        	any time thereafter by sending the AUTH command. 
+	        </p>
+	        <p>
+	        	Again, open the server manager and create a new connection. Choose server name
+	        	and ftp port the server listens to (e.g. 21 or 2121). The server type should be FTPES.
+	            Enter user name and password and click connect.
+	        </p>
+	        <img alt="filezilla3" src="images/screenshots/ftpes.png"/>
+	        <p>
+	        	After connecting successfully the ftp client console 
+	        	should show this sequence of commands:
+	        </p>
+	        <img alt="filezilla4" src="images/screenshots/ftpes-log.png"/>
+	        	 
+	    </subsection>
 		</section>
 	</body>
 </document>
