@@ -69,7 +69,7 @@ keytool -genkey -alias hermes -keyalg DSA -keystore keystore -validity 365
 	    </subsection>
 	    <subsection name="FTPS Client Configuration">
 	        <p>
-	        	An FTP client software that supports FTP over SSL/TLS (FTPS or FTPES) is required to establish a secure 
+	        	Any FTP client software that supports FTP over SSL/TLS (FTPS or FTPES) is required to establish a secure 
 	        	connection to HermesFTP server. Don't mix FTPS up with SFTP. The latter one requires SSH and is currently
 	        	<i>not</i> supported by HermesFTP.
 	        </p>
