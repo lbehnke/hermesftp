@@ -75,7 +75,7 @@ keytool -genkey -alias hermes -keyalg DSA -keystore keystore -validity 365
 	        </p>
 	        <p>
 	        	Here is a short guide how to set up a secure connection using 
-	        	the Filezilla FTP client.  
+	        	the (highly recommended) Filezilla FTP client.  
 	        	
 	        	<br/>
 	        	Let's start with setting up an implicit FTPS connection. 
