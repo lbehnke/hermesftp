@@ -37,7 +37,7 @@ Prerequisites
 -------------
 Since version 0.15 Hermes FTP Server requires Java 5 or later. Please check the java version installed on your system by typing the following command at the command prompt:
 
-   java -version
+    java -version
 
 In case you have no java (or an outdated version) installed, you can get the latest version here . There are no further requirements for running the FTP server.
 Installation
@@ -46,34 +46,34 @@ Unzip the file hermesftp-<version>.zip into a target folder of your choice. Chan
 
 In case you want to enable SSL, you have to set up a keystore first. All other settings can remain as they are. The options bean configuration should look like following snippet.
 
-   <bean id="options"
+    <bean id="options"
            class="net.sf.hermesftp.common.FtpServerOptions"
            singleton="true">
-   <property name="properties">
-   <props>
-   <prop key="ftp.root.dir">c:/ftproot</prop>
-   <prop key="max.connections">20</prop>
-   <prop key="buffer.size">2048</prop>
-   <prop key="emulate.unix">true</prop>
-   <prop key="ftp.port">21</prop>
-   <prop key="ssl.force">false</prop>
-   <prop key="ssl.allow.explicit">true</prop>
-   <prop key="ssl.allow.implicit">true</prop>
-   <prop key="ssl.port.implicit">990</prop>
-   <prop key="ssl.keystore.file"></prop>
-   <prop key="ssl.keystore.password"></prop>
-   <prop key="ssl.cipher.suites"></prop>
-   <prop key="charset.ebcdic">CP1047</prop>
-   <prop key="charset.ascii">ISO-8859-1</prop>
-   </props>
-   </property>
-   </bean>
+    <property name="properties">
+	    <props>
+		    <prop key="ftp.root.dir">c:/ftproot</prop>
+		    <prop key="max.connections">20</prop>
+		    <prop key="buffer.size">2048</prop>
+		    <prop key="emulate.unix">true</prop>
+		    <prop key="ftp.port">21</prop>
+		    <prop key="ssl.force">false</prop>
+		    <prop key="ssl.allow.explicit">true</prop>
+		    <prop key="ssl.allow.implicit">true</prop>
+		    <prop key="ssl.port.implicit">990</prop>
+		    <prop key="ssl.keystore.file"></prop>
+		    <prop key="ssl.keystore.password"></prop>
+		    <prop key="ssl.cipher.suites"></prop>
+		    <prop key="charset.ebcdic">CP1047</prop>
+		    <prop key="charset.ascii">ISO-8859-1</prop>
+	    </props>
+    </property>
+    </bean>
 
 Running the server
 ------------------
 Make sure you are still in the installation directory and issue the following command at the command prompt.
 
-   java -jar hermesftp.jar
+    java -jar hermesftp.jar
 
 How to avoid firewall issues
 ----------------------------
@@ -81,19 +81,19 @@ If you are running the ftp server behind a firewall, ftp clients will possibly e
 
 Hermes FTP Server supports both transfer modes. Moreover, you are free to define the port list available for passive data transfer in the application context hermesftp-ctx.xml.
 
-   <bean id="options"
-           class="net.sf.hermesftp.common.FtpServerOptions"
-           singleton="true">
-   <property name="properties">
-   <props>
-   ...
-   <prop key="allowed.passive.ports">
-       9000-9200,12000-12500
-   </prop>
-   ...
-   </props>
-   </property>
-   </bean>
+	   <bean id="options"
+	           class="net.sf.hermesftp.common.FtpServerOptions"
+	           singleton="true">
+		   <property name="properties">
+				   <props>
+				   ...
+				   <prop key="allowed.passive.ports">
+				       9000-9200,12000-12500
+				   </prop>
+				   ...
+			   </props>
+		   </property>
+	   </bean>
 
 If you omit this property, Hermes FTP Server lets the underlying OS decide on which data port to use.
 
@@ -108,7 +108,7 @@ Running Hermes FTP as NT Service
 --------------------------------
 In order to install Hermes FTP Server as a NT service you have to execute the following batch file:
 
-   %HERMES_HOME%/service/bin/hermesftp-install-nt.bat
+    %HERMES_HOME%/service/bin/hermesftp-install-nt.bat
 
 If everything went well, Hermes FTP Server is started automatically on system start from now on. You can start the service by executing the command
 
@@ -116,11 +116,11 @@ If everything went well, Hermes FTP Server is started automatically on system st
 
 The service is uninstalled by executing the script file:
 
-   %HERMES_HOME%/service/bin/hermesftp-uninstall-nt.bat
+    %HERMES_HOME%/service/bin/hermesftp-uninstall-nt.bat
 
 Some of the binaries are bundled with Java Service Wrapper which is a SourceForge project of its own. The Java Service Wrapper files are not part of the Hermes FTP source trunk. If you wish to create a complete assembly copy the service folder from the binary distribution into $WORKSPACE/hermesftp/etc/service first and then execute following command:
 
-   mvn assemby:asembly
+    mvn assemby:asembly
 
 For further documentation refer to the Java Service Wrapper website.
 
@@ -130,8 +130,8 @@ The installation process of a daemon varies among linux distributions. The instr
 
 Login as "root" and change into the folder $HERMES_HOME/service/bin. Make sure the java wrapper script/binary is executable:
 
-   chmod 755 wrapper
-   chmod 755 hermesftp.sh
+    chmod 755 wrapper
+    chmod 755 hermesftp.sh
 
 Open hermesftp.sh with a text editor and set the variable HERMES_HOME to the installation folder, example:
 
@@ -139,33 +139,33 @@ Open hermesftp.sh with a text editor and set the variable HERMES_HOME to the ins
 
 Start and stop the FTP server by executing the following commands
 
-   ./hermesftp.sh start
-   ./hermesftp.sh stop
+    ./hermesftp.sh start
+    ./hermesftp.sh stop
 
 View the log file $HERMES_HOME/service/logs/wrapper.log and make sure the application started without errors. If any errors occured you have possibly not installed java or the FTP ports 21 and 990 are already bound.
 If the daemon started successfully create a soft link in the /etc/init.d folder
 
-   ln -s $HERMES_HOME/service/bin/hermesftp.sh /etc/init.d/hermesftp
+    ln -s $HERMES_HOME/service/bin/hermesftp.sh /etc/init.d/hermesftp
 
 The registration of daemons at different runlevels is done with update-rc.d. The utility update-rc.d automatically updates the system V style init script links /etc/rcrunlevel.d/NNname to scripts /etc/init.d/name. The placeholder runlevel is one of the runlevels supported by init (0123456789S). The placeholder NN is the two-digit sequence code used by init to decide which order to run the scripts in. Change into the /etc/init.d folder and issue the following command:
 update-rc.d hermesftp defaults
 This will make links to start the service in runlevels 2, 3, 4, and 5 and stop the service in runlevels 0, 1, and 6. The default sequence code is 20.
 SuSE users must use the chkconfig (or insserv) script to register the daemon:
 
-   chkconfig -a hermesftp
+    chkconfig -a hermesftp
 
 Now restart the system:
 
-   shutdown -r now
+    shutdown -r now
 
 In case you wish to uninstall the daemon, just execute
 
-   update-rc.d -f hermesftp remove
-   rm -f /etc/init.d/hermesftp
+    update-rc.d -f hermesftp remove
+    rm -f /etc/init.d/hermesftp
 
 For SuSE users the corresponding command would be:
 
-   chkconfig -d hermesftp
+    chkconfig -d hermesftp
 
 For further documentation refer to the Java Service Wrapper website.
 
@@ -193,7 +193,7 @@ If you want to change the port (which is by default 9988) find the bean "console
 
 In case you let the default settings untouched the console is accessible from your local machine through this URL:
 
-   http://localhost:9988
+    http://localhost:9988
 
 The web console is protected against unauthorized access. Only users holding the administration role have permission to access the console. The administration role is granted in hermesftp-users.xml by setting the optional user attribute adminrole to true (default is false).
 
@@ -207,7 +207,7 @@ By default, only the user "admin" (password "admin") may access the console
 
 You can disable the web console by setting the property console.enabled (in hermesftp-ctx.xml) to false.
 
-   <prop key="console.enabled">false</prop>
+    <prop key="console.enabled">false</prop>
 
 User Management
 ---------------
@@ -233,24 +233,24 @@ rw: Read/writeaccess.
 
 The following code snippet demonstrates a typical group configuration:
 
-   <groups>
-       <group name="users" >
-           <limits>
-               <limit name="Bytes downloaded" value="1000000"/>
-               <limit name="Bytes uploaded" value="1000000"/>
-               <limit name="Files downloaded" value="100"/>
-               <limit name="Files uploaded" value="100"/>
-               <limit name="Download rate" value="-1"/>
-               <limit name="Upload rate" value="-1"/>
-           </limits>
-           <permissions>
-               <permission flag="rw" path="${ftproot}/${user}/**"/>
-               <permission flag="rw" path="${ftproot}/${user}"/>
-               <permission flag="r" path="${ftproot}"/>
-           </permissions>
-       </group>
-       ...
-   </groups>
+	   <groups>
+	       <group name="users" >
+	           <limits>
+	               <limit name="Bytes downloaded" value="1000000"/>
+	               <limit name="Bytes uploaded" value="1000000"/>
+	               <limit name="Files downloaded" value="100"/>
+	               <limit name="Files uploaded" value="100"/>
+	               <limit name="Download rate" value="-1"/>
+	               <limit name="Upload rate" value="-1"/>
+	           </limits>
+	           <permissions>
+	               <permission flag="rw" path="${ftproot}/${user}/**"/>
+	               <permission flag="rw" path="${ftproot}/${user}"/>
+	               <permission flag="r" path="${ftproot}"/>
+	           </permissions>
+	       </group>
+	       ...
+	   </groups>
 
 For sake of security you should configure at least two groups: Users (with restricted data access permissions) and administrators (with full access permissions).
 
@@ -260,17 +260,17 @@ Only users that are known to the application are granted access to data folders.
 
 The user's password can be configured in plain text or as hashcode calculated by an supported hash algorithm (e.g. MD5). The name of the algorithm is prepended to a BASE64 encoded string, e.g. "{MD5}Cwz8B/yoHJVquRgdhXb0qA==". If the password does not start with a curly brace, it is handled as plain text. Since Hermes FTP servers comes without GUI, the password hash is generated from the command line as follows:
 
-   java -jar hermesftp-<version>.jar -password <secretpassword> <algorithm>
+    java -jar hermesftp-<version>.jar -password <secretpassword> <algorithm>
 
 Example:
 
-   c:\develop>java -jar hermesftp-0.2.jar -password sec MD5
-   Hash: {MD5}dEWco8+FqB35Dalf9ueiBw==
-   c:\develop>
+    c:\develop>java -jar hermesftp-0.2.jar -password sec MD5
+    Hash: {MD5}dEWco8+FqB35Dalf9ueiBw==
+    c:\develop>
 
 The following code snippet demonstrates a typical user configuration:
 
-   <users default-dir="${ftproot}/${user}">
+    <users default-dir="${ftproot}/${user}">
        <user uid="user" 
                fullname="Test User" 
                password="user">
@@ -283,7 +283,7 @@ The following code snippet demonstrates a typical user configuration:
            <group-ref name="users"/>
            <group-ref name="administrators"/>
        </user>
-   </users>
+    </users>
 
 You may omit the password to enable anonymous login. Anonymous users must provide an email address as password.
 
@@ -298,26 +298,26 @@ Hermes FTP Server makes use of the keystore implementation provided by Sun Micro
 
 On unix systems:
 
-   chmod 755 *.sh
-   ./create_keystore.sh
+    chmod 755 *.sh
+    ./create_keystore.sh
 
 On windows systems:
 
-   create_keystore.bat
+    create_keystore.bat
 
 The utility asks for some personal data, which is included with the certificate. Finally, a file called *keystore* is created in the Hermes FTP home directory. Note that keystore and key share the same password "secret". The certificate is valid for 365 days.
 
 If you would like to have more control over the keystore and key parameters you can create the keystore manually:
 
-   keytool -genkey -alias hermes -keyalg DSA -keystore keystore -validity 365
-   -storepass secret -keypass secret
+    keytool -genkey -alias hermes -keyalg DSA -keystore keystore -validity 365
+    -storepass secret -keypass secret
 
 Of course, you can choose whatever parameters you like. However, keystore password and key password have to be equal.
 
 Now that the keystore is set up, you may need to modify the configuration file hermes-ctx.xml . Find the following lines and change filename and password:
 
-   ... <prop key="ssl.keystore.file">keystore</prop>
-       <prop key="ssl.keystore.password">secret</prop> ...
+    ... <prop key="ssl.keystore.file">keystore</prop>
+        <prop key="ssl.keystore.password">secret</prop> ...
 
 Please note that the created self-signed certificate is inappropriate in a production environment. If security is essential, you should apply to a certificate authority for a properly signed server certificate, and then import it into the keystore.
 
@@ -355,16 +355,16 @@ Its IoC based architecture allows for extending or customizing the Hermes FTP Se
 In this example we extend the ftp server by an SITE command returning server specific information to the caller.
 Open the application context hermesftp-ctx.xml and find the parser bean. Now add the highlighted line to the list of properties:
 
-   <bean id="parser" singleton="true" 
-           class="net.sf.hermesftp.parser.impl.FtpCmdParserImpl">
-<property name="commands">
-<map>
-...
-<entry key="SITE" value="cmdSite" />
-...
-</map>
-</property>
-</bean>
+	<bean id="parser" singleton="true" 
+	           class="net.sf.hermesftp.parser.impl.FtpCmdParserImpl">
+		<property name="commands">
+			<map>
+			...
+			<entry key="SITE" value="cmdSite" />
+			...
+			</map>
+		</property>
+	</bean>
 
 Add a new bean to the application context and name it cmdSite.
 
@@ -372,12 +372,12 @@ Add a new bean to the application context and name it cmdSite.
 
 Now open your IDE (if not already open) and extend the class net.sf.hermesftp.cmd.AbstractFtpCmd as outlined in the snippet below.
 
-   package example;
+    package example;
+    
+    import net.sf.hermesftp.cmd.AbstractFtpCmd;
+    import net.sf.hermesftp.exception.FtpCmdException;
 
-   import net.sf.hermesftp.cmd.AbstractFtpCmd;
-   import net.sf.hermesftp.exception.FtpCmdException;
-
-   public class FtpCmdSite
+    public class FtpCmdSite
        extends AbstractFtpCmd {
 
        /**
@@ -416,8 +416,8 @@ After wrapping the compiled class into a JAR file you must copy the archive into
 
 The snippet below demonstrates how to fire up Hermes FTP Server from within your own application.
 
-   private void startServer(String beanRes) throws FtpException {
-
+    private void startServer(String beanRes) throws FtpException {
+    
        ApplicationContext appContext = 
          new FileSystemXmlApplicationContextEx (new String[] {beanRes});
 
@@ -425,4 +425,4 @@ The snippet below demonstrates how to fire up Hermes FTP Server from within your
            BeanConstants.BEAN_SERVER);
        Thread svrThread = new Thread(svr);
        svrThread.start();
-   }
+    }
