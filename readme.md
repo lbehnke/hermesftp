@@ -329,22 +329,22 @@ Here is a short guide how to set up a secure connection using the Filezilla FTP 
 
 Open the server manager and create a new connection. Choose server name and ftps port the server listens to (e.g. 990 or 9900). The server type should be FTPS. Enter user name and password and click connect.
 
-![http://hermesftp.sourceforge.net/images/screenshots/ftps.png](http://hermesftp.sourceforge.net/images/screenshots/ftps.png "FTPS client configuration")
+![https://raw.github.com/lbehnke/hermesftp/master/etc/images/screen1.png](https://raw.github.com/lbehnke/hermesftp/master/etc/images/screen1.png "FTPS client configuration")
 
 When connecting the first the client asks you to accept the server certificate.
 
-![http://hermesftp.sourceforge.net/images/screenshots/cert.png](http://hermesftp.sourceforge.net/images/screenshots/cert.png "Certificate")
+![https://raw.github.com/lbehnke/hermesftp/master/etc/images/screen2.png](https://raw.github.com/lbehnke/hermesftp/master/etc/images/screen2.png "Certificate")
 
 
 The second way to establish a secure connection is explicit FTPS (aka FTPES, aka AUTH TLS). This is the preferred method according to RFC 4217. The client connects using plain text commands on port 21 and may negotiate a secure TLS connection during the FTP setup or at any time thereafter by sending the AUTH command.
 
 Again, open the server manager and create a new connection. Choose server name and ftp port the server listens to (e.g. 21 or 2121). The server type should be FTPES. Enter user name and password and click connect.
 
-![http://hermesftp.sourceforge.net/images/screenshots/ftpes.png](http://hermesftp.sourceforge.net/images/screenshots/ftpes.png)
+![https://raw.github.com/lbehnke/hermesftp/master/etc/images/screen3.png](https://raw.github.com/lbehnke/hermesftp/master/etc/images/screen3.png)
 
 After connecting successfully the ftp client console should show this sequence of commands:
 
-![http://hermesftp.sourceforge.net/images/screenshots/ftpes-log.png](http://hermesftp.sourceforge.net/images/screenshots/ftpes-log.png)
+![https://raw.github.com/lbehnke/hermesftp/master/etc/images/screen4.png](https://raw.github.com/lbehnke/hermesftp/master/etc/images/screen4.png)
 
 Extending the Hermes FTP Server
 -------------------------------
