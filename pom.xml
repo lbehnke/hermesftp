@@ -136,9 +136,15 @@
 						${project.build.directory}/assembly
 					</outputDirectory>
 				</configuration>
-                <goals>
-                    <goal>single</goal>
-                </goals>
+                <executions>
+                    <execution>
+                        <id>dist-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
 			</plugin>
 
 			<plugin>
