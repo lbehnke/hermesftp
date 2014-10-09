@@ -135,6 +135,7 @@ public class VarMerger {
      * 
      * @return True, falls der Text keine Platzhalter mehr enth�lt.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isReplacementComplete() {
         Pattern pattern = Pattern.compile(VAR_PATTERN);
         boolean found = pattern.matcher(getText()).find();

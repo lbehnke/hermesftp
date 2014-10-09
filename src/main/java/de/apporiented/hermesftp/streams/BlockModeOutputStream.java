@@ -109,6 +109,7 @@ public class BlockModeOutputStream extends OutputStream implements BlockModeCons
     private void writeBlock(int code, int len) throws IOException {
         os.write(code);
         os.write((len >>> 8) & 0xFF);
+        //noinspection PointlessBitwiseExpression
         os.write((len >>> 0) & 0xFF);
         os.write(buffer, 0, len);
     }

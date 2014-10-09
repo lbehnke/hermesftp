@@ -54,14 +54,13 @@ public class FtpCmdPasv extends AbstractFtpCmdPasv {
         StringBuffer addrPort = new StringBuffer();
         String[] ipParts = ip.split("\\.");
         int idx = 0;
-        addrPort.append(ipParts[idx++].trim() + SEPARATOR);
-        addrPort.append(ipParts[idx++].trim() + SEPARATOR);
-        addrPort.append(ipParts[idx++].trim() + SEPARATOR);
-        addrPort.append(ipParts[idx++].trim() + SEPARATOR);
+        addrPort.append(ipParts[idx++].trim()).append(SEPARATOR);
+        addrPort.append(ipParts[idx++].trim()).append(SEPARATOR);
+        addrPort.append(ipParts[idx++].trim()).append(SEPARATOR);
+        addrPort.append(ipParts[idx++].trim()).append(SEPARATOR);
         int p1 = (port >> BYTE_LENGTH) & BYTE_MASK;
         int p2 = port & BYTE_MASK;
-        addrPort.append(p1 + SEPARATOR);
-        addrPort.append(p2 + "");
+        addrPort.append(p1).append(SEPARATOR).append(p2);
         return msg(MSG227, new String[] {addrPort.toString()});
     }
 

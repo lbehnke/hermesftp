@@ -54,7 +54,7 @@ public class FtpCmdUser extends AbstractFtpCmd {
         boolean forceSsl = getCtx().getOptions().getBoolean(OPT_SSL_FORCE, false);
         Boolean ssl = (Boolean) getCtx().getAttribute(ATTR_SSL);
 
-        if ((ssl == null || !ssl.booleanValue()) && forceSsl) {
+        if ((ssl == null || !ssl) && forceSsl) {
             msgOut(MSG530_AUTH);
         } else if (getArguments().length() == 0) {
             msgOut(MSG501);

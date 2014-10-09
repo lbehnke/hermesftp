@@ -76,7 +76,7 @@ public class FtpSessionImpl extends Thread implements FtpSession, FtpConstants {
             getCmdReader().start();
             long startWaiting = System.currentTimeMillis();
             while (!isTerminated()) {
-                FtpCmd cmd = null;
+                FtpCmd cmd;
                 try {
                     cmd = getCmdReader().waitForNextCommand(COMMAND_TIMEOUT);
                     terminated = !executeCmd(cmd);

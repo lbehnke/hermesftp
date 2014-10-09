@@ -47,7 +47,7 @@ public abstract class AbstractFtpCmdPasv extends AbstractFtpCmd {
 
             /* Set up socket provider */
             getCtx().closeSockets();
-            DataChannelInfo info = null;
+            DataChannelInfo info;
             SocketProvider socketProvider = new PassiveModeSocketProvider(getCtx(), getPreferredProtocol());
             info = socketProvider.init();
             getCtx().setDataSocketProvider(socketProvider);

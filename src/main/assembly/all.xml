@@ -23,6 +23,7 @@
       <outputDirectory></outputDirectory>
       <includes>
         <include>hermesftp-ctx.xml</include>
+        <include>hermesftp-ctx.properties</include>
         <include>hermesftp-users.xml</include>
       </includes>
     </fileSet>

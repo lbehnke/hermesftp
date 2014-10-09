@@ -93,7 +93,7 @@ public class ActiveModeSocketProvider implements SocketProvider {
     private Socket createClientSocket() throws IOException {
         Socket dataSocket;
         Boolean dataProtection = (Boolean) ctx.getAttribute(FtpConstants.ATTR_DATA_PROT);
-        boolean ssl = dataProtection != null && dataProtection.booleanValue();
+        boolean ssl = dataProtection != null && dataProtection;
         if (ssl) {
             SSLSocketFactory factory;
             try {

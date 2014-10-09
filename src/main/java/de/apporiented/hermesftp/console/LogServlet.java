@@ -67,12 +67,12 @@ public class LogServlet extends AbstractConsoleServlet {
             RandomAccessFile raf = new RandomAccessFile(logFile, "r");
             String line;
             while ((line = raf.readLine()) != null) {
-                result.append(line + "\n");
+                result.append(line).append("\n");
             }
         } catch (FileNotFoundException e) {
-            result.append("File " + getCanonicalPath(logFile) + " not found.");
+            result.append("File ").append(getCanonicalPath(logFile)).append(" not found.");
         } catch (IOException e) {
-            result.append("Readin file " + getCanonicalPath(logFile) + " failed.");
+            result.append("Readin file ").append(getCanonicalPath(logFile)).append(" failed.");
         }
         return result.toString();
     }

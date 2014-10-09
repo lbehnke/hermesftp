@@ -47,8 +47,7 @@ public class DefaultFtpServer extends AbstractFtpServer {
      */
     protected ServerSocket createServerSocket() throws IOException {
         int port = getOptions().getFtpPort();
-        ServerSocket serverSocket = ServerSocketFactory.getDefault().createServerSocket(port);
-        return serverSocket;
+        return ServerSocketFactory.getDefault().createServerSocket(port);
     }
 
     /**

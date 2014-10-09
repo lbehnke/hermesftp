@@ -95,7 +95,7 @@ public class PassiveModeSocketProvider implements SocketProvider {
             port = port == null ? new Integer(0) : port;
             try {
                 log.debug("Trying to bind server socket to port " + port);
-                serverSocket = createServerSocket(localIp, port.intValue());
+                serverSocket = createServerSocket(localIp, port);
                 break;
             } catch (Exception e) {
                 retries--;
@@ -157,7 +157,7 @@ public class PassiveModeSocketProvider implements SocketProvider {
     private ServerSocket createServerSocket(InetAddress localIp, int port) throws IOException {
         ServerSocket sock;
         Boolean dataProtection = (Boolean) ctx.getAttribute(FtpConstants.ATTR_DATA_PROT);
-        boolean ssl = dataProtection != null && dataProtection.booleanValue();
+        boolean ssl = dataProtection != null && dataProtection;
         if (ssl) {
             SSLServerSocketFactory factory = ctx.getOptions().getSslContext().getServerSocketFactory();
             SSLServerSocket sslServerSocket = (SSLServerSocket) factory.createServerSocket(port, 1, localIp);

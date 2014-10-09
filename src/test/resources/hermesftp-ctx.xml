@@ -9,6 +9,25 @@
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
 
+
+    <context:component-scan base-package="de.apporiented.hermesftp" />
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="propSource1">
+        <property name="location" value="file:hermesftp-ctx.properties" />
+        <property name="order" value="1" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="ignoreResourceNotFound" value="true" />
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="propSource2">
+        <property name="locations">
+            <list>
+                <value>classpath:/app.properties</value>
+            </list>
+        </property>
+        <property name="order" value="2" />
+    </bean>
+
  	<bean id="cmdAbor" class="de.apporiented.hermesftp.cmd.impl.FtpCmdAbor" scope="prototype" />
 	<bean id="cmdAllo" class="de.apporiented.hermesftp.cmd.impl.FtpCmdAllo" scope="prototype" />
 	<bean id="cmdAppe" class="de.apporiented.hermesftp.cmd.impl.FtpCmdAppe" scope="prototype" />
@@ -116,23 +135,23 @@
 	<bean id="options" class="de.apporiented.hermesftp.server.impl.FtpServerOptionsImpl" scope="singleton">
 		<property name="properties">
 			<props>
-                <prop key="ftp.root.dir"></prop>
-                <prop key="max.connections">20</prop>
-                <prop key="max.idle.seconds">600</prop>
-                <prop key="buffer.size">2048</prop>
-                <prop key="allowed.passive.ports"></prop>
-                <prop key="ftp.port">21</prop>
-                <prop key="ssl.force">false</prop>
-                <prop key="ssl.allow.explicit">false</prop>
-                <prop key="ssl.allow.implicit">false</prop>
-                <prop key="ssl.port.implicit">990</prop>
-                <prop key="ssl.keystore.file">keystore</prop>
-                <prop key="ssl.keystore.password">secret</prop>
-                <prop key="ssl.cipher.suites"></prop>
-                <prop key="charset.ebcdic">CP1047</prop>
-                <prop key="charset.ascii">ISO-8859-1</prop>
-                <prop key="console.enabled">true</prop>
-				<!-- <prop key="ipv4.black.list">!127.0.0.1,!192.*.*.*</prop> -->
+                <prop key="ftp.root.dir">${ftp.root.dir}</prop>
+                <prop key="max.connections">${max.connections}</prop>
+                <prop key="max.idle.seconds">${max.idle.seconds}</prop>
+                <prop key="buffer.size">${buffer.size}</prop>
+                <prop key="allowed.passive.ports">${allowed.passive.ports}</prop>
+                <prop key="ftp.port">${ftp.port}</prop>
+                <prop key="ssl.force">${ssl.force}</prop>
+                <prop key="ssl.allow.explicit">${ssl.allow.explicit}</prop>
+                <prop key="ssl.allow.implicit">${ssl.allow.implicit}</prop>
+                <prop key="ssl.port.implicit">${ssl.port.implicit}</prop>
+                <prop key="ssl.keystore.file">${ssl.keystore.file}</prop>
+                <prop key="ssl.keystore.password">${ssl.keystore.password}</prop>
+                <prop key="ssl.cipher.suites">${ssl.cipher.suites}</prop>
+                <prop key="charset.ebcdic">${charset.ebcdic}</prop>
+                <prop key="charset.ascii">${charset.ascii}</prop>
+                <prop key="console.enabled">${console.enabled}</prop>
+				<prop key="ipv4.black.list">${ipv4.black.list}</prop>
 			</props>
 		</property>
 	</bean>
@@ -197,7 +216,7 @@
 	</bean>
 
 	<bean id="console" class="de.apporiented.hermesftp.console.ConsoleServerImpl" scope="singleton">
-		<property name="port" value="9988" />
+		<property name="port" value="${console.port}" />
 		<property name="userManager" ref="userManager" />
 		<property name="realm" ref="consoleRealm" />
 		<property name="servlets">

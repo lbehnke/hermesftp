@@ -109,10 +109,10 @@ public final class IOUtils {
         String rFlag = read ? "r" : "-";
         String permflags;
         if (file.isDirectory()) {
-            permflags = MessageFormat.format("d{0}{1}x{0}-x{0}-x", new Object[] {rFlag, wFlag});
+            permflags = MessageFormat.format("d{0}{1}x{0}-x{0}-x", rFlag, wFlag);
             size = 0;
         } else {
-            permflags = MessageFormat.format("-{0}{1}-{0}--{0}--", new Object[] {rFlag, wFlag});
+            permflags = MessageFormat.format("-{0}{1}-{0}--{0}--", rFlag, wFlag);
             size = file.length();
         }
         Date date = new Date(file.lastModified());

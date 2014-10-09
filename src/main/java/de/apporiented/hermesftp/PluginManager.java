@@ -31,10 +31,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
@@ -67,9 +64,9 @@ public final class PluginManager {
         StringBuffer cpExtension = new StringBuffer();
         File[] jarFiles = collectJars(new String[] {getPluginDir().getPath()});
 
-        for (int i = 0; i < jarFiles.length; i++) {
+        for (File jarFile : jarFiles) {
             try {
-                File file = jarFiles[i];
+                File file = jarFile;
                 jars.add(file.toURI().toURL());
                 cpExtension.append(System.getProperty(PATH_SEPARATOR));
                 cpExtension.append(file.toString());
@@ -82,7 +79,7 @@ public final class PluginManager {
         if (log.isDebugEnabled()) {
             log.debug("Classpath: " + cp);
         }
-        classLoader = new DynClassLoader((URL[]) jars.toArray(new URL[jars.size()]));
+        classLoader = new DynClassLoader(jars.toArray(new URL[jars.size()]));
 
         /*
          * Necessary for Spring to find plugin classes. Don't do this in servlet/ejb container!!
@@ -98,19 +95,17 @@ public final class PluginManager {
 
     private static File[] collectJars(String[] paths) {
         Set<File> jarList = new HashSet<File>();
-        for (int i = 0; i < paths.length; i++) {
-            File dir = new File(paths[i]);
+        for (String path : paths) {
+            File dir = new File(path);
             if (log.isWarnEnabled() && !dir.exists()) {
                 log.warn("JAR folder not found: " + dir);
             }
             if (dir.exists() && dir.isDirectory()) {
                 File[] files = dir.listFiles(new JarFileFilter());
-                for (int j = 0; j < files.length; j++) {
-                    jarList.add(files[j]);
-                }
+                Collections.addAll(jarList, files);
             }
         }
-        return (File[]) jarList.toArray(new File[jarList.size()]);
+        return jarList.toArray(new File[jarList.size()]);
     }
 
     /**
@@ -210,7 +205,7 @@ public final class PluginManager {
         }
 
         private void loadClasses(URL[] urls) throws IOException {
-            for (int i = 0; i < urls.length; i++) {
+            for (URL url : urls) {
                 JarInputStream jis = new JarInputStream(urls[0].openStream());
                 JarEntry entry = jis.getNextJarEntry();
                 int loadedCount = 0;

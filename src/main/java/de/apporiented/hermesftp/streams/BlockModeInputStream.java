@@ -165,7 +165,7 @@ public class BlockModeInputStream extends InputStream implements RecordReadSuppo
         for (int i = 0; i < len; i++) {
             marker |= buffer[i] << (8 * (len - i - 1));
         }
-        restartMarkers.put(new Long(marker), new Long(byteCount));
+        restartMarkers.put(marker, byteCount);
     }
 
     /**

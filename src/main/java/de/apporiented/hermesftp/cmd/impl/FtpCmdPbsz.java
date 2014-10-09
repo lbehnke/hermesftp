@@ -63,10 +63,10 @@ public class FtpCmdPbsz extends AbstractFtpCmd {
      */
     public void execute() throws FtpCmdException {
         Boolean ssl = (Boolean) getCtx().getAttribute(ATTR_SSL);
-        if (ssl == null || !ssl.booleanValue()) {
+        if (ssl == null || !ssl) {
             msgOut(MSG503);
         } else {
-            msgOut(MSG200_PBSZ, new Object[] {new Integer(0)});
+            msgOut(MSG200_PBSZ, new Object[] {0});
         }
     }
 

@@ -61,7 +61,7 @@ public class BlockModeStreamTest {
                 destData.write(b);
             }
             byte[] destBytes = destData.toByteArray();
-            assertNotNull(markers.get(new Long(5)));
+            assertNotNull(markers.get((long) 5));
             assertEquals(264, destBytes.length);
             assertEquals(1, markers.size());
             assertEquals(2, destBytes[0]);
@@ -88,8 +88,7 @@ public class BlockModeStreamTest {
             byte[] data = createStreamData();
 
             int lastByte = -1;
-            for (int i = 0; i < data.length; i++) {
-                byte b = data[i];
+            for (byte b : data) {
                 if (b != lastByte && lastByte != -1) {
                     bmos.finalizeRecord(false);
                 }

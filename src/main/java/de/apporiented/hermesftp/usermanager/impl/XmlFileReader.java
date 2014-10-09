@@ -177,7 +177,7 @@ public class XmlFileReader {
             userData.setFullName(fullName);
             userData.setUid(uid);
             userData.setPassword(password);
-            userData.setAdminRole(new Boolean(adminrole).booleanValue());
+            userData.setAdminRole(Boolean.valueOf(adminrole));
             userData.setDir(dir);
             List<Element> groupRefElements = userElement.selectNodes(ELEM_GROUP_REF);
             for (Element element : groupRefElements) {

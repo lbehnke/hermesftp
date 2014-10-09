@@ -48,11 +48,11 @@ public class FtpCmdSize extends AbstractFtpCmd {
         } else if ((getCtx().getPermission(path.getAbsolutePath()) & PRIV_READ) == 0) {
             msgOut(MSG550_PERM);
         } else if (path.isDirectory()) {
-            msgOut(MSG213_SIZE, new Object[] {new Long(FileUtils.sizeOfDirectory(path))});
+            msgOut(MSG213_SIZE, new Object[] {FileUtils.sizeOfDirectory(path)});
         } else {
 
             /* This is the binary length. In ASCII mode the size may differ, see RFC 3659, chap. 4 */
-            msgOut(MSG213_SIZE, new Object[] {new Long(path.length())});
+            msgOut(MSG213_SIZE, new Object[] {path.length()});
         }
     }
 

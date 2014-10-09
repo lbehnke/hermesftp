@@ -298,8 +298,7 @@ public class ServerRFC959Test extends AbstractClientServerTestCase {
         baos.flush();
         baos.close();
 
-        byte[] data = baos.toByteArray();
-        return data;
+        return baos.toByteArray();
     }
 }
 // CHECKSTYLE:ON

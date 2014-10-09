@@ -42,58 +42,78 @@ Since version 0.15 Hermes FTP Server requires Java 5 or later. Please check the 
 In case you have no java (or an outdated version) installed, you can get the latest version here . There are no further requirements for running the FTP server.
 Installation
 
-Unzip the file hermesftp-<version>.zip into a target folder of your choice. Change into this folder and open the file hermesftp-ctx.xml with a text editor. Find the entry "ftp.root.dir" and change the corresponding value into your ftp data folder (e.g. c:/ftproot). If this entry is omitted, Hermes FTP Server will create a data folder hermesftp in the user's home directory.
+Unzip the file hermesftp-<version>.zip into a target folder of your choice. Change into this folder and open the file hermesftp-ctx.properties with a text editor.
+Find the entry "ftp.root.dir" and change the corresponding value into your ftp data folder (e.g. C:/ftproot). If this entry is omitted,
+Hermes FTP Server will create a data folder hermesftp in the user's home directory.
 
-In case you want to enable SSL, you have to set up a keystore first. All other settings can remain as they are. The options bean configuration should look like following snippet.
+In case you want to enable SSL, you have to set up a keystore first. For your convenience the create_keystore script may be used for this purpose.
 
-    <bean id="options"
-           class="de.apporiented.hermesftp.common.FtpServerOptions"
-           singleton="true">
-    <property name="properties">
-	    <props>
-		    <prop key="ftp.root.dir">c:/ftproot</prop>
-		    <prop key="max.connections">20</prop>
-		    <prop key="buffer.size">2048</prop>
-		    <prop key="emulate.unix">true</prop>
-		    <prop key="ftp.port">21</prop>
-		    <prop key="ssl.force">false</prop>
-		    <prop key="ssl.allow.explicit">true</prop>
-		    <prop key="ssl.allow.implicit">true</prop>
-		    <prop key="ssl.port.implicit">990</prop>
-		    <prop key="ssl.keystore.file"></prop>
-		    <prop key="ssl.keystore.password"></prop>
-		    <prop key="ssl.cipher.suites"></prop>
-		    <prop key="charset.ebcdic">CP1047</prop>
-		    <prop key="charset.ascii">ISO-8859-1</prop>
-	    </props>
-    </property>
-    </bean>
+All other settings can remain as they are. The options bean configuration should look like following snippet.
+
+    # root directory defaults to ~/hermesftp
+    ftp.root.dir=C:/ftproot
+
+    # Max parallel connections
+    max.connections=20
+
+    # Timeout for session expiration
+    max.idle.seconds=600
+
+    # Internal buffer size for data transfer
+    buffer.size=2048
+
+    # Define a port range if you experience firewall issues
+    allowed.passive.ports=
+
+    # FTP command channel port
+    ftp.port=21
+
+    # Set true to force SSL
+    ssl.force=false
+
+    # Enable explicit SSL
+    ssl.allow.explicit=false
+
+    # Enable implicit SSL
+    ssl.allow.implicit=false
+
+    # FTP command channel port (SSL)
+    ssl.port.implicit=990
+
+    # Location of the keystore file (for SSL)
+    ssl.keystore.file=keystore
+
+    # Keystore password
+    ssl.keystore.password=secret
+
+    # Supported cipher suites
+    ssl.cipher.suites=
+
+    # Character set of EPCDIC machines (z/OS)
+    charset.ebcdic=CP1047
+
+    # Character set for PCs
+    charset.ascii=ISO-8859-1
+
+    # Enable web console (http://localhost:9988)
+    console.enabled=true
+
+    # Define black list IP filter expressions. Example: !127.0.0.1,!192.*.*.*
+    ipv4.black.list=
 
 Running the server
 ------------------
 Make sure you are still in the installation directory and issue the following command at the command prompt.
 
-    java -jar hermesftp.jar
+    java -jar hermesftp-<version>.jar
 
 How to avoid firewall issues
 ----------------------------
 If you are running the ftp server behind a firewall, ftp clients will possibly experience problems transferring files, even though you opened the firewall for connections on port 21 (ftp) or 990 (ftp over ssl) respectively. This is because file data is transferred through a separate channel. The port of this data channel is defined by the ftp client (active transfer mode) or the ftp server (passive transfer mode). Most of the firewall issues can be solved by making the clients use the passive transfer mode.
 
-Hermes FTP Server supports both transfer modes. Moreover, you are free to define the port list available for passive data transfer in the application context hermesftp-ctx.xml.
+Hermes FTP Server supports both transfer modes. Moreover, you are free to define the port list available for passive data transfer in the application context hermesftp-ctx.properties.
 
-	   <bean id="options"
-	           class="de.apporiented.hermesftp.common.FtpServerOptions"
-	           singleton="true">
-		   <property name="properties">
-				   <props>
-				   ...
-				   <prop key="allowed.passive.ports">
-				       9000-9200,12000-12500
-				   </prop>
-				   ...
-			   </props>
-		   </property>
-	   </bean>
+    allowed.passive.ports=9000-9200,12000-12500
 
 If you omit this property, Hermes FTP Server lets the underlying OS decide on which data port to use.
 
@@ -112,8 +132,11 @@ In order to install Hermes FTP Server as a NT service you have to execute the fo
     %HERMES_HOME%/hermesftp-svc.exe install
 
 If everything went well, Hermes FTP Server is started automatically on system start from now on.
+Start the server manually via this command:
 
-The service is uninstalled by executing the script file:
+    %HERMES_HOME%/hermesftp-svc.exe start
+
+The service is uninstalled by executing the script file. Make sure the service is stopped before you try to uninstall it:
 
     %HERMES_HOME%/hermesftp-svc.exe uninstall
 
@@ -125,21 +148,7 @@ Hermes FTP Server comes with an embedded web server that allows for monitoring r
 
 If you want to change the port (which is by default 9988) find the bean "console" in the application context hermesftp-ctx.xml and change the port property into a convenient value.
 
-     <bean id="console" class="de.apporiented.hermesftp.console.ConsoleServer" 
-             singleton="true">
-       <property name="port" value="9988" />
-       <property name="userManager" ref="userManager" />
-       <property name="servlets">
-         <map>
-           <entry key="/" value-ref="overviewServlet" />
-           <entry key="/overview" value-ref="overviewServlet" />
-           <entry key="/sessions" value-ref="ftpSessionsServlet" />
-           <entry key="/sslsessions" value-ref="ftpSslSessionsServlet" />
-           <entry key="/users" value-ref="userServlet" />
-           <entry key="/log" value-ref="logServlet" />
-         </map>
-       </property>
-     </bean>
+    console.port=80
 
 In case you let the default settings untouched the console is accessible from your local machine through this URL:
 
@@ -155,9 +164,9 @@ By default, only the user "admin" (password "admin") may access the console
        <group-ref name="administrators"/>
      </user>
 
-You can disable the web console by setting the property console.enabled (in hermesftp-ctx.xml) to false.
+You can disable the web console by setting the property console.enabled (in hermesftp-ctx.properties) to false.
 
-    <prop key="console.enabled">false</prop>
+    console.enabled=false
 
 User Management
 ---------------
@@ -305,7 +314,7 @@ Its IoC based architecture allows for extending or customizing the Hermes FTP Se
 In this example we extend the ftp server by an SITE command returning server specific information to the caller.
 Open the application context hermesftp-ctx.xml and find the parser bean. Now add the highlighted line to the list of properties:
 
-	<bean id="parser" singleton="true" 
+	<bean id="parser" scope="singleton"
 	           class="de.apporiented.hermesftp.parser.impl.FtpCmdParserImpl">
 		<property name="commands">
 			<map>

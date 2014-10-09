@@ -71,11 +71,11 @@ public class GroupData {
      * @return The value.
      */
     public long getLimit(String name) {
-        Long limit = (Long) getLimits().get(name);
-        if (limit == null || limit.longValue() == UNLIMITED) {
+        Long limit = getLimits().get(name);
+        if (limit == null || limit == UNLIMITED) {
             return Long.MAX_VALUE;
         } else {
-            return limit.longValue();
+            return limit;
         }
     }
 

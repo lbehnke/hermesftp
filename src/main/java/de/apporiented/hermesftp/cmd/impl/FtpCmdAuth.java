@@ -130,7 +130,7 @@ public class FtpCmdAuth extends AbstractFtpCmd implements ClientSocketModifier, 
     private SSLSocket createSslSocket() throws IOException {
         String clientHost = getCtx().getClientSocket().getInetAddress().getHostAddress();
         SSLContext sslContext = getCtx().getOptions().getSslContext();
-        SSLSocketFactory factory = (SSLSocketFactory) sslContext.getSocketFactory();
+        SSLSocketFactory factory = sslContext.getSocketFactory();
         SSLSocket sslSocket = (SSLSocket) factory.createSocket(getCtx().getClientSocket(), clientHost,
             getCtx().getOptions().getFtpPort(), true);
         sslSocket.setUseClientMode(false);

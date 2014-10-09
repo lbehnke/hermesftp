@@ -44,7 +44,6 @@ import de.apporiented.hermesftp.common.FtpEventListener;
 import de.apporiented.hermesftp.common.FtpServerOptions;
 import de.apporiented.hermesftp.common.FtpSessionContext;
 import de.apporiented.hermesftp.exception.FtpConfigException;
-import de.apporiented.hermesftp.exception.FtpException;
 import de.apporiented.hermesftp.exception.FtpQuotaException;
 import de.apporiented.hermesftp.usermanager.UserManager;
 import de.apporiented.hermesftp.usermanager.model.GroupDataList;
@@ -452,7 +451,7 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
     public String getCharset() {
         String charset;
         Boolean forceUtf8 = (Boolean) getAttribute(ATTR_FORCE_UTF8);
-        if (forceUtf8 != null && forceUtf8.booleanValue()) {
+        if (forceUtf8 != null && forceUtf8) {
             charset = "UTF-8";
         } else {
             String key = getDataType() == DT_EBCDIC ? OPT_CHARSET_EBCDIC : OPT_CHARSET_ASCII;
@@ -470,7 +469,7 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
         if (allowedPorts == null || allowedPorts.length == 0) {
 
             /* Let the system decide which port to use. */
-            port = new Integer(0);
+            port = 0;
         } else {
 
             /* Get the port from the user defined list. */
@@ -505,7 +504,7 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
     }
 
     private int getUpperLimit(String globalOptionKey, String groupLimitKey) {
-        long result = -1;
+        long result;
         long globalLimit = getOptions().getInt(globalOptionKey, -1);
 
         GroupDataList list = (GroupDataList) getAttribute(ATTR_GROUP_DATA);
@@ -550,9 +549,9 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
 
         /* Current session */
         Map<String, Long> sessionStats = getSessionStatistics();
-        Long consumptionObj = (Long) sessionStats.get(countKey);
-        long consumption = consumptionObj == null ? 0 : consumptionObj.longValue();
-        sessionStats.put(countKey, new Long(consumption + value));
+        Long consumptionObj = sessionStats.get(countKey);
+        long consumption = consumptionObj == null ? 0 : consumptionObj;
+        sessionStats.put(countKey, consumption + value);
     }
 
     /**
@@ -569,13 +568,13 @@ public class FtpSessionContextImpl implements FtpConstants, FtpSessionContext {
         /* Current session */
         String countKey = "Sample count (" + avgKey + ")";
         Map<String, Long> sessionStats = getSessionStatistics();
-        Long prevAvgObj = (Long) sessionStats.get(avgKey);
-        long prevAvg = prevAvgObj == null ? 0 : prevAvgObj.longValue();
-        Long prevCountObj = (Long) sessionStats.get(countKey);
-        long prevCount = prevCountObj == null ? 0 : prevCountObj.longValue();
+        Long prevAvgObj = sessionStats.get(avgKey);
+        long prevAvg = prevAvgObj == null ? 0 : prevAvgObj;
+        Long prevCountObj = sessionStats.get(countKey);
+        long prevCount = prevCountObj == null ? 0 : prevCountObj;
         long currentAvg = (prevAvg * prevCount + value) / (prevCount + 1);
-        sessionStats.put(avgKey, new Long(currentAvg));
-        sessionStats.put(countKey, new Long(prevCount + 1));
+        sessionStats.put(avgKey, currentAvg);
+        sessionStats.put(countKey, prevCount + 1);
     }
 
 }

@@ -57,7 +57,7 @@ public class UserServlet extends AbstractConsoleServlet {
 
     private String createUserTable() {
 
-        List<UserData> list = null;
+        List<UserData> list;
         try {
             list = getUserManager().getUserDataList();
         } catch (Exception e) {

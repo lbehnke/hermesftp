@@ -85,7 +85,7 @@ public class FtpCmdProt extends AbstractFtpCmd {
     public void execute() throws FtpCmdException {
         String level = getArguments().trim().toUpperCase();
         Boolean ssl = (Boolean) getCtx().getAttribute(ATTR_SSL);
-        if (ssl == null || !ssl.booleanValue()) {
+        if (ssl == null || !ssl) {
             msgOut(MSG536);
         } else if ("C".equals(level)) {
             getCtx().setAttribute(ATTR_DATA_PROT, Boolean.FALSE);

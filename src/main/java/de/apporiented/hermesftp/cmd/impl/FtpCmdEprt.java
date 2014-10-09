@@ -201,6 +201,7 @@ public class FtpCmdEprt extends AbstractFtpCmdPort {
         return protocolIdx;
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean paramsParsed(String args) {
         return lastArgs != null && !lastArgs.equals(args);
     }

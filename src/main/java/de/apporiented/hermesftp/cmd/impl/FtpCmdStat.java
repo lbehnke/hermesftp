@@ -72,8 +72,10 @@ public class FtpCmdStat extends AbstractFtpCmd {
             }
             if (dir.isDirectory()) {
                 File[] files = dir.listFiles();
-                for (int i = 0; i < files.length; i++) {
-                    doPrintFileInfo(files[i]);
+                if (files != null) {
+                    for (File file : files) {
+                        doPrintFileInfo(file);
+                    }
                 }
             } else {
                 doPrintFileInfo(dir);
@@ -93,8 +95,8 @@ public class FtpCmdStat extends AbstractFtpCmd {
     private void printUserStatistics(Map<String, Long> map) {
         Set<Map.Entry<String, Long>> entrySet = map.entrySet();
         for (Map.Entry<String, Long> entry : entrySet) {
-            String statName = (String) entry.getKey();
-            Long value = (Long) entry.getValue();
+            String statName = entry.getKey();
+            Long value = entry.getValue();
             printOutStats(statName, value);
 
         }
@@ -102,7 +104,7 @@ public class FtpCmdStat extends AbstractFtpCmd {
     }
 
     private void printOutStats(String statName, Long value) {
-        long statValue = value == null ? 0 : value.longValue();
+        long statValue = value == null ? 0 : value;
         out("211-" + statName + ": " + statValue);
     }
 

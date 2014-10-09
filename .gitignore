@@ -4,7 +4,6 @@ keystore
 hermesftp.iml
 hermesftp-ctx.properties
 .idea
-release.properties
 target
-
+release.properties
 pom.xml.releaseBackup

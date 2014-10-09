@@ -86,7 +86,7 @@ public class FtpTestClient {
 
     private byte[]           rawBuffer;
 
-    private Object           lock            = new Object();
+    private final Object     lock            = new Object();
 
     /**
      * Returns the text data.
@@ -196,7 +196,7 @@ public class FtpTestClient {
         StringTokenizer st = new StringTokenizer(pasv, ",");
         int[] iPs = new int[8];
         for (int i = 0; st.hasMoreTokens(); i++) {
-            iPs[i] = Integer.valueOf(st.nextToken()).intValue();
+            iPs[i] = Integer.valueOf(st.nextToken());
         }
         int port = (iPs[4] << FtpConstants.BYTE_LENGTH) + iPs[5];
 
@@ -238,21 +238,7 @@ public class FtpTestClient {
 
         sendCommand(sb.toString());
 
-        //        
-        // try {
-        // passiveModeSocket = sock.accept();
-        // } catch (RuntimeException e) {
-        // throw new IOException("Accepting data channel failed");
-        // }
-
-        String response = getResponse();
-
-        // if (passiveModeSocket != null) {
-        // transIs = passiveModeSocket.getInputStream();
-        // transOut = passiveModeSocket.getOutputStream();
-        // }
-
-        return response;
+        return getResponse();
 
     }
 
@@ -285,6 +271,7 @@ public class FtpTestClient {
         }
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean isServerSocketAvailable() {
         return passiveModeSocket != null || activeModeServerSocket != null;
     }
@@ -329,7 +316,7 @@ public class FtpTestClient {
      * @throws IOException Error on data transfer.
      */
     public String list(String f) throws IOException {
-        String response = null;
+        String response;
         if (!isServerSocketAvailable()) {
             openPassiveMode();
         }
@@ -374,7 +361,7 @@ public class FtpTestClient {
      * @throws IOException Error on data transfer.
      */
     public String retrieveText(String filename) throws IOException {
-        String response = null;
+        String response;
         sendAndReceive("TYPE A");
         if (!isServerSocketAvailable()) {
             openPassiveMode();
@@ -492,7 +479,7 @@ public class FtpTestClient {
     }
 
     private String storeText(String filename, String textToStore, boolean append) throws IOException {
-        String response = null;
+        String response;
 
         sendAndReceive("TYPE A");
         if (!isServerSocketAvailable()) {
@@ -532,7 +519,7 @@ public class FtpTestClient {
      * @throws IOException
      */
     public String storeBigText(String filename, int size) throws IOException {
-        String response = null;
+        String response;
         // openPassiveMode();
         response = sendAndReceive("TYPE A");
         if (!isServerSocketAvailable()) {
@@ -588,7 +575,7 @@ public class FtpTestClient {
     }
 
     private String storeRaw(String filename, byte[] data, boolean append) throws IOException {
-        String response = null;
+        String response;
         //response = sendAndReceive("TYPE I");
         if (!isServerSocketAvailable()) {
             openPassiveMode();
@@ -642,7 +629,7 @@ public class FtpTestClient {
         boolean done;
         do {
             String line = in.readLine();
-            sb.append(line + "\n");
+            sb.append(line).append("\n");
             int idx = 0;
             done = Character.isDigit(line.charAt(idx++)) && Character.isDigit(line.charAt(idx++))
                     && Character.isDigit(line.charAt(idx++)) && line.charAt(idx++) == ' ';
@@ -872,7 +859,7 @@ public class FtpTestClient {
         public void run() {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
-            int count = 0;
+            int count;
             synchronized (lock) {
                 try {
 

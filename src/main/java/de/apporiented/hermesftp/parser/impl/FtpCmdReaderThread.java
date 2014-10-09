@@ -63,7 +63,7 @@ public class FtpCmdReaderThread extends Thread implements FtpCmdReader {
 
     private FtpCmdParser      parser;
 
-    private Object            cmdLock    = new Object();
+    private final Object      cmdLock    = new Object();
 
     private FtpCmd            lastCmd;
 
@@ -154,8 +154,8 @@ public class FtpCmdReaderThread extends Thread implements FtpCmdReader {
         String[] tokens = getParser().getCommandTokens();
         Arrays.sort(tokens);
         List<FtpCmd> cmdList = new ArrayList<FtpCmd>();
-        for (int i = 0; i < tokens.length; i++) {
-            cmdList.add(getParser().createCommandByToken(tokens[i]));
+        for (String token : tokens) {
+            cmdList.add(getParser().createCommandByToken(token));
         }
         return cmdList;
     }
@@ -202,7 +202,7 @@ public class FtpCmdReaderThread extends Thread implements FtpCmdReader {
      * {@inheritDoc}
      */
     public FtpCmd waitForNextCommand(int timeout) throws FtpIllegalCmdException, SocketTimeoutException {
-        FtpCmd cmd = null;
+        FtpCmd cmd;
         synchronized (cmdLock) {
             long startStamp = System.currentTimeMillis();
             while (!cmdAvailable() && !errAvailable()) {

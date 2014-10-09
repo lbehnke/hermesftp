@@ -168,8 +168,7 @@ public abstract class AbstractFtpCmd implements FtpCmd, FtpConstants {
     protected long getAndResetFileOffset() {
         Long fileOffsetObj = (Long) getCtx().getAttribute(ATTR_FILE_OFFSET);
         getCtx().setAttribute(ATTR_FILE_OFFSET, null);
-        long fileOffset = fileOffsetObj == null ? 0 : fileOffsetObj.longValue();
-        return fileOffset;
+        return fileOffsetObj == null ? 0 : fileOffsetObj;
     }
 
     /**

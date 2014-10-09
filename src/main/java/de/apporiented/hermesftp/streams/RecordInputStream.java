@@ -82,7 +82,7 @@ public class RecordInputStream extends InputStream implements RecordReadSupport 
      * {@inheritDoc}
      */
     public int read() throws IOException {
-        int b = -1;
+        int b;
         if (eorMarkerIdx < eorMarker.length) {
             b = eorMarker[eorMarkerIdx++];
         } else if (completed) {
@@ -128,7 +128,7 @@ public class RecordInputStream extends InputStream implements RecordReadSupport 
                     continue;
                 }
             }
-            byteList.add(new Byte((byte) b));
+            byteList.add((byte) b);
         }
         return createByteArrayByList(byteList);
     }
@@ -147,7 +147,7 @@ public class RecordInputStream extends InputStream implements RecordReadSupport 
         int idx = 0;
         byte[] result = new byte[byteList.size()];
         for (Byte bObj : byteList) {
-            result[idx++] = bObj.byteValue();
+            result[idx++] = bObj;
         }
         return result;
     }

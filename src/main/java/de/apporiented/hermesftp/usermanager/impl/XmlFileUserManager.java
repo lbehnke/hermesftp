@@ -52,16 +52,16 @@ import org.apache.commons.logging.LogFactory;
  */
 public class XmlFileUserManager implements UserManager {
 
-    private static Log                     log                 = LogFactory.getLog(XmlFileUserManager.class);
+    private static Log log = LogFactory.getLog(XmlFileUserManager.class);
 
-    private XmlFileReader                  fileReader;
+    private XmlFileReader fileReader;
 
-    private UserManagerData                userManagerData;
+    private UserManagerData userManagerData;
 
     private Map<String, Map<String, Long>> resourceConsumption = Collections
-                                                                   .synchronizedMap(new HashMap<String, Map<String, Long>>());
+            .synchronizedMap(new HashMap<String, Map<String, Long>>());
 
-    private DateFormat                     dateFormat          = new SimpleDateFormat("yyyy-MM-dd");
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * {@inheritDoc}
@@ -71,7 +71,7 @@ public class XmlFileUserManager implements UserManager {
         boolean result = false;
         UserData userData = userManagerData.getUserData(user);
         if (userData == null) {
-            return result;
+            return false;
         }
         if (userData.getPassword() == null) {
             result = password != null && StringUtils.validateEmail(password);
@@ -119,7 +119,7 @@ public class XmlFileUserManager implements UserManager {
 
     /**
      * Getter method for the java bean <code>fileReader</code>.
-     * 
+     *
      * @return Returns the value of the java bean <code>fileReader</code>.
      */
     public XmlFileReader getFileReader() {
@@ -128,7 +128,7 @@ public class XmlFileUserManager implements UserManager {
 
     /**
      * Setter method for the java bean <code>fileReader</code>.
-     * 
+     *
      * @param fileReader The value of fileReader to set.
      */
     public void setFileReader(XmlFileReader fileReader) {
@@ -142,7 +142,7 @@ public class XmlFileUserManager implements UserManager {
         Map<String, Long> userConsumptions = getUserStatistics(user);
         for (String limitName : userConsumptions.keySet()) {
             Long consumptionObj = userConsumptions.get(limitName);
-            long consumption = consumptionObj == null ? 0 : consumptionObj.longValue();
+            long consumption = consumptionObj == null ? 0 : consumptionObj;
             long limit;
             try {
                 GroupDataList list = getGroupDataList(user);
@@ -164,8 +164,8 @@ public class XmlFileUserManager implements UserManager {
     public void updateIncrementalStatistics(String user, String limitName, long value)
             throws FtpQuotaException {
         Map<String, Long> userConsumptions = getUserStatistics(user);
-        Long consumptionObj = (Long) userConsumptions.get(limitName);
-        long consumption = consumptionObj == null ? 0 : consumptionObj.longValue();
+        Long consumptionObj = userConsumptions.get(limitName);
+        long consumption = consumptionObj == null ? 0 : consumptionObj;
         consumption += value;
         long limit;
         try {
@@ -178,7 +178,7 @@ public class XmlFileUserManager implements UserManager {
         if (consumption > limit) {
             throw new FtpQuotaException(createQuotaMessage(limitName, consumption, limit));
         }
-        userConsumptions.put(limitName, new Long(consumption));
+        userConsumptions.put(limitName, consumption);
 
     }
 
@@ -188,13 +188,13 @@ public class XmlFileUserManager implements UserManager {
     public void updateAverageStatistics(String user, String avgKey, long value) {
         String countKey = "Sample count (" + avgKey + ")";
         Map<String, Long> userConsumptions = getUserStatistics(user);
-        Long prevAvgObj = (Long) userConsumptions.get(avgKey);
-        long prevAvg = prevAvgObj == null ? 0 : prevAvgObj.longValue();
-        Long prevCountObj = (Long) userConsumptions.get(countKey);
-        long prevCount = prevCountObj == null ? 0 : prevCountObj.longValue();
+        Long prevAvgObj = userConsumptions.get(avgKey);
+        long prevAvg = prevAvgObj == null ? 0 : prevAvgObj;
+        Long prevCountObj = userConsumptions.get(countKey);
+        long prevCount = prevCountObj == null ? 0 : prevCountObj;
         long currentAvg = (prevAvg * prevCount + value) / (prevCount + 1);
-        userConsumptions.put(avgKey, new Long(currentAvg));
-        userConsumptions.put(countKey, new Long(prevCount + 1));
+        userConsumptions.put(avgKey, currentAvg);
+        userConsumptions.put(countKey, prevCount + 1);
     }
 
     /**
@@ -228,8 +228,7 @@ public class XmlFileUserManager implements UserManager {
     }
 
     private String getUserAndDateKey(String user) {
-        String userAndDate = dateFormat.format(new Date()) + " " + user;
-        return userAndDate;
+        return dateFormat.format(new Date()) + " " + user;
     }
 
     private Map<String, Long> getUserResourceConsumptions(String userAndDate) {

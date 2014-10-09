@@ -66,7 +66,7 @@ public class SecureFtpServer extends AbstractFtpServer {
     protected ServerSocket createServerSocket() throws IOException {
         SSLContext sslContext = getOptions().getSslContext();
         int sslPort = getOptions().getImplicitSslPort();
-        SSLServerSocketFactory factory = (SSLServerSocketFactory) sslContext.getServerSocketFactory();
+        SSLServerSocketFactory factory = sslContext.getServerSocketFactory();
         SSLServerSocket sslServerSocket = (SSLServerSocket) factory.createServerSocket(sslPort);
         enableCipherSuites(sslServerSocket);
         log.info("Enabled cipher suites (implicit SSL): "

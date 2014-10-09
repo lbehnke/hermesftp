@@ -56,7 +56,7 @@ public class FtpCmdHelp extends AbstractFtpCmd implements CmdListAware {
     public void execute() throws FtpCmdException {
 
         StringBuffer sb = new StringBuffer();
-        sb.append(msg(MSG214) + "\n");
+        sb.append(msg(MSG214)).append("\n");
         sb.append("214-");
         for (FtpCmd cmd : getCmdList()) {
             sb.append(cmd.getToken());

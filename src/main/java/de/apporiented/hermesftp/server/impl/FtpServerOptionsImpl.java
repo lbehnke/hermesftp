@@ -99,8 +99,7 @@ public class FtpServerOptionsImpl implements FtpServerOptions, FtpConstants {
      */
     public String getRootDir() {
         File defaultDir = new File(System.getProperty("user.home"), "hermesftp");
-        String dir = getString(OPT_REMOTE_DIR, defaultDir.getAbsolutePath());
-        return dir;
+        return getString(OPT_REMOTE_DIR, defaultDir.getAbsolutePath());
     }
 
     /**
@@ -124,7 +123,7 @@ public class FtpServerOptionsImpl implements FtpServerOptions, FtpConstants {
         boolean result;
         String boolStr = getProperties().getProperty(optionName);
         if ("true".equalsIgnoreCase(boolStr) || "false".equalsIgnoreCase(boolStr)) {
-            result = Boolean.valueOf(boolStr).booleanValue();
+            result = Boolean.valueOf(boolStr);
         } else {
             result = defaultValue;
         }

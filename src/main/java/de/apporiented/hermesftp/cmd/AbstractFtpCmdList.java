@@ -50,7 +50,7 @@ public abstract class AbstractFtpCmdList extends AbstractFtpCmd {
         msgOut(MSG150);
         String charset = getCtx().getCharset();
         PrintWriter dataOut = null;
-        Socket dataSocket = null;
+        Socket dataSocket;
         try {
             dataSocket = getCtx().getDataSocketProvider().provideSocket();
             dataOut = new PrintWriter(new OutputStreamWriter(dataSocket.getOutputStream(), charset));
@@ -78,11 +78,13 @@ public abstract class AbstractFtpCmdList extends AbstractFtpCmd {
 
             if (dir.isDirectory()) {
                 File[] files = dir.listFiles();
-                dataOut.println("total " + files.length);
-
-                for (int i = 0; i < files.length; i++) {
-                    doPrintFileInfo(dataOut, files[i], getCtx());
+                dataOut.println("total " + (files != null ? files.length : 0));
+                if (files != null) {
+                    for (File file : files) {
+                        doPrintFileInfo(dataOut, file, getCtx());
+                    }
                 }
+
             } else {
                 doPrintFileInfo(dataOut, dir, getCtx());
             }

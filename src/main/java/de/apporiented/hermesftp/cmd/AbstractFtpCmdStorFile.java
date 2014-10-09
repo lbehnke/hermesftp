@@ -121,7 +121,7 @@ public abstract class AbstractFtpCmdStorFile extends AbstractFtpCmdStor {
      */
     protected void doStoreRecordData(RecordReadSupport rrs, File file, long offset) throws IOException {
         RafOutputStream os = new RafOutputStream(file, offset);
-        byte[] recordBuffer = null;
+        byte[] recordBuffer;
         byte[] lastRecordBuffer = null;
         try {
             while ((recordBuffer = rrs.readRecord()) != null) {

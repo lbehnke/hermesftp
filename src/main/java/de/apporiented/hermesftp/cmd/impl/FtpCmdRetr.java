@@ -96,7 +96,7 @@ public class FtpCmdRetr extends AbstractFtpCmdRetr {
     protected void doRetrieveRecordData(RecordWriteSupport rws, File file, long fileOffset)
             throws IOException {
         RafInputStream ris = new RafInputStream(file, fileOffset);
-        byte[] recordBuffer = null;
+        byte[] recordBuffer;
         byte[] lastRecordBuffer = null;
         try {
             while ((recordBuffer = ris.readRecord()) != null) {

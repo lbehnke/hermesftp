@@ -15,11 +15,12 @@
     <module name="FileLength"/>
     <module name="FileTabCharacter"/>
 
-    <!-- Trailing spaces -->
+    <!-- Trailing spaces
     <module name="RegexpSingleline">
         <property name="format" value="\s+$"/>
         <property name="message" value="Line has trailing spaces."/>
     </module>
+    -->
 
     <module name="TreeWalker">
         <property name="cacheFile" value="bin/cachefile"/>

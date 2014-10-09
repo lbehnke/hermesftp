@@ -82,8 +82,8 @@ public class ConsoleServerImpl implements ConsoleServer {
     private void configureServlets(Context ctx) {
         Set<Map.Entry<String, Servlet>> entrySet = getServlets().entrySet();
         for (Map.Entry<String, Servlet> entry : entrySet) {
-            String path = entry.getKey().toString();
-            Servlet servlet = (Servlet) entry.getValue();
+            String path = entry.getKey();
+            Servlet servlet = entry.getValue();
             ctx.addServlet(new ServletHolder(servlet), path);
 
         }

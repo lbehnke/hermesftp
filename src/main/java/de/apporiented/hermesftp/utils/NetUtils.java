@@ -139,7 +139,7 @@ public final class NetUtils {
      * Checks if the passed IP address complies to a given pattern.
      * 
      * @param ipTemplateList String list of patterns. Wild cards are allowed: 192.168.*.*, 127.0.0.1, !85.0.0.0
-     * @param ip The IP address to check.
+     * @param addr The IP address to check.
      * @return True, if the passed IP address matches at least one of the
      *         patterns.
      */
@@ -168,13 +168,13 @@ public final class NetUtils {
 
         boolean inverse = false;
         String[] ipTemplateArr = ipTemplateList.split(",");
-        for (int i = 0; i < ipTemplateArr.length; i++) {
+        for (String anIpTemplateArr : ipTemplateArr) {
             String t;
-            if (ipTemplateArr[i].trim().startsWith("!")) {
-                t = ipTemplateArr[i].substring(1).trim();
+            if (anIpTemplateArr.trim().startsWith("!")) {
+                t = anIpTemplateArr.substring(1).trim();
                 inverse = true;
             } else {
-                t = ipTemplateArr[i].trim();
+                t = anIpTemplateArr.trim();
             }
             String[] tmpl = t.split(REGEX_POINT);
             boolean match = true;
@@ -207,13 +207,13 @@ public final class NetUtils {
 
         boolean inverse = false;
         String[] ipTemplateArr = ipTemplateList.split(",");
-        for (int i = 0; i < ipTemplateArr.length; i++) {
+        for (String anIpTemplateArr : ipTemplateArr) {
             String t;
-            if (ipTemplateArr[i].trim().startsWith("!")) {
-                t = ipTemplateArr[i].substring(1).trim();
+            if (anIpTemplateArr.trim().startsWith("!")) {
+                t = anIpTemplateArr.substring(1).trim();
                 inverse = true;
             } else {
-                t = ipTemplateArr[i].trim();
+                t = anIpTemplateArr.trim();
             }
             String[] tmpl = t.split(REGEX_COLON);
             boolean match = true;

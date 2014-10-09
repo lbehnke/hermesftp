@@ -57,7 +57,7 @@ public final class SpringUtil implements FtpConstants {
      * @return Die Beanfactory des Spring-Frameworks.
      */
     public static ApplicationContext getApplicationContext(String res) {
-        ApplicationContext applicationContext = (ApplicationContext) appCtx.get(res);
+        ApplicationContext applicationContext = appCtx.get(res);
         if (applicationContext == null) {
             String[] rs = new String[] {res};
             applicationContext = new ClassPathXmlApplicationContext(rs);

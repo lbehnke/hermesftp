@@ -98,7 +98,7 @@ public final class SecurityUtil {
         if (passwordHash == null || password == null) {
             return false;
         }
-        String algorithm = null;
+        String algorithm;
         int startIdx = passwordHash.indexOf(ALG_START);
         int endIdx = passwordHash.indexOf(ALG_END);
         if (startIdx == 0 && endIdx > startIdx) {
@@ -120,7 +120,7 @@ public final class SecurityUtil {
      */
     public static SSLContext createSslContext(String keyStoreFile, char[] keyStorePassword)
             throws FtpConfigException {
-        SSLContext sslContext = null;
+        SSLContext sslContext;
         try {
             /* Get keystore file and password */
             InputStream ksInputStream = getKeyStoreInputStream(keyStoreFile);

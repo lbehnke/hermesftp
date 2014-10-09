@@ -57,7 +57,7 @@ public class FtpCmdType extends AbstractFtpCmd {
      */
     public void execute() throws FtpCmdException {
         String arg = getArguments().trim().toUpperCase();
-        if (arg == null || arg.length() == 0) {
+        if (arg.length() == 0) {
             msgOut(MSG501);
         } else if (arg.startsWith("A")) {
             writeResponse(DT_ASCII);

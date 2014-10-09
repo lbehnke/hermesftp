@@ -65,9 +65,9 @@ public class FtpCmdAllo extends AbstractFtpCmd {
             long requiredSize = Long.parseLong(getArguments().trim());
             long availSize = FileSystemUtils.freeSpaceKb(getCtx().getRemoteDir()) * 1024;
             if (requiredSize <= availSize) {
-                response = msg(MSG200_SIZE, new Object[] {new Long(availSize)});
+                response = msg(MSG200_SIZE, new Object[] {availSize});
             } else {
-                response = msg(MSG501_SIZE, new Object[] {new Long(availSize)});
+                response = msg(MSG501_SIZE, new Object[] {availSize});
             }
         } catch (NumberFormatException e1) {
             response = msg(MSG501);

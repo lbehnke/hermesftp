@@ -71,8 +71,10 @@ public class FtpCmdRmd extends AbstractFtpCmd {
         boolean deleted = true;
         if ((getCtx().getPermission(dir.getAbsolutePath()) & PRIV_WRITE) > 0) {
             File[] list = dir.listFiles();
-            for (int i = 0; i < list.length; i++) {
-                deleted &= delete(list[i]);
+            if (list != null) {
+                for (File aList : list) {
+                    deleted &= delete(aList);
+                }
             }
             deleted &= dir.delete();
         } else {
@@ -87,13 +89,16 @@ public class FtpCmdRmd extends AbstractFtpCmd {
      * @param dir The directory.
      * @return True, if the directory is empty.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean isEmpty(File dir) {
         File[] list = dir.listFiles();
-        for (int i = 0; i < list.length; i++) {
-            if (list[i].isFile()) {
-                return false;
-            } else if (!isEmpty(list[i])) {
-                return false;
+        if (list != null) {
+            for (File aList : list) {
+                if (aList.isFile()) {
+                    return false;
+                } else if (!isEmpty(aList)) {
+                    return false;
+                }
             }
         }
         return true;

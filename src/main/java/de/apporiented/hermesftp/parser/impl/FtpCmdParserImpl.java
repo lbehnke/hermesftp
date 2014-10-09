@@ -67,7 +67,7 @@ public class FtpCmdParserImpl implements FtpCmdParser, BeanFactoryAware {
             cmdString = cmdString.trim().toUpperCase();
             Set<Map.Entry<String, String>> entrySet = commands.entrySet();
             for (Map.Entry<String, String> entry : entrySet) {
-                String token = entry.getKey().toString();
+                String token = entry.getKey();
                 if (cmdString.startsWith(token)) {
                     result = token;
                     break;

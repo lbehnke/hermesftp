@@ -95,7 +95,7 @@ public class FtpCmdOpts extends AbstractFtpCmd {
         String response;
         String[] argParts = getArguments().split(" ");
         if (argParts.length == 2 && argParts[0].equalsIgnoreCase("UTF8")) {
-            getCtx().setAttribute(ATTR_FORCE_UTF8, Boolean.valueOf(argParts[1].equalsIgnoreCase("ON")));
+            getCtx().setAttribute(ATTR_FORCE_UTF8, argParts[1].equalsIgnoreCase("ON"));
             response = msg(MSG200);
         } else {
             response = msg(MSG451);

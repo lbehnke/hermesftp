@@ -46,7 +46,7 @@ public class FtpCmdAppe extends AbstractFtpCmdStorFile {
      * {@inheritDoc}
      */
     public void execute() throws FtpCmdException {
-        getCtx().setAttribute(ATTR_FILE_OFFSET, new Long(-1));
+        getCtx().setAttribute(ATTR_FILE_OFFSET, (long) -1);
         super.execute(false);
     }
 

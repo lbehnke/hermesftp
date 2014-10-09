@@ -111,23 +111,22 @@ public final class StringUtils {
         }
         List<Integer> portList = new ArrayList<Integer>();
         String[] allowedPorts = portListStr.split(",");
-        if (allowedPorts != null && allowedPorts.length > 0 && allowedPorts[0] != null
-                && allowedPorts[0].trim().length() > 0) {
-            for (int i = 0; i < allowedPorts.length; i++) {
-                String[] portRange = allowedPorts[i].split("\\-");
+        if (allowedPorts.length > 0 && allowedPorts[0] != null && allowedPorts[0].trim().length() > 0) {
+            for (String allowedPort : allowedPorts) {
+                String[] portRange = allowedPort.split("\\-");
                 if (portRange.length > 1) {
                     int portMin = Integer.parseInt(portRange[0].trim());
                     int portMax = Integer.parseInt(portRange[1].trim());
                     for (int port = portMin; port <= portMax; port++) {
-                        portList.add(new Integer(port));
+                        portList.add(port);
                     }
                 } else {
                     int port = Integer.parseInt(portRange[0].trim());
-                    portList.add(new Integer(port));
+                    portList.add(port);
                 }
             }
         }
-        return (Integer[]) portList.toArray(new Integer[portList.size()]);
+        return portList.toArray(new Integer[portList.size()]);
 
     }
 }
