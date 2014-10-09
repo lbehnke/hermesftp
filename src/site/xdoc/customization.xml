@@ -2,7 +2,7 @@
 <document>
 	<properties>
 		<title>Hermes FTP Server Project</title>
-		<author email="nospam.AT.larsbehnke.DOT.net">Lars Behnke</author>
+		<author email="nospam.AT.larsbehnke.DOT.de">Lars Behnke</author>
 	</properties>
 	<meta
 		name="keyword"
@@ -19,61 +19,61 @@
         Now add the highlighted line to the list of properties:
         </p>
 <source>
-    &lt;bean id="parser" singleton="true" 
-             class="net.sf.hermesftp.parser.impl.FtpCmdParserImpl"&gt;
-		&lt;property name="commands"&gt;
-			&lt;map&gt;
-				...
-				&lt;entry key="SITE" value="cmdSite" /&gt;
-				...
-			&lt;/map&gt;
-		&lt;/property&gt;
-	&lt;/bean&gt;
+    &lt;bean id="parser" singleton="true"
+    class="de.apporiented.hermesftp.parser.impl.FtpCmdParserImpl"&gt;
+    &lt;property name="commands"&gt;
+    &lt;map&gt;
+    ...
+    &lt;entry key="SITE" value="cmdSite" /&gt;
+    ...
+    &lt;/map&gt;
+    &lt;/property&gt;
+    &lt;/bean&gt;
 </source>
         <p>Add a new bean to the application context and name it <i>cmdSite</i>.</p>
 <source>
    	&lt;bean id="cmdSite" class="example.FtpCmdSite" singleton="false" /&gt;
 </source>        
-<p>Now open your IDE (if not already done) and extend the class <i>net.sf.hermesftp.cmd.AbstractFtpCmd</i>
+<p>Now open your IDE (if not already done) and extend the class <i>de.apporiented.hermesftp.cmd.AbstractFtpCmd</i>
 as outlined in the snippet below.
 </p>
 <source>
 
-package example;
+    package example;
 
-import net.sf.hermesftp.cmd.AbstractFtpCmd;
-import net.sf.hermesftp.exception.FtpCmdException;
+    import de.apporiented.hermesftp.cmd.AbstractFtpCmd;
+    import ndeapporiented.hermesftp.exception.FtpCmdException;
 
-public class FtpCmdSite
+    public class FtpCmdSite
     extends AbstractFtpCmd {
 
     /**
-     * {@inheritDoc}
-     */
+    * {@inheritDoc}
+    */
     public void execute() throws FtpCmdException {
 
-        // handle command
+    // handle command
 
-        if (ok) {
-          msgOut(MSG200_NOTED);
-        } else {
-          msgOut(MSG500;
-        }
-        
+    if (ok) {
+    msgOut(MSG200_NOTED);
+    } else {
+    msgOut(MSG500;
+    }
+
     }
 
     /**
-     * {@inheritDoc}
-     */
+    * {@inheritDoc}
+    */
     public String getHelp() {
-        return "My custom site command.";
+    return "My custom site command.";
     }
 
     /**
-     * {@inheritDoc}
-     */
+    * {@inheritDoc}
+    */
     public boolean isAuthenticationRequired() {
-        return true;
+    return true;
     }
 
 

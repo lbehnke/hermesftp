@@ -1,7 +1,7 @@
 <document>
 	<properties>
 		<title>Change History</title>
-		<author email="lbehnke *AT* users.sourceforge.net">
+		<author>
 			Lars Behnke
 		</author>
 	</properties>
@@ -153,8 +153,8 @@
 		<release version="0.3" date="2006-04-22"
 			desc="Bugfix release.">
 			<action dev="lbehnke" type="update">
-				Changed package names to "net.sf.hermesftp".
-			</action>
+                Changed package names to "de.apporiented.hermesftp".
+            </action>
 			<action dev="lbehnke" type="remove">
 				Remove keystore from classpath and updated
 				documentation.

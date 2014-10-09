@@ -2,7 +2,7 @@
 <document>
 	<properties>
 		<title>Hermes FTP Server Project</title>
-		<author email="nospam.AT.larsbehnke.DOT.net">Lars Behnke</author>
+		<author email="nospam.AT.larsbehnke.DOT.de">Lars Behnke</author>
 	</properties>
 	<meta
 		name="keyword"
@@ -17,21 +17,21 @@
 				"console" in the application context <i>hermesftp-ctx.xml</i> and change the port
 				property into a convenient value.</p>
 				<source>
-  &lt;bean id=&quot;console&quot; class=&quot;net.sf.hermesftp.console.ConsoleServer&quot; 
-           singleton=&quot;true&quot;&gt;
-    &lt;property name=&quot;port&quot; value=&quot;9988&quot; /&gt;
-    &lt;property name=&quot;userManager&quot; ref=&quot;userManager&quot; /&gt;
-    &lt;property name=&quot;servlets&quot;&gt;
-      &lt;map&gt;
-        &lt;entry key=&quot;/&quot; value-ref=&quot;overviewServlet&quot; /&gt;
-        &lt;entry key=&quot;/overview&quot; value-ref=&quot;overviewServlet&quot; /&gt;
-        &lt;entry key=&quot;/sessions&quot; value-ref=&quot;ftpSessionsServlet&quot; /&gt;
-        &lt;entry key=&quot;/sslsessions&quot; value-ref=&quot;ftpSslSessionsServlet&quot; /&gt;
-        &lt;entry key=&quot;/users&quot; value-ref=&quot;userServlet&quot; /&gt;
-        &lt;entry key=&quot;/log&quot; value-ref=&quot;logServlet&quot; /&gt;
-      &lt;/map&gt;
-    &lt;/property&gt;
-  &lt;/bean&gt;</source>
+                    &lt;bean id=&quot;console&quot; class=&quot;de.apporiented.hermesftp.console.ConsoleServer&quot;
+                    singleton=&quot;true&quot;&gt;
+                    &lt;property name=&quot;port&quot; value=&quot;9988&quot; /&gt;
+                    &lt;property name=&quot;userManager&quot; ref=&quot;userManager&quot; /&gt;
+                    &lt;property name=&quot;servlets&quot;&gt;
+                    &lt;map&gt;
+                    &lt;entry key=&quot;/&quot; value-ref=&quot;overviewServlet&quot; /&gt;
+                    &lt;entry key=&quot;/overview&quot; value-ref=&quot;overviewServlet&quot; /&gt;
+                    &lt;entry key=&quot;/sessions&quot; value-ref=&quot;ftpSessionsServlet&quot; /&gt;
+                    &lt;entry key=&quot;/sslsessions&quot; value-ref=&quot;ftpSslSessionsServlet&quot; /&gt;
+                    &lt;entry key=&quot;/users&quot; value-ref=&quot;userServlet&quot; /&gt;
+                    &lt;entry key=&quot;/log&quot; value-ref=&quot;logServlet&quot; /&gt;
+                    &lt;/map&gt;
+                    &lt;/property&gt;
+                    &lt;/bean&gt;</source>
   
   <p>In case you let the default settings untouched the console is accessible from your local machine
   through this URL:</p>

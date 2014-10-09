@@ -7,7 +7,7 @@
   <fileSets>
     <fileSet>
       <includes>
-        <include>README*</include>
+        <include>readme.md</include>
         <include>LICENSE*</include>
       </includes>
     </fileSet>
@@ -28,13 +28,13 @@
     </fileSet>
     <fileSet>
       <directory>etc/service</directory>
-      <outputDirectory>service</outputDirectory>
+      <outputDirectory></outputDirectory>
     </fileSet>
     <fileSet>
       <directory>target/classes</directory>
-      <outputDirectory>service/conf</outputDirectory>
+      <outputDirectory></outputDirectory>
       <includes>
-        <include>wrapper.conf</include>
+        <include>hermesftp-svc.xml</include>
       </includes>
     </fileSet>
     <fileSet>

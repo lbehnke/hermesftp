@@ -1,0 +1,9 @@
+<service>
+    <id>hermesftp</id>
+    <name>Hermes FTP Server</name>
+    <description>Open Source FTP Server Implementation.</description>
+    <env name="HERMESFTP_HOME" value="%BASE%"/>
+    <executable>java</executable>
+    <arguments>-Xrs -Xmx256m -jar "%BASE%\hermesftp-${project.version}.jar" "%BASE%\hermesftp-ctx.xml"</arguments>
+    <logmode>rotate</logmode>
+</service>

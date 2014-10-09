@@ -47,7 +47,7 @@ Unzip the file hermesftp-<version>.zip into a target folder of your choice. Chan
 In case you want to enable SSL, you have to set up a keystore first. All other settings can remain as they are. The options bean configuration should look like following snippet.
 
     <bean id="options"
-           class="net.sf.hermesftp.common.FtpServerOptions"
+           class="de.apporiented.hermesftp.common.FtpServerOptions"
            singleton="true">
     <property name="properties">
 	    <props>
@@ -82,7 +82,7 @@ If you are running the ftp server behind a firewall, ftp clients will possibly e
 Hermes FTP Server supports both transfer modes. Moreover, you are free to define the port list available for passive data transfer in the application context hermesftp-ctx.xml.
 
 	   <bean id="options"
-	           class="net.sf.hermesftp.common.FtpServerOptions"
+	           class="de.apporiented.hermesftp.common.FtpServerOptions"
 	           singleton="true">
 		   <property name="properties">
 				   <props>
@@ -100,7 +100,8 @@ If you omit this property, Hermes FTP Server lets the underlying OS decide on wh
 
 Installing a Service
 --------------------
-You may want to start the FTP server as soon as the system is up an running. Therefore, the binary distribution of Hermes FTP server was bundled with a precustomized Java Service Wrapper for Windows NT/2000/XP and Linux x86.
+You may want to start the FTP server as soon as the system is up an running.
+Therefore, the binary distribution of Hermes FTP server was bundled with a precustomized Java Service Wrapper for Windows.
 
 Before you install the service/daemon please check the settings in the application context file hermesftp-ctx.xml . In particular, find the option "ftp.root.dir" and set the value to an appropriate FTP data folder (e.g. c:/ftpdata or /home/ftp/data) .
 
@@ -108,66 +109,15 @@ Running Hermes FTP as NT Service
 --------------------------------
 In order to install Hermes FTP Server as a NT service you have to execute the following batch file:
 
-    %HERMES_HOME%/service/bin/hermesftp-install-nt.bat
+    %HERMES_HOME%/hermesftp-svc.exe install
 
-If everything went well, Hermes FTP Server is started automatically on system start from now on. You can start the service by executing the command
-
-   net start HermesFTPServer
+If everything went well, Hermes FTP Server is started automatically on system start from now on.
 
 The service is uninstalled by executing the script file:
 
-    %HERMES_HOME%/service/bin/hermesftp-uninstall-nt.bat
+    %HERMES_HOME%/hermesftp-svc.exe uninstall
 
-Some of the binaries are bundled with Java Service Wrapper which is a SourceForge project of its own. The Java Service Wrapper files are not part of the Hermes FTP source trunk. If you wish to create a complete assembly copy the service folder from the binary distribution into $WORKSPACE/hermesftp/etc/service first and then execute following command:
-
-    mvn assemby:asembly
-
-For further documentation refer to the Java Service Wrapper website.
-
-Running Hermes FTP as Linux Daemon
-----------------------------------
-The installation process of a daemon varies among linux distributions. The instructions in this document refer to Debian or Ubuntu distributions.
-
-Login as "root" and change into the folder $HERMES_HOME/service/bin. Make sure the java wrapper script/binary is executable:
-
-    chmod 755 wrapper
-    chmod 755 hermesftp.sh
-
-Open hermesftp.sh with a text editor and set the variable HERMES_HOME to the installation folder, example:
-
-   HERMES_HOME="/home/lbehnke/prg/hermesftp-0.2"
-
-Start and stop the FTP server by executing the following commands
-
-    ./hermesftp.sh start
-    ./hermesftp.sh stop
-
-View the log file $HERMES_HOME/service/logs/wrapper.log and make sure the application started without errors. If any errors occured you have possibly not installed java or the FTP ports 21 and 990 are already bound.
-If the daemon started successfully create a soft link in the /etc/init.d folder
-
-    ln -s $HERMES_HOME/service/bin/hermesftp.sh /etc/init.d/hermesftp
-
-The registration of daemons at different runlevels is done with update-rc.d. The utility update-rc.d automatically updates the system V style init script links /etc/rcrunlevel.d/NNname to scripts /etc/init.d/name. The placeholder runlevel is one of the runlevels supported by init (0123456789S). The placeholder NN is the two-digit sequence code used by init to decide which order to run the scripts in. Change into the /etc/init.d folder and issue the following command:
-update-rc.d hermesftp defaults
-This will make links to start the service in runlevels 2, 3, 4, and 5 and stop the service in runlevels 0, 1, and 6. The default sequence code is 20.
-SuSE users must use the chkconfig (or insserv) script to register the daemon:
-
-    chkconfig -a hermesftp
-
-Now restart the system:
-
-    shutdown -r now
-
-In case you wish to uninstall the daemon, just execute
-
-    update-rc.d -f hermesftp remove
-    rm -f /etc/init.d/hermesftp
-
-For SuSE users the corresponding command would be:
-
-    chkconfig -d hermesftp
-
-For further documentation refer to the Java Service Wrapper website.
+For more details about the service wrapper, please visit https://github.com/kohsuke/winsw.
 
 Web Console
 -----------
@@ -175,7 +125,7 @@ Hermes FTP Server comes with an embedded web server that allows for monitoring r
 
 If you want to change the port (which is by default 9988) find the bean "console" in the application context hermesftp-ctx.xml and change the port property into a convenient value.
 
-     <bean id="console" class="net.sf.hermesftp.console.ConsoleServer" 
+     <bean id="console" class="de.apporiented.hermesftp.console.ConsoleServer" 
              singleton="true">
        <property name="port" value="9988" />
        <property name="userManager" ref="userManager" />
@@ -356,7 +306,7 @@ In this example we extend the ftp server by an SITE command returning server spe
 Open the application context hermesftp-ctx.xml and find the parser bean. Now add the highlighted line to the list of properties:
 
 	<bean id="parser" singleton="true" 
-	           class="net.sf.hermesftp.parser.impl.FtpCmdParserImpl">
+	           class="de.apporiented.hermesftp.parser.impl.FtpCmdParserImpl">
 		<property name="commands">
 			<map>
 			...
@@ -370,12 +320,12 @@ Add a new bean to the application context and name it cmdSite.
 
  <bean id="cmdSite" class="example.FtpCmdSite" singleton="false" />
 
-Now open your IDE (if not already open) and extend the class net.sf.hermesftp.cmd.AbstractFtpCmd as outlined in the snippet below.
+Now open your IDE (if not already open) and extend the class de.apporiented.hermesftp.cmd.AbstractFtpCmd as outlined in the snippet below.
 
     package example;
     
-    import net.sf.hermesftp.cmd.AbstractFtpCmd;
-    import net.sf.hermesftp.exception.FtpCmdException;
+    import de.apporiented.hermesftp.cmd.AbstractFtpCmd;
+    import de.apporiented.hermesftp.exception.FtpCmdException;
 
     public class FtpCmdSite
        extends AbstractFtpCmd {
@@ -426,3 +376,12 @@ The snippet below demonstrates how to fire up Hermes FTP Server from within your
        Thread svrThread = new Thread(svr);
        svrThread.start();
     }
+
+Remote Debugging
+----------------
+
+Stop any running instances.
+
+    $ java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n -jar hermesftp-<version>.jar
+
+Connect to port 4000 from your Debugger.

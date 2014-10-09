@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="cmdAbor" class="net.sf.hermesftp.cmd.impl.FtpCmdAbor" singleton="false" />
-	<bean id="cmdAllo" class="net.sf.hermesftp.cmd.impl.FtpCmdAllo" singleton="false" />
-	<bean id="cmdAppe" class="net.sf.hermesftp.cmd.impl.FtpCmdAppe" singleton="false" />
-	<bean id="cmdAuth" class="net.sf.hermesftp.cmd.impl.FtpCmdAuth" singleton="false" />
-	<bean id="cmdCdup" class="net.sf.hermesftp.cmd.impl.FtpCmdCdup" singleton="false" />
-	<bean id="cmdClnt" class="net.sf.hermesftp.cmd.impl.FtpCmdClnt" singleton="false" />
-	<bean id="cmdCwd" class="net.sf.hermesftp.cmd.impl.FtpCmdCwd" singleton="false" />
-	<bean id="cmdDele" class="net.sf.hermesftp.cmd.impl.FtpCmdDele" singleton="false" />
-	<bean id="cmdEprt" class="net.sf.hermesftp.cmd.impl.FtpCmdEprt" singleton="false" />
-	<bean id="cmdEpsv" class="net.sf.hermesftp.cmd.impl.FtpCmdEpsv" singleton="false" />
-	<bean id="cmdFeat" class="net.sf.hermesftp.cmd.impl.FtpCmdFeat" singleton="false" />
-	<bean id="cmdHelp" class="net.sf.hermesftp.cmd.impl.FtpCmdHelp" singleton="false" />
-	<bean id="cmdList" class="net.sf.hermesftp.cmd.impl.FtpCmdList" singleton="false" />
-	<bean id="cmdMkd" class="net.sf.hermesftp.cmd.impl.FtpCmdMkd" singleton="false" />
-	<bean id="cmdMdtm" class="net.sf.hermesftp.cmd.impl.FtpCmdMdtm" singleton="false" />
-	<bean id="cmdMode" class="net.sf.hermesftp.cmd.impl.FtpCmdMode" singleton="false" />
-	<bean id="cmdNlst" class="net.sf.hermesftp.cmd.impl.FtpCmdNlst" singleton="false" />
-	<bean id="cmdNoop" class="net.sf.hermesftp.cmd.impl.FtpCmdNoop" singleton="false" />
-	<bean id="cmdOpts" class="net.sf.hermesftp.cmd.impl.FtpCmdOpts" singleton="false" />
-	<bean id="cmdPass" class="net.sf.hermesftp.cmd.impl.FtpCmdPass" singleton="false" />
-	<bean id="cmdPasv" class="net.sf.hermesftp.cmd.impl.FtpCmdPasv" singleton="false" />
-	<bean id="cmdPbsz" class="net.sf.hermesftp.cmd.impl.FtpCmdPbsz" singleton="false" />
-	<bean id="cmdPort" class="net.sf.hermesftp.cmd.impl.FtpCmdPort" singleton="false" />
-	<bean id="cmdProt" class="net.sf.hermesftp.cmd.impl.FtpCmdProt" singleton="false" />
-	<bean id="cmdPwd" class="net.sf.hermesftp.cmd.impl.FtpCmdPwd" singleton="false" />
-	<bean id="cmdQuit" class="net.sf.hermesftp.cmd.impl.FtpCmdQuit" singleton="false" />
-	<bean id="cmdRest" class="net.sf.hermesftp.cmd.impl.FtpCmdRest" singleton="false" />
-	<bean id="cmdRetr" class="net.sf.hermesftp.cmd.impl.FtpCmdRetr" singleton="false" />
-	<bean id="cmdRmd" class="net.sf.hermesftp.cmd.impl.FtpCmdRmd" singleton="false" />
-	<bean id="cmdRnfr" class="net.sf.hermesftp.cmd.impl.FtpCmdRnfr" singleton="false" />
-	<bean id="cmdRnto" class="net.sf.hermesftp.cmd.impl.FtpCmdRnto" singleton="false" />
-	<bean id="cmdSize" class="net.sf.hermesftp.cmd.impl.FtpCmdSize" singleton="false" />
-	<bean id="cmdStat" class="net.sf.hermesftp.cmd.impl.FtpCmdStat" singleton="false" />
-	<bean id="cmdStor" class="net.sf.hermesftp.cmd.impl.FtpCmdStor" singleton="false" />
-	<bean id="cmdStou" class="net.sf.hermesftp.cmd.impl.FtpCmdStou" singleton="false" />
-	<bean id="cmdStru" class="net.sf.hermesftp.cmd.impl.FtpCmdStru" singleton="false" />
-	<bean id="cmdSyst" class="net.sf.hermesftp.cmd.impl.FtpCmdSyst" singleton="false" />
-	<bean id="cmdType" class="net.sf.hermesftp.cmd.impl.FtpCmdType" singleton="false" />
-	<bean id="cmdUser" class="net.sf.hermesftp.cmd.impl.FtpCmdUser" singleton="false" />
-	<bean id="cmdNotImpl" class="net.sf.hermesftp.cmd.impl.FtpCmdNotImpl" singleton="false" />
+
+ 	<bean id="cmdAbor" class="de.apporiented.hermesftp.cmd.impl.FtpCmdAbor" scope="prototype" />
+	<bean id="cmdAllo" class="de.apporiented.hermesftp.cmd.impl.FtpCmdAllo" scope="prototype" />
+	<bean id="cmdAppe" class="de.apporiented.hermesftp.cmd.impl.FtpCmdAppe" scope="prototype" />
+	<bean id="cmdAuth" class="de.apporiented.hermesftp.cmd.impl.FtpCmdAuth" scope="prototype" />
+	<bean id="cmdCdup" class="de.apporiented.hermesftp.cmd.impl.FtpCmdCdup" scope="prototype" />
+	<bean id="cmdClnt" class="de.apporiented.hermesftp.cmd.impl.FtpCmdClnt" scope="prototype" />
+	<bean id="cmdCwd" class="de.apporiented.hermesftp.cmd.impl.FtpCmdCwd" scope="prototype" />
+	<bean id="cmdDele" class="de.apporiented.hermesftp.cmd.impl.FtpCmdDele" scope="prototype" />
+	<bean id="cmdEprt" class="de.apporiented.hermesftp.cmd.impl.FtpCmdEprt" scope="prototype" />
+	<bean id="cmdEpsv" class="de.apporiented.hermesftp.cmd.impl.FtpCmdEpsv" scope="prototype" />
+	<bean id="cmdFeat" class="de.apporiented.hermesftp.cmd.impl.FtpCmdFeat" scope="prototype" />
+	<bean id="cmdHelp" class="de.apporiented.hermesftp.cmd.impl.FtpCmdHelp" scope="prototype" />
+	<bean id="cmdList" class="de.apporiented.hermesftp.cmd.impl.FtpCmdList" scope="prototype" />
+	<bean id="cmdMkd" class="de.apporiented.hermesftp.cmd.impl.FtpCmdMkd" scope="prototype" />
+	<bean id="cmdMdtm" class="de.apporiented.hermesftp.cmd.impl.FtpCmdMdtm" scope="prototype" />
+	<bean id="cmdMode" class="de.apporiented.hermesftp.cmd.impl.FtpCmdMode" scope="prototype" />
+	<bean id="cmdNlst" class="de.apporiented.hermesftp.cmd.impl.FtpCmdNlst" scope="prototype" />
+	<bean id="cmdNoop" class="de.apporiented.hermesftp.cmd.impl.FtpCmdNoop" scope="prototype" />
+	<bean id="cmdOpts" class="de.apporiented.hermesftp.cmd.impl.FtpCmdOpts" scope="prototype" />
+	<bean id="cmdPass" class="de.apporiented.hermesftp.cmd.impl.FtpCmdPass" scope="prototype" />
+	<bean id="cmdPasv" class="de.apporiented.hermesftp.cmd.impl.FtpCmdPasv" scope="prototype" />
+	<bean id="cmdPbsz" class="de.apporiented.hermesftp.cmd.impl.FtpCmdPbsz" scope="prototype" />
+	<bean id="cmdPort" class="de.apporiented.hermesftp.cmd.impl.FtpCmdPort" scope="prototype" />
+	<bean id="cmdProt" class="de.apporiented.hermesftp.cmd.impl.FtpCmdProt" scope="prototype" />
+	<bean id="cmdPwd" class="de.apporiented.hermesftp.cmd.impl.FtpCmdPwd" scope="prototype" />
+	<bean id="cmdQuit" class="de.apporiented.hermesftp.cmd.impl.FtpCmdQuit" scope="prototype" />
+	<bean id="cmdRest" class="de.apporiented.hermesftp.cmd.impl.FtpCmdRest" scope="prototype" />
+	<bean id="cmdRetr" class="de.apporiented.hermesftp.cmd.impl.FtpCmdRetr" scope="prototype" />
+	<bean id="cmdRmd" class="de.apporiented.hermesftp.cmd.impl.FtpCmdRmd" scope="prototype" />
+	<bean id="cmdRnfr" class="de.apporiented.hermesftp.cmd.impl.FtpCmdRnfr" scope="prototype" />
+	<bean id="cmdRnto" class="de.apporiented.hermesftp.cmd.impl.FtpCmdRnto" scope="prototype" />
+	<bean id="cmdSize" class="de.apporiented.hermesftp.cmd.impl.FtpCmdSize" scope="prototype" />
+	<bean id="cmdStat" class="de.apporiented.hermesftp.cmd.impl.FtpCmdStat" scope="prototype" />
+	<bean id="cmdStor" class="de.apporiented.hermesftp.cmd.impl.FtpCmdStor" scope="prototype" />
+	<bean id="cmdStou" class="de.apporiented.hermesftp.cmd.impl.FtpCmdStou" scope="prototype" />
+	<bean id="cmdStru" class="de.apporiented.hermesftp.cmd.impl.FtpCmdStru" scope="prototype" />
+	<bean id="cmdSyst" class="de.apporiented.hermesftp.cmd.impl.FtpCmdSyst" scope="prototype" />
+	<bean id="cmdType" class="de.apporiented.hermesftp.cmd.impl.FtpCmdType" scope="prototype" />
+	<bean id="cmdUser" class="de.apporiented.hermesftp.cmd.impl.FtpCmdUser" scope="prototype" />
+	<bean id="cmdNotImpl" class="de.apporiented.hermesftp.cmd.impl.FtpCmdNotImpl" scope="prototype" />
 
 	<!-- List of FTP commands that can be handled by the application.
 		New commands ca be registered here.
@@ -50,7 +57,7 @@
 		was not used here since we need to create a new command instance each time we access the hash table
 		and cannot reuse the command prototype.
 	-->
-	<bean id="parser" singleton="true" class="net.sf.hermesftp.parser.impl.FtpCmdParserImpl">
+	<bean id="parser" scope="singleton" class="de.apporiented.hermesftp.parser.impl.FtpCmdParserImpl">
 		<property name="commands">
 			<map>
 				<entry key="ABOR" value="cmdAbor" />
@@ -106,32 +113,32 @@
 		</property>
 	</bean>
 
-	<bean id="options" class="net.sf.hermesftp.server.impl.FtpServerOptionsImpl" singleton="true">
+	<bean id="options" class="de.apporiented.hermesftp.server.impl.FtpServerOptionsImpl" scope="singleton">
 		<property name="properties">
 			<props>
-				<prop key="ftp.root.dir"></prop>
-				<prop key="max.connections">20</prop>
-				<prop key="max.idle.seconds">600</prop>
-				<prop key="buffer.size">2048</prop>
-				<prop key="allowed.passive.ports"></prop>
-				<prop key="ftp.port">21</prop>
-				<prop key="ssl.force">false</prop>
-				<prop key="ssl.allow.explicit">true</prop>
-				<prop key="ssl.allow.implicit">true</prop>
-				<prop key="ssl.port.implicit">990</prop>
-				<prop key="ssl.keystore.file">keystore</prop>
-				<prop key="ssl.keystore.password">secret</prop>
-				<prop key="ssl.cipher.suites"></prop>
-				<prop key="charset.ebcdic">CP1047</prop>
-				<prop key="charset.ascii">ISO-8859-1</prop>
-				<prop key="console.enabled">true</prop>
+                <prop key="ftp.root.dir"></prop>
+                <prop key="max.connections">20</prop>
+                <prop key="max.idle.seconds">600</prop>
+                <prop key="buffer.size">2048</prop>
+                <prop key="allowed.passive.ports"></prop>
+                <prop key="ftp.port">20021</prop>
+                <prop key="ssl.force">false</prop>
+                <prop key="ssl.allow.explicit">false</prop>
+                <prop key="ssl.allow.implicit">false</prop>
+                <prop key="ssl.port.implicit">20990</prop>
+                <prop key="ssl.keystore.file">keystore</prop>
+                <prop key="ssl.keystore.password">secret</prop>
+                <prop key="ssl.cipher.suites"></prop>
+                <prop key="charset.ebcdic">CP1047</prop>
+                <prop key="charset.ascii">ISO-8859-1</prop>
+                <prop key="console.enabled">true</prop>
 				<!-- <prop key="ipv4.black.list">!127.0.0.1,!192.*.*.*</prop> -->
 			</props>
 		</property>
 	</bean>
 
 
-	<bean id="testOptions" class="net.sf.hermesftp.server.impl.FtpServerOptionsImpl" singleton="true">
+	<bean id="testOptions" class="de.apporiented.hermesftp.server.impl.FtpServerOptionsImpl" scope="singleton">
 		<property name="properties">
 			<props>
 				<prop key="ftp.root.dir"></prop>
@@ -154,42 +161,42 @@
 		</property>
 	</bean>
 
-	<bean id="cmdReader" class="net.sf.hermesftp.parser.impl.FtpCmdReaderThread" singleton="false">
+	<bean id="cmdReader" class="de.apporiented.hermesftp.parser.impl.FtpCmdReaderThread" scope="prototype">
 		<property name="parser" ref="parser" />
 	</bean>
 
-	<bean id="session" class="net.sf.hermesftp.session.impl.FtpSessionImpl" singleton="false">
+	<bean id="session" class="de.apporiented.hermesftp.session.impl.FtpSessionImpl" scope="prototype">
 		<property name="cmdReader" ref="cmdReader" />
 	</bean>
 
-	<bean id="server" class="net.sf.hermesftp.server.impl.DefaultFtpServer" singleton="true">
+	<bean id="server" class="de.apporiented.hermesftp.server.impl.DefaultFtpServer" scope="singleton">
 		<property name="name" value="Default FTP Server" />
 		<property name="options" ref="options" />
 		<property name="resources" value="hermesftp-resources"/>
 		<property name="userManager" ref="userManager" />
 	</bean>
 
-	<bean id="sslserver" class="net.sf.hermesftp.server.impl.SecureFtpServer" singleton="true">
+	<bean id="sslserver" class="de.apporiented.hermesftp.server.impl.SecureFtpServer" scope="singleton">
 		<property name="name" value="Secure FTP Server" />
 		<property name="options" ref="options" />
 		<property name="resources" value="hermesftp-resources"/>
 		<property name="userManager" ref="userManager" />
 	</bean>
 
-	<bean id="testServer" class="net.sf.hermesftp.server.impl.DefaultFtpServer" singleton="true">
+	<bean id="testServer" class="de.apporiented.hermesftp.server.impl.DefaultFtpServer" scope="singleton">
 		<property name="options" ref="testOptions" />
 		<property name="resources" value="hermesftp-resources"/>
 		<property name="userManager" ref="userManager" />
 	</bean>
 
-	<bean id="userFileReader" class="net.sf.hermesftp.usermanager.impl.XmlFileReader" singleton="true">
+	<bean id="userFileReader" class="de.apporiented.hermesftp.usermanager.impl.XmlFileReader" scope="singleton">
 	</bean>
 
-	<bean id="userManager" class="net.sf.hermesftp.usermanager.impl.XmlFileUserManager" singleton="true">
+	<bean id="userManager" class="de.apporiented.hermesftp.usermanager.impl.XmlFileUserManager" scope="singleton">
 		<property name="fileReader" ref="userFileReader"/>
 	</bean>
 
-	<bean id="console" class="net.sf.hermesftp.console.ConsoleServerImpl" singleton="true">
+	<bean id="console" class="de.apporiented.hermesftp.console.ConsoleServerImpl" scope="singleton">
 		<property name="port" value="9988" />
 		<property name="userManager" ref="userManager" />
 		<property name="realm" ref="consoleRealm" />
@@ -205,33 +212,33 @@
 		</property>
 	</bean>
 	
-    <bean id="consoleRealm" class="org.mortbay.jetty.security.HashUserRealm" singleton="true">
+    <bean id="consoleRealm" class="org.mortbay.jetty.security.HashUserRealm" scope="singleton">
        <constructor-arg><value>Hermes FTP Realm</value></constructor-arg>
     </bean>
 
-    <bean id="overviewServlet" class="net.sf.hermesftp.console.OverviewServlet" singleton="true">
+    <bean id="overviewServlet" class="de.apporiented.hermesftp.console.OverviewServlet" scope="singleton">
 		<property name="options" ref="options"/>
 		<property name="contentResourceName" value="/console-overview.html" />
     </bean>
 
-    <bean id="ftpSessionsServlet" class="net.sf.hermesftp.console.SessionsServlet" singleton="true">
+    <bean id="ftpSessionsServlet" class="de.apporiented.hermesftp.console.SessionsServlet" scope="singleton">
 		<property name="server" ref="server"/>
 		<property name="pageTitle" value="FTP Sessions"/>
 		<property name="contentResourceName" value="/console-ftpsessions.html" />
     </bean>
     
-    <bean id="ftpSslSessionsServlet" class="net.sf.hermesftp.console.SessionsServlet" singleton="true">
+    <bean id="ftpSslSessionsServlet" class="de.apporiented.hermesftp.console.SessionsServlet" scope="singleton">
 		<property name="server" ref="sslserver"/>
  		<property name="pageTitle" value="FTP over SSL Sessions"/>
 		<property name="contentResourceName" value="/console-ftpsessions.html" />
     </bean>
 
-    <bean id="userServlet" class="net.sf.hermesftp.console.UserServlet" singleton="true">
+    <bean id="userServlet" class="de.apporiented.hermesftp.console.UserServlet" scope="singleton">
 		<property name="userManager" ref="userManager"/>
 		<property name="contentResourceName" value="/console-users.html" />
     </bean>
     
-    <bean id="logServlet" class="net.sf.hermesftp.console.LogServlet" singleton="true">
+    <bean id="logServlet" class="de.apporiented.hermesftp.console.LogServlet" scope="singleton">
 		<property name="logFile" value="c:\temp\test.log" />
 		<property name="contentResourceName" value="/console-log.html" />
     </bean>

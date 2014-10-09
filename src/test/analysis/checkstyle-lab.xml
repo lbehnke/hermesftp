@@ -1,25 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-    This configuration file was written by the eclipse-cs plugin configuration editor
--->
-<!--
-    Checkstyle-Configuration: Hermes Checks
-    Description: none
--->
-<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+
 <module name="Checker">
-    <property name="severity" value="warning"/>
+    <!--
+    <module name="SuppressionFilter">
+        <property name="file" value="${basedir}/src/test/analysis/checkstyle-suppression.xml"/>
+    </module>
+    -->
+    <module name="NewlineAtEndOfFile">
+        <property name="lineSeparator" value="lf"/>
+    </module>
+    <module name="FileLength"/>
+    <module name="FileTabCharacter"/>
+
+    <!-- Trailing spaces -->
+    <module name="RegexpSingleline">
+        <property name="format" value="\s+$"/>
+        <property name="message" value="Line has trailing spaces."/>
+    </module>
+
     <module name="TreeWalker">
-        <module name="FileContentsHolder"/>
-        <module name="JavadocType"/>
+        <property name="cacheFile" value="bin/cachefile"/>
+
+        <!-- Checks for Javadoc comments.                     -->
+        <!-- See http://checkstyle.apporiented.de/config_javadoc.html -->
+        <!--module name="JavadocMethod"/-->
+        <!--module name="JavadocType"/-->
+        <!--module name="JavadocVariable"/-->
         <module name="JavadocStyle"/>
-        <module name="JavadocMethod">
-            <property name="scope" value="protected"/>
-        </module>
-        <module name="JavadocVariable">
-            <property name="scope" value="protected"/>
-        </module>
-        <module name="AbstractClassName"/>
+
+
+        <!-- Checks for Naming Conventions.                  -->
+        <!-- See http://checkstyle.apporiented.de/config_naming.html -->
         <module name="ConstantName"/>
         <module name="LocalFinalVariableName"/>
         <module name="LocalVariableName"/>
@@ -29,135 +43,93 @@
         <module name="ParameterName"/>
         <module name="StaticVariableName"/>
         <module name="TypeName"/>
-        <module name="Header">
-            <property name="headerFile" value="${checkstyle.header.file}"/>
-        </module>
+
+
+        <!-- Checks for imports                              -->
+        <!-- See http://checkstyle.apporiented.de/config_import.html -->
         <module name="AvoidStarImport"/>
-        <module name="IllegalImport"/>
-        <module name="ImportOrder"/>
+        <module name="IllegalImport"/> <!-- defaults to sun.* packages -->
         <module name="RedundantImport"/>
         <module name="UnusedImports"/>
-        <module name="AnonInnerLength"/>
-        <module name="ExecutableStatementCount">
-            <property name="tokens" value="INSTANCE_INIT,STATIC_INIT,METHOD_DEF,CTOR_DEF"/>
+
+
+        <!-- Checks for Size Violations.                    -->
+        <!-- See http://checkstyle.apporiented.de/config_sizes.html -->
+        <module name="LineLength">
+            <property name="max" value="140"/>
+            <property name="severity" value="warning"/>
         </module>
-        <module name="FileLength"/>
         <module name="MethodLength"/>
         <module name="ParameterNumber"/>
-        <module name="EmptyForInitializerPad"/>
+
+
+        <!-- Checks for whitespace                               -->
+        <!-- See http://checkstyle.apporiented.de/config_whitespace.html -->
+        <module name="GenericWhitespace"/>
         <module name="EmptyForIteratorPad"/>
-        <module name="NoWhitespaceAfter">
-            <property name="tokens" value="ARRAY_INIT,BNOT,DEC,DOT,INC,LNOT,UNARY_MINUS,UNARY_PLUS"/>
-        </module>
+        <module name="MethodParamPad"/>
+        <module name="NoWhitespaceAfter"/>
         <module name="NoWhitespaceBefore"/>
         <module name="OperatorWrap"/>
-        <module name="LineLength">
-            <property name="max" value="128"/>
-        </module>
-        <module name="MethodParamPad"/>
         <module name="ParenPad"/>
-        <module name="TabCharacter"/>
-        <module name="TypecastParenPad">
-            <property name="tokens" value="RPAREN,TYPECAST"/>
-        </module>
+        <module name="TypecastParenPad"/>
         <module name="WhitespaceAfter"/>
         <module name="WhitespaceAround"/>
+
+
+        <!-- Modifier Checks                                    -->
+        <!-- See http://checkstyle.apporiented.de/config_modifiers.html -->
         <module name="ModifierOrder"/>
-        <module name="RedundantModifier">
-            <property name="tokens" value="METHOD_DEF,ANNOTATION_FIELD_DEF"/>
-        </module>
+        <module name="RedundantModifier"/>
+
+
+        <!-- Checks for blocks. You know, those {}'s         -->
+        <!-- See http://checkstyle.apporiented.de/config_blocks.html -->
         <module name="AvoidNestedBlocks"/>
-        <module name="EmptyBlock"/>
-        <module name="LeftCurly">
-            <property name="maxLineLength" value="100"/>
-        </module>
-        <module name="NeedBraces"/>
+        <!--module name="EmptyBlock"/-->
+        <module name="LeftCurly"/>
+        <!--module name="NeedBraces"/-->
         <module name="RightCurly"/>
-        <module name="DefaultComesLast"/>
+
+
+        <!-- Checks for common coding problems               -->
+        <!-- See http://checkstyle.apporiented.de/config_coding.html -->
+        <!--module name="AvoidInlineConditionals"/-->
         <module name="CovariantEquals"/>
-        <module name="DeclarationOrder"/>
-        <module name="DoubleCheckedLocking"/>
         <module name="EmptyStatement"/>
+        <module name="EqualsAvoidNull"/>
         <module name="EqualsHashCode"/>
-        <module name="ExplicitInitialization"/>
-        <module name="FallThrough"/>
+        <!--module name="HiddenField"/-->
         <module name="IllegalInstantiation"/>
-        <module name="IllegalCatch"/>
-        <module name="IllegalThrows"/>
-        <module name="IllegalTokenText">
-            <property name="tokens" value="EOF,MODIFIERS,OBJBLOCK,SLIST,CTOR_DEF,METHOD_DEF,VARIABLE_DEF,INSTANCE_INIT,STATIC_INIT,TYPE,CLASS_DEF"/>
-        </module>
-        <module name="IllegalType">
-            <property name="tokens" value="METHOD_DEF,PARAMETER_DEF,VARIABLE_DEF"/>
-        </module>
         <module name="InnerAssignment"/>
-        <module name="JUnitTestCase"/>
         <module name="MagicNumber">
-            <property name="ignoreNumbers" value="-1,0,1,2,8,16,32,64,128,256,1024,255"/>
+            <property name="severity" value="warning"/>
         </module>
         <module name="MissingSwitchDefault"/>
-        <module name="ModifiedControlVariable"/>
-        <module name="MultipleStringLiterals"/>
-        <module name="MultipleVariableDeclarations"/>
-        <module name="NestedIfDepth">
-            <property name="max" value="2"/>
-        </module>
-        <module name="NestedTryDepth">
-            <property name="max" value="2"/>
-        </module>
-        <module name="PackageDeclaration"/>
-        <module name="ParameterAssignment">
-            <property name="severity" value="ignore"/>
-        </module>
-        <module name="RedundantThrows"/>
-        <module name="ReturnCount">
-            <property name="severity" value="ignore"/>
+        <module name="RedundantThrows">
+            <property name="allowUnchecked" value="true"/>
+            <property name="allowSubclasses" value="true"/>
+            <property name="suppressLoadErrors" value="true"/>
         </module>
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
-        <module name="StringLiteralEquality"/>
-        <module name="SuperClone"/>
-        <module name="SuperFinalize"/>
-        <module name="UnnecessaryParentheses"/>
-        <module name="DesignForExtension">
-            <property name="severity" value="ignore"/>
+
+        <!-- Checks for class design                         -->
+        <!-- See http://checkstyle.apporiented.de/config_design.html -->
+        <!--module name="DesignForExtension"/-->
+        <module name="FinalClass">
+            <property name="severity" value="warning"/>
         </module>
-        <module name="FinalClass"/>
         <module name="HideUtilityClassConstructor"/>
-        <module name="ThrowsCount">
-            <property name="max" value="2"/>
-        </module>
-        <module name="VisibilityModifier"/>
-        <module name="BooleanExpressionComplexity"/>
-        <module name="ClassDataAbstractionCoupling">
-            <property name="max" value="10"/>
-        </module>
-        <module name="ClassFanOutComplexity"/>
-        <module name="CyclomaticComplexity"/>
-        <module name="JavaNCSS"/>
-        <module name="NPathComplexity"/>
+        <module name="InterfaceIsType"/>
+        <!--module name="VisibilityModifier"/-->
+
+
+        <!-- Miscellaneous other checks.                   -->
+        <!-- See http://checkstyle.apporiented.de/config_misc.html -->
         <module name="ArrayTypeStyle"/>
-        <module name="TrailingComment"/>
-        <module name="UncommentedMain">
-            <property name="severity" value="ignore"/>
-        </module>
+        <!--module name="FinalParameters"/-->
+        <!--module name="TodoComment"/-->
         <module name="UpperEll"/>
-        <module name="j2ee.EntityBean"/>
-        <module name="j2ee.FinalStatic"/>
-        <module name="j2ee.MessageBean"/>
-        <module name="j2ee.SessionBean"/>
-    </module>
-    <module name="PackageHtml"/>
-    <module name="StrictDuplicateCode">
-        <property name="severity" value="ignore"/>
-    </module>
-    <module name="NewlineAtEndOfFile"/>
-    <module name="SeverityMatchFilter"/>
-    <module name="SuppressionCommentFilter"/>
-    <module name="SuppressionFilter">
-        <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="HermesFTP Suppressions"/>
-    </module>
-    <module name="SuppressionFilter">
-            <!-- <property name="file" value="${checkstyle.suppressions.location}" /> -->
     </module>
 </module>

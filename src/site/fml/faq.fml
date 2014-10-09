@@ -10,22 +10,6 @@
 				</p>
 			</answer>
 		</faq>
-		<faq id="howto">
-			<question>
-				The assembly of the Hermes FTP server is incomplete. What went wrong?
-			</question>
-			<answer>
-				The binaries are bundled with
-				<a href="http://wrapper.tanukisoftware.org">Java Service Wrapper</a>
-				which is a SourceForge project of its own. The Java Service Wrapper files are not
-				part of the Hermes FTP source trunk. If you wish to create a complete assembly copy
-				the
-				<i>service</i>
-				folder from the binary distribution into
-				<i>$WORKSPACE/hermesftp/etc/service</i>
-				first and then execute following command:
-				<source>mvn assemby:asembly</source>
-			</answer>
-		</faq>
+
 	</part>
 </faqs>

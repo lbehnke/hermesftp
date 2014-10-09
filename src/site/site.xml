@@ -7,7 +7,7 @@
 
   <body>
     <links>
-      <item name="SourceForge" href="http://www.sf.net/" />
+      <item name="Github" href="http://github.com/" />
       <item name="RFC 775" href="http://www.ietf.org/rfc/rfc0775.txt" />
       <item name="RFC 959" href="http://www.ietf.org/rfc/rfc0959.txt" />
       <item name="RFC 2228" href="http://www.ietf.org/rfc/rfc2228.txt" />
@@ -18,10 +18,9 @@
     <!-- module und parentProject variables do currently not work
     ${parentProject} -->
 
-
     <menu name="Hermes FTP Server">
       <item name="Introduction" href="index.html"/>
-      <item name="Download" href="https://sourceforge.net/project/showfiles.php?group_id=164846"/>
+      <item name="Download" href="https://github.com/lbehnke/hermesftp/releases/latest"/>
     </menu>
 
     <menu name="User Documentation">
@@ -33,13 +32,6 @@
       <item name="Customization" href="customization.html"/>
       <item name="FAQ" href="faq.html"/>
     </menu>
-
-    <!--
-    <menu name="Developer Documentation">
-      <item name="Extending the FTP server" href="extending.html"/>
-      <item name="Packaging" href="packaging.html"/>
-    </menu>
-    -->
 
     ${reports}
 

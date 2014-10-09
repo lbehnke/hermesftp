@@ -2,7 +2,7 @@
 <document>
 	<properties>
 		<title>Hermes FTP Server Project</title>
-		<author email="nospam.AT.larsbehnke.DOT.net">Lars Behnke</author>
+		<author email="nospam.AT.larsbehnke.DOT.de">Lars Behnke</author>
 	</properties>
 	<meta
 		name="keyword"
@@ -30,7 +30,7 @@
 					<source>%HERMES_HOME%/service/bin/hermesftp-install-nt.bat</source>
 					If everything went well, Hermes FTP Server is started automatically on system
 					start from now on. You can start the service by executing the command
-					<source>net start HermesFTPServer</source>
+					<source>de start HermesFTPServer</source>
 					The service is uninstalled by executing the script file:
 					<source>%HERMES_HOME%/service/bin/hermesftp-uninstall-nt.bat</source>
 					For further documentation refer to the

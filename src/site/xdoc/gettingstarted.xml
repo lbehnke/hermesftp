@@ -2,7 +2,7 @@
 <document>
 	<properties>
 		<title>Hermes FTP Server Project - Getting started</title>
-		<author email="nospam.AT.larsbehnke.DOT.net">Lars Behnke</author>
+		<author email="nospam.AT.larsbehnke.DOT.de">Lars Behnke</author>
 	</properties>
 	<meta
 		name="keyword"
@@ -30,29 +30,29 @@
 				All other settings can remain as they are. The options bean configuration should look like following snippet.
 				</p>
 				<source>
-&lt;bean id=&quot;options&quot;
-         class=&quot;net.sf.hermesftp.common.FtpServerOptions&quot;
-         singleton=&quot;true&quot;&gt;
-	&lt;property name=&quot;properties&quot;&gt;
-		&lt;props&gt;
-			&lt;prop key=&quot;ftp.root.dir&quot;&gt;c:/ftproot&lt;/prop&gt;
-			&lt;prop key=&quot;max.connections&quot;&gt;20&lt;/prop&gt;
-			&lt;prop key=&quot;buffer.size&quot;&gt;2048&lt;/prop&gt;
-			&lt;prop key=&quot;emulate.unix&quot;&gt;true&lt;/prop&gt;
-			&lt;prop key=&quot;ftp.port&quot;&gt;21&lt;/prop&gt;
-			&lt;prop key=&quot;ssl.force&quot;&gt;false&lt;/prop&gt;
-			&lt;prop key=&quot;ssl.allow.explicit&quot;&gt;true&lt;/prop&gt;
-			&lt;prop key=&quot;ssl.allow.implicit&quot;&gt;true&lt;/prop&gt;
-			&lt;prop key=&quot;ssl.port.implicit&quot;&gt;990&lt;/prop&gt;
-			&lt;prop key=&quot;ssl.keystore.file&quot;&gt;&lt;/prop&gt;
-			&lt;prop key=&quot;ssl.keystore.password&quot;&gt;&lt;/prop&gt;
-			&lt;prop key=&quot;ssl.cipher.suites&quot;&gt;&lt;/prop&gt;
-			&lt;prop key=&quot;charset.ebcdic&quot;&gt;CP1047&lt;/prop&gt;
-			&lt;prop key=&quot;charset.ascii&quot;&gt;ISO-8859-1&lt;/prop&gt;
-		&lt;/props&gt;
-	&lt;/property&gt;
-&lt;/bean&gt;
-				</source>
+                    &lt;bean id=&quot;options&quot;
+                    class=&quot;de.apporiented.hermesftp.common.FtpServerOptions&quot;
+                    singleton=&quot;true&quot;&gt;
+                    &lt;property name=&quot;properties&quot;&gt;
+                    &lt;props&gt;
+                    &lt;prop key=&quot;ftp.root.dir&quot;&gt;c:/ftproot&lt;/prop&gt;
+                    &lt;prop key=&quot;max.connections&quot;&gt;20&lt;/prop&gt;
+                    &lt;prop key=&quot;buffer.size&quot;&gt;2048&lt;/prop&gt;
+                    &lt;prop key=&quot;emulate.unix&quot;&gt;true&lt;/prop&gt;
+                    &lt;prop key=&quot;ftp.port&quot;&gt;21&lt;/prop&gt;
+                    &lt;prop key=&quot;ssl.force&quot;&gt;false&lt;/prop&gt;
+                    &lt;prop key=&quot;ssl.allow.explicit&quot;&gt;true&lt;/prop&gt;
+                    &lt;prop key=&quot;ssl.allow.implicit&quot;&gt;true&lt;/prop&gt;
+                    &lt;prop key=&quot;ssl.port.implicit&quot;&gt;990&lt;/prop&gt;
+                    &lt;prop key=&quot;ssl.keystore.file&quot;&gt;&lt;/prop&gt;
+                    &lt;prop key=&quot;ssl.keystore.password&quot;&gt;&lt;/prop&gt;
+                    &lt;prop key=&quot;ssl.cipher.suites&quot;&gt;&lt;/prop&gt;
+                    &lt;prop key=&quot;charset.ebcdic&quot;&gt;CP1047&lt;/prop&gt;
+                    &lt;prop key=&quot;charset.ascii&quot;&gt;ISO-8859-1&lt;/prop&gt;
+                    &lt;/props&gt;
+                    &lt;/property&gt;
+                    &lt;/bean&gt;
+                </source>
 			</subsection>
 			<subsection name="Running the server">
 				Make sure you are still in the installation directory and issue the following
@@ -77,20 +77,20 @@
 			 </p>
 			 
 				<source>
-&lt;bean id=&quot;options&quot;
-         class=&quot;net.sf.hermesftp.common.FtpServerOptions&quot;
-         singleton=&quot;true&quot;&gt;
-	&lt;property name=&quot;properties&quot;&gt;
-		&lt;props&gt;
-			...
-			&lt;prop key=&quot;allowed.passive.ports&quot;&gt;
-			    9000-9200,12000-12500
-			&lt;/prop&gt;
-			...
-		&lt;/props&gt;
-	&lt;/property&gt;
-&lt;/bean&gt;
-				</source>
+                    &lt;bean id=&quot;options&quot;
+                    class=&quot;de.apporiented.hermesftp.common.FtpServerOptions&quot;
+                    singleton=&quot;true&quot;&gt;
+                    &lt;property name=&quot;properties&quot;&gt;
+                    &lt;props&gt;
+                    ...
+                    &lt;prop key=&quot;allowed.passive.ports&quot;&gt;
+                    9000-9200,12000-12500
+                    &lt;/prop&gt;
+                    ...
+                    &lt;/props&gt;
+                    &lt;/property&gt;
+                    &lt;/bean&gt;
+                </source>
 				<p>
 				If you omit this property, Hermes FTP Server lets the underlying OS decide on which data port to use.
 				</p>
