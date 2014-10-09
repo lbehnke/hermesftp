@@ -136,6 +136,9 @@
 						${project.build.directory}/assembly
 					</outputDirectory>
 				</configuration>
+                <goals>
+                    <goal>single</goal>
+                </goals>
 			</plugin>
 
 			<plugin>
@@ -175,13 +178,9 @@
             <plugin>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.1</version>
-                <!--
                 <configuration>
-                    <tagBase>
-                        https://${project.artifactId}.svn.sourceforge.de/svnroot/${project.artifactId}/${project.artifactId}-server/tags
-                    </tagBase>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
                 </configuration>
-                -->
             </plugin>
 
             <plugin>
