@@ -23,6 +23,7 @@
       <item name="Download" href="https://github.com/lbehnke/hermesftp/releases/latest"/>
     </menu>
 
+      <!--
     <menu name="User Documentation">
       <item name="Getting Started" href="gettingstarted.html"/>
       <item name="Installing a Service" href="service.html"/>
@@ -32,6 +33,7 @@
       <item name="Customization" href="customization.html"/>
       <item name="FAQ" href="faq.html"/>
     </menu>
+    -->
 
     ${reports}
 
