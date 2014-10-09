@@ -37,7 +37,7 @@
     <scm>
         <url>https://github.com/lbehnke/hermesftp</url>
         <connection>scm:git:git://github.com/lbehnke/hermesftp.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/lbehnke//hermesftp.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com/lbehnke/hermesftp.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
