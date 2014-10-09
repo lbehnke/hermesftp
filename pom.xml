@@ -4,7 +4,7 @@
 	<groupId>de.apporiented</groupId>
 	<artifactId>hermesftp</artifactId>
 	<name>Hermes FTP Server</name>
-	<version>1.0</version>
+	<version>1.1-SNAPSHOT</version>
 	<description>A cross-platform FTP server written in Java</description>
 	<url>https://github.com/lbehnke/hermesftp</url>
 
@@ -37,7 +37,7 @@
         <url>https://github.com/lbehnke/hermesftp</url>
         <connection>scm:git:git://github.com/lbehnke/hermesftp.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/lbehnke/hermesftp.git</developerConnection>
-        <tag>v1.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
 	<organization>
