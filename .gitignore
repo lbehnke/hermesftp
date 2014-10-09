@@ -3,3 +3,4 @@ keystore
 hermesftp.iml
 hermesftp-ctx.properties
 .idea
+release.properties
