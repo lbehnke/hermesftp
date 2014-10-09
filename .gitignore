@@ -5,3 +5,5 @@ hermesftp-ctx.properties
 .idea
 release.properties
 target
+
+pom.xml.releaseBackup
