@@ -121,11 +121,11 @@
                 <prop key="max.idle.seconds">600</prop>
                 <prop key="buffer.size">2048</prop>
                 <prop key="allowed.passive.ports"></prop>
-                <prop key="ftp.port">20021</prop>
+                <prop key="ftp.port">21</prop>
                 <prop key="ssl.force">false</prop>
                 <prop key="ssl.allow.explicit">false</prop>
                 <prop key="ssl.allow.implicit">false</prop>
-                <prop key="ssl.port.implicit">20990</prop>
+                <prop key="ssl.port.implicit">990</prop>
                 <prop key="ssl.keystore.file">keystore</prop>
                 <prop key="ssl.keystore.password">secret</prop>
                 <prop key="ssl.cipher.suites"></prop>
