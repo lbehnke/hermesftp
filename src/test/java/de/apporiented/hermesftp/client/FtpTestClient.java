@@ -782,9 +782,9 @@ public class FtpTestClient {
 
                     }
                     writer.flush();
-                    if (passiveModeSocket != null) {
-                        passiveModeSocket.shutdownOutput();
-                    }
+                    //if (passiveModeSocket != null) {
+                    //    passiveModeSocket.shutdownOutput();
+                    //}
                     writer.close();
                 } catch (IOException e) {
                     log.error(e);

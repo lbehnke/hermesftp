@@ -24,6 +24,9 @@
 
 package de.apporiented.hermesftp.streams;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -35,6 +38,9 @@ import java.io.RandomAccessFile;
  * @author Lars Behnke
  */
 public class RafOutputStream extends OutputStream implements RecordWriteSupport {
+
+    private static Log log = LogFactory.getLog(RafOutputStream.class);
+
 
     private RandomAccessFile raf;
 
@@ -113,6 +119,7 @@ public class RafOutputStream extends OutputStream implements RecordWriteSupport 
     public void close() throws IOException {
         getRaf().close();
     }
+
 
     private RandomAccessFile getRaf() throws IOException {
         if (raf == null) {

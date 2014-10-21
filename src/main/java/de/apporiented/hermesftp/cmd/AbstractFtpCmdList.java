@@ -69,9 +69,6 @@ public abstract class AbstractFtpCmdList extends AbstractFtpCmd {
             // TODO Allow filtering with wildcards *, ?
 
             if (!dir.exists()) {
-
-                // lab
-                dataSocket.shutdownOutput();
                 msgOut(MSG550);
                 return;
             }
@@ -91,7 +88,7 @@ public abstract class AbstractFtpCmdList extends AbstractFtpCmd {
 
             // lab
             dataOut.flush();
-            dataSocket.shutdownOutput();
+            //dataSocket.shutdownOutput();
 
             msgOut(MSG226);
         } catch (IOException e) {

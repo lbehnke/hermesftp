@@ -77,7 +77,7 @@ public final class IOUtils {
     public static boolean closeGracefully(Object o) {
         boolean result;
         try {
-            Method closeMethod = BeanUtils.findMethod(o.getClass(), "close", (Class<?>) null);
+            Method closeMethod = BeanUtils.findMethod(o.getClass(), "close", null);
             closeMethod.invoke(o, (Object[]) null);
             result = true;
         } catch (IllegalArgumentException e) {

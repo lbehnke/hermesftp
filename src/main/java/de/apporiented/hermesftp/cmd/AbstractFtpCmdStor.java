@@ -108,9 +108,6 @@ public abstract class AbstractFtpCmdStor extends AbstractFtpCmd {
             // TODO delegate event to FtpEventListener
             // getCtx().getEventListener().
 
-            // lab
-            dataSocket.shutdownInput();
-
         } catch (FtpUniqueConstraintException e) {
             msgOut(MSG553);
         } catch (FtpPermissionException e) {

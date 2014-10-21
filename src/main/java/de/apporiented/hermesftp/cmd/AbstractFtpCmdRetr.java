@@ -152,14 +152,12 @@ public abstract class AbstractFtpCmdRetr extends AbstractFtpCmd implements FtpCo
             } else {
                 log.error("Unknown data type");
                 msgOut(MSG550, "Unsupported data type");
-                dataSocket.shutdownOutput();
+                //dataSocket.shutdownOutput();
                 return;
             }
             // TODO delegate event to FtpEventListener
 
-            // lab
             dataOut.flush();
-            dataSocket.shutdownOutput();
 
         } catch (FtpQuotaException e) {
             msgOut(MSG550, e.getMessage());
