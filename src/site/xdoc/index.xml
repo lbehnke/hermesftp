@@ -2,7 +2,7 @@
 <document>
     <properties>
         <title>Hermes FTP Project</title>
-        <author email="nospam.AT.larsbehnke.DOT.de">Lars Behnke</author>
+        <author>Lars Behnke</author>
     </properties>
     <meta name="keyword" content="ftp, java, spring, rfc959, hermes" />
     <body>
@@ -79,7 +79,7 @@
                     <tr>
                         <td>Apache FTP Server</td>
                         <td>
-                            <a href="http://incubator.apache.org/ftpserver">http://incubator.apache.org/ftpserver</a>
+                            <a href="http://mina.apache.org/ftpserver-project/">http://mina.apache.org/ftpserver-project/</a>
                         </td>
                     </tr>
                     <tr>

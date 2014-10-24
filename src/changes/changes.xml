@@ -153,7 +153,7 @@
 		<release version="0.3" date="2006-04-22"
 			desc="Bugfix release.">
 			<action dev="lbehnke" type="update">
-                Changed package names to "de.apporiented.hermesftp".
+                Changed package names to "com.apporiented.hermesftp".
             </action>
 			<action dev="lbehnke" type="remove">
 				Remove keystore from classpath and updated

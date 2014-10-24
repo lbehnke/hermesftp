@@ -79,8 +79,8 @@
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                             <mainClass>
-								de.apporiented.hermesftp.FtpServerApp
-							</mainClass>
+                                com.apporiented.hermesftp.FtpServerApp
+                            </mainClass>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>
 								dependencies
@@ -253,7 +253,7 @@
                             <configuration>
                                 <configLocation> ${basedir}/src/test/analysis/checkstyle-lab.xml
                                 </configLocation>
-                                <includes>de/apporiented/hermesftp/**/*.java
+                                <includes>com/apporiented/hermesftp/**/*.java
                                 </includes>
                                 <consoleOutput>true</consoleOutput>
                                 <failsOnError>false</failsOnError>
