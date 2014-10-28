@@ -35,7 +35,7 @@ Hermes FTP Server is based on the Spring Framework. So, if you are familiar with
 
 Prerequisites
 -------------
-Hermes FTP Server requires Java 5 or later. Please check the java version installed on your system by typing the following command at the command prompt:
+Hermes FTP Server requires Java 6 or later. Please check the java version installed on your system by typing the following command at the command prompt:
 
     java -version
 
