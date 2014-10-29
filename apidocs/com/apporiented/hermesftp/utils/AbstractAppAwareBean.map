@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="../server/AbstractFtpServer.html" title="com.apporiented.hermesftp.server.AbstractFtpServer" alt="" coords="47,387,505,967"/>
-<area shape="rect" id="node2_1" href="../common/BeanConstants.html" title="com.apporiented.hermesftp.common.BeanConstants" alt="" coords="16,11,227,157"/>
-<area shape="rect" id="node3_2" href="./AbstractAppAwareBean.html" title="com.apporiented.hermesftp.utils.AbstractAppAwareBean" alt="" coords="77,216,475,328"/>
-<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/org/springframework/context/ApplicationContextAware.html" title="org.springframework.context.ApplicationContextAware" alt="" coords="273,37,589,131"/>
-</map>

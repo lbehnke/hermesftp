@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// com.apporiented.hermesftp.exception.FtpCLIException
-	c2998 [label=<<table title="com.apporiented.hermesftp.exception.FtpCLIException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FtpCLIException.html">
+	c2997 [label=<<table title="com.apporiented.hermesftp.exception.FtpCLIException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FtpCLIException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FtpCLIException </td></tr>
 		</table></td></tr>
@@ -24,7 +24,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.exception.FtpException
-	c3006 [label=<<table title="com.apporiented.hermesftp.exception.FtpException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FtpException.html">
+	c3005 [label=<<table title="com.apporiented.hermesftp.exception.FtpException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FtpException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FtpException </td></tr>
 		</table></td></tr>
@@ -39,6 +39,6 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//com.apporiented.hermesftp.exception.FtpCLIException extends com.apporiented.hermesftp.exception.FtpException
-	c3006:p -> c2998:p [dir=back,arrowtail=empty];
+	c3005:p -> c2997:p [dir=back,arrowtail=empty];
 }
 

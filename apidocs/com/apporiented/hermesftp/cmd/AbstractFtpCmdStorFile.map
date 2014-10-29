@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./AbstractFtpCmdStorFile.html" title="com.apporiented.hermesftp.cmd.AbstractFtpCmdStorFile" alt="" coords="206,355,645,501"/>
-<area shape="rect" id="node3_1" href="./impl/FtpCmdStor.html" title="com.apporiented.hermesftp.cmd.impl.FtpCmdStor" alt="" coords="16,561,259,690"/>
-<area shape="rect" id="node4_2" href="./impl/FtpCmdStou.html" title="com.apporiented.hermesftp.cmd.impl.FtpCmdStou" alt="" coords="304,561,547,690"/>
-<area shape="rect" id="node5_3" href="./impl/FtpCmdAppe.html" title="com.apporiented.hermesftp.cmd.impl.FtpCmdAppe" alt="" coords="592,561,835,690"/>
-<area shape="rect" id="node2_4" href="./AbstractFtpCmdStor.html" title="com.apporiented.hermesftp.cmd.AbstractFtpCmdStor" alt="" coords="208,11,643,296"/>
-</map>

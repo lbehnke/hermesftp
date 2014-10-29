@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// com.apporiented.hermesftp.streams.TextInputStream
-	c6129 [label=<<table title="com.apporiented.hermesftp.streams.TextInputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./TextInputStream.html">
+	c6127 [label=<<table title="com.apporiented.hermesftp.streams.TextInputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./TextInputStream.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TextInputStream </td></tr>
 		</table></td></tr>
@@ -26,7 +26,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.streams.RecordReadSupport
-	c6137 [label=<<table title="com.apporiented.hermesftp.streams.RecordReadSupport" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RecordReadSupport.html">
+	c6135 [label=<<table title="com.apporiented.hermesftp.streams.RecordReadSupport" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RecordReadSupport.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RecordReadSupport </td></tr>
@@ -39,11 +39,11 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//com.apporiented.hermesftp.streams.TextInputStream extends java.io.InputStream
-	c6222:p -> c6129:p [dir=back,arrowtail=empty];
+	c6220:p -> c6127:p [dir=back,arrowtail=empty];
 	//com.apporiented.hermesftp.streams.TextInputStream implements com.apporiented.hermesftp.streams.RecordReadSupport
-	c6137:p -> c6129:p [dir=back,arrowtail=empty,style=dashed];
+	c6135:p -> c6127:p [dir=back,arrowtail=empty,style=dashed];
 	// java.io.InputStream
-	c6222 [label=<<table title="java.io.InputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/InputStream.html">
+	c6220 [label=<<table title="java.io.InputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/InputStream.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> InputStream </font></td></tr>
 		</table></td></tr>

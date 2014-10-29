@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./BlockModeInputStream.html" title="com.apporiented.hermesftp.streams.BlockModeInputStream" alt="" coords="28,304,617,451"/>
-<area shape="rect" id="node2_1" href="./BlockModeConstants.html" title="com.apporiented.hermesftp.streams.BlockModeConstants" alt="" coords="15,55,201,201"/>
-<area shape="rect" id="node3_2" href="./RecordReadSupport.html" title="com.apporiented.hermesftp.streams.RecordReadSupport" alt="" coords="246,81,399,175"/>
-<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/InputStream.html" title="java.io.InputStream" alt="" coords="445,11,725,245"/>
-</map>

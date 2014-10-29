@@ -50,30 +50,5 @@ digraph G {
 <tr><td align="left" balign="left"> + setName(name : String) </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// com.apporiented.hermesftp.server.FtpServer
-	c128 [label=<<table title="com.apporiented.hermesftp.server.FtpServer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FtpServer.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> FtpServer </td></tr>
-		</table></td></tr>
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="left" balign="left">  </td></tr>
-		</table></td></tr>
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="left" balign="left"> + getName() : String </td></tr>
-<tr><td align="left" balign="left"> + getConnectionCount() : int </td></tr>
-<tr><td align="left" balign="left"> + getConnectionCountHWMark() : int </td></tr>
-<tr><td align="left" balign="left"> + getConnectionCountHWMarkDate() : Date </td></tr>
-<tr><td align="left" balign="left"> + abort() </td></tr>
-<tr><td align="left" balign="left"> + getStatus() : int </td></tr>
-<tr><td align="left" balign="left"> + getSessions() : List&lt;FtpSession&gt; </td></tr>
-<tr><td align="left" balign="left"> + cleanUpSessions() </td></tr>
-<tr><td align="left" balign="left"> + getOptions() : FtpServerOptions </td></tr>
-<tr><td align="left" balign="left"> + getUserManager() : UserManager </td></tr>
-<tr><td align="left" balign="left"> + addFtpEventListener(lstnr : FtpEventListener) </td></tr>
-		</table></td></tr>
-		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	//com.apporiented.hermesftp.server.AbstractFtpServer implements com.apporiented.hermesftp.server.FtpServer
-	c128:p -> c127:p [dir=back,arrowtail=empty,style=dashed];
 }
 

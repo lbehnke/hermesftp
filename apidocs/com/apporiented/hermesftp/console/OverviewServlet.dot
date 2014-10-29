@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// com.apporiented.hermesftp.console.AbstractConsoleServlet
-	c7764 [label=<<table title="com.apporiented.hermesftp.console.AbstractConsoleServlet" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AbstractConsoleServlet.html">
+	c7762 [label=<<table title="com.apporiented.hermesftp.console.AbstractConsoleServlet" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AbstractConsoleServlet.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> AbstractConsoleServlet </font></td></tr>
 		</table></td></tr>
@@ -37,7 +37,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.console.OverviewServlet
-	c7766 [label=<<table title="com.apporiented.hermesftp.console.OverviewServlet" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OverviewServlet.html">
+	c7764 [label=<<table title="com.apporiented.hermesftp.console.OverviewServlet" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OverviewServlet.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OverviewServlet </td></tr>
 		</table></td></tr>
@@ -52,6 +52,6 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//com.apporiented.hermesftp.console.OverviewServlet extends com.apporiented.hermesftp.console.AbstractConsoleServlet
-	c7764:p -> c7766:p [dir=back,arrowtail=empty];
+	c7762:p -> c7764:p [dir=back,arrowtail=empty];
 }
 

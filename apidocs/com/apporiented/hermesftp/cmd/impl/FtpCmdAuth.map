@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="../ClientSocketModifier.html" title="com.apporiented.hermesftp.cmd.ClientSocketModifier" alt="" coords="15,167,201,262"/>
-<area shape="rect" id="node3_1" href="./FtpCmdAuth.html" title="com.apporiented.hermesftp.cmd.impl.FtpCmdAuth" alt="" coords="220,478,569,642"/>
-<area shape="rect" id="node2_2" href="../AbstractFtpCmd.html" title="com.apporiented.hermesftp.cmd.AbstractFtpCmd" alt="" coords="247,11,543,418"/>
-<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/javax/net/ssl/HandshakeCompletedListener.html" title="javax.net.ssl.HandshakeCompletedListener" alt="" coords="589,167,955,262"/>
-</map>

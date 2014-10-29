@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// com.apporiented.hermesftp.cmd.SocketProvider
-	c10514 [label=<<table title="com.apporiented.hermesftp.cmd.SocketProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SocketProvider.html">
+	c10512 [label=<<table title="com.apporiented.hermesftp.cmd.SocketProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SocketProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SocketProvider </td></tr>
@@ -25,7 +25,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.cmd.ActiveModeSocketProvider
-	c10521 [label=<<table title="com.apporiented.hermesftp.cmd.ActiveModeSocketProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ActiveModeSocketProvider.html">
+	c10519 [label=<<table title="com.apporiented.hermesftp.cmd.ActiveModeSocketProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ActiveModeSocketProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ActiveModeSocketProvider </td></tr>
 		</table></td></tr>
@@ -40,6 +40,6 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//com.apporiented.hermesftp.cmd.ActiveModeSocketProvider implements com.apporiented.hermesftp.cmd.SocketProvider
-	c10514:p -> c10521:p [dir=back,arrowtail=empty,style=dashed];
+	c10512:p -> c10519:p [dir=back,arrowtail=empty,style=dashed];
 }
 

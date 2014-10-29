@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// com.apporiented.hermesftp.usermanager.model.GroupDataList
-	c17277 [label=<<table title="com.apporiented.hermesftp.usermanager.model.GroupDataList" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GroupDataList.html">
+	c17275 [label=<<table title="com.apporiented.hermesftp.usermanager.model.GroupDataList" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GroupDataList.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GroupDataList </td></tr>
 		</table></td></tr>

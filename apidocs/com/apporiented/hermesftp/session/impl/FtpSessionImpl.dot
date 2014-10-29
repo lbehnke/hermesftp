@@ -9,26 +9,8 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// com.apporiented.hermesftp.session.FtpSession
-	c4998 [label=<<table title="com.apporiented.hermesftp.session.FtpSession" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../FtpSession.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> FtpSession </td></tr>
-		</table></td></tr>
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="left" balign="left">  </td></tr>
-		</table></td></tr>
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="left" balign="left"> + setFtpContext(ctx : FtpSessionContext) </td></tr>
-<tr><td align="left" balign="left"> + getFtpContext() : FtpSessionContext </td></tr>
-<tr><td align="left" balign="left"> + setCmdReader(reader : FtpCmdReader) </td></tr>
-<tr><td align="left" balign="left"> + isTerminated() : boolean </td></tr>
-<tr><td align="left" balign="left"> + start() </td></tr>
-<tr><td align="left" balign="left"> + abort() </td></tr>
-		</table></td></tr>
-		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.session.impl.FtpSessionImpl
-	c5000 [label=<<table title="com.apporiented.hermesftp.session.impl.FtpSessionImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FtpSessionImpl.html">
+	c4998 [label=<<table title="com.apporiented.hermesftp.session.impl.FtpSessionImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FtpSessionImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FtpSessionImpl </td></tr>
 		</table></td></tr>
@@ -46,7 +28,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.common.FtpConstants
-	c5003 [label=<<table title="com.apporiented.hermesftp.common.FtpConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../common/FtpConstants.html">
+	c5001 [label=<<table title="com.apporiented.hermesftp.common.FtpConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../common/FtpConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> FtpConstants </td></tr>
@@ -178,13 +160,11 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//com.apporiented.hermesftp.session.impl.FtpSessionImpl extends java.lang.Thread
-	c5102:p -> c5000:p [dir=back,arrowtail=empty];
-	//com.apporiented.hermesftp.session.impl.FtpSessionImpl implements com.apporiented.hermesftp.session.FtpSession
-	c4998:p -> c5000:p [dir=back,arrowtail=empty,style=dashed];
+	c5100:p -> c4998:p [dir=back,arrowtail=empty];
 	//com.apporiented.hermesftp.session.impl.FtpSessionImpl implements com.apporiented.hermesftp.common.FtpConstants
-	c5003:p -> c5000:p [dir=back,arrowtail=empty,style=dashed];
+	c5001:p -> c4998:p [dir=back,arrowtail=empty,style=dashed];
 	// java.lang.Thread
-	c5102 [label=<<table title="java.lang.Thread" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Thread.html">
+	c5100 [label=<<table title="java.lang.Thread" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Thread.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Thread </td></tr>
 		</table></td></tr>

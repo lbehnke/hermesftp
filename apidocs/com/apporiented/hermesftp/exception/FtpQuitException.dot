@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// com.apporiented.hermesftp.exception.FtpCmdException
-	c4248 [label=<<table title="com.apporiented.hermesftp.exception.FtpCmdException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FtpCmdException.html">
+	c4247 [label=<<table title="com.apporiented.hermesftp.exception.FtpCmdException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FtpCmdException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FtpCmdException </td></tr>
 		</table></td></tr>
@@ -24,7 +24,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.exception.FtpQuitException
-	c4249 [label=<<table title="com.apporiented.hermesftp.exception.FtpQuitException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FtpQuitException.html">
+	c4248 [label=<<table title="com.apporiented.hermesftp.exception.FtpQuitException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FtpQuitException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FtpQuitException </td></tr>
 		</table></td></tr>
@@ -36,6 +36,6 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//com.apporiented.hermesftp.exception.FtpQuitException extends com.apporiented.hermesftp.exception.FtpCmdException
-	c4248:p -> c4249:p [dir=back,arrowtail=empty];
+	c4247:p -> c4248:p [dir=back,arrowtail=empty];
 }
 

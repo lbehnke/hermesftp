@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="../common/FtpConstants.html" title="com.apporiented.hermesftp.common.FtpConstants" alt="" coords="107,11,403,2168"/>
-<area shape="rect" id="node2_1" href="./AbstractFtpCmdRetr.html" title="com.apporiented.hermesftp.cmd.AbstractFtpCmdRetr" alt="" coords="17,2693,493,2979"/>
-<area shape="rect" id="node3_2" href="./AbstractFtpCmd.html" title="com.apporiented.hermesftp.cmd.AbstractFtpCmd" alt="" coords="205,2227,501,2634"/>
-<area shape="rect" id="node4_3" href="./impl/FtpCmdRetr.html" title="com.apporiented.hermesftp.cmd.impl.FtpCmdRetr" alt="" coords="15,3037,494,3219"/>
-</map>

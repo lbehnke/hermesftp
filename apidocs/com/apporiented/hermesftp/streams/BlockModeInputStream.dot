@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// com.apporiented.hermesftp.streams.BlockModeInputStream
-	c6381 [label=<<table title="com.apporiented.hermesftp.streams.BlockModeInputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BlockModeInputStream.html">
+	c6379 [label=<<table title="com.apporiented.hermesftp.streams.BlockModeInputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BlockModeInputStream.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BlockModeInputStream </td></tr>
 		</table></td></tr>
@@ -26,7 +26,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.streams.BlockModeConstants
-	c6383 [label=<<table title="com.apporiented.hermesftp.streams.BlockModeConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BlockModeConstants.html">
+	c6381 [label=<<table title="com.apporiented.hermesftp.streams.BlockModeConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BlockModeConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> BlockModeConstants </td></tr>
@@ -42,7 +42,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.streams.RecordReadSupport
-	c6387 [label=<<table title="com.apporiented.hermesftp.streams.RecordReadSupport" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RecordReadSupport.html">
+	c6385 [label=<<table title="com.apporiented.hermesftp.streams.RecordReadSupport" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RecordReadSupport.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RecordReadSupport </td></tr>
@@ -55,13 +55,13 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//com.apporiented.hermesftp.streams.BlockModeInputStream extends java.io.InputStream
-	c6472:p -> c6381:p [dir=back,arrowtail=empty];
+	c6470:p -> c6379:p [dir=back,arrowtail=empty];
 	//com.apporiented.hermesftp.streams.BlockModeInputStream implements com.apporiented.hermesftp.streams.RecordReadSupport
-	c6387:p -> c6381:p [dir=back,arrowtail=empty,style=dashed];
+	c6385:p -> c6379:p [dir=back,arrowtail=empty,style=dashed];
 	//com.apporiented.hermesftp.streams.BlockModeInputStream implements com.apporiented.hermesftp.streams.BlockModeConstants
-	c6383:p -> c6381:p [dir=back,arrowtail=empty,style=dashed];
+	c6381:p -> c6379:p [dir=back,arrowtail=empty,style=dashed];
 	// java.io.InputStream
-	c6472 [label=<<table title="java.io.InputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/InputStream.html">
+	c6470 [label=<<table title="java.io.InputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/InputStream.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> InputStream </font></td></tr>
 		</table></td></tr>

@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="../server/impl/FtpServerOptionsImpl.html" title="com.apporiented.hermesftp.server.impl.FtpServerOptionsImpl" alt="" coords="16,2435,451,2824"/>
-<area shape="rect" id="node2_1" href="../server/AbstractFtpServer.html" title="com.apporiented.hermesftp.server.AbstractFtpServer" alt="" coords="497,2339,954,2919"/>
-<area shape="rect" id="node3_2" href="../session/impl/FtpSessionContextImpl.html" title="com.apporiented.hermesftp.session.impl.FtpSessionContextImpl" alt="" coords="999,2227,1873,3032"/>
-<area shape="rect" id="node4_3" href="../session/impl/FtpSessionImpl.html" title="com.apporiented.hermesftp.session.impl.FtpSessionImpl" alt="" coords="1919,2539,2228,2720"/>
-<area shape="rect" id="node5_4" href="./FtpConstants.html" title="com.apporiented.hermesftp.common.FtpConstants" alt="" coords="1607,11,1903,2168"/>
-<area shape="rect" id="node6_5" href="../cmd/AbstractFtpCmdRetr.html" title="com.apporiented.hermesftp.cmd.AbstractFtpCmdRetr" alt="" coords="2135,3091,2611,3376"/>
-<area shape="rect" id="node7_6" href="../cmd/AbstractFtpCmd.html" title="com.apporiented.hermesftp.cmd.AbstractFtpCmd" alt="" coords="2324,2426,2620,2833"/>
-</map>

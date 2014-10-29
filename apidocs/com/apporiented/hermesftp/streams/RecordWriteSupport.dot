@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// com.apporiented.hermesftp.streams.BlockModeOutputStream
-	c6003 [label=<<table title="com.apporiented.hermesftp.streams.BlockModeOutputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BlockModeOutputStream.html">
+	c6001 [label=<<table title="com.apporiented.hermesftp.streams.BlockModeOutputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BlockModeOutputStream.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BlockModeOutputStream </td></tr>
 		</table></td></tr>
@@ -28,7 +28,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.streams.RecordWriteSupport
-	c6004 [label=<<table title="com.apporiented.hermesftp.streams.RecordWriteSupport" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RecordWriteSupport.html">
+	c6002 [label=<<table title="com.apporiented.hermesftp.streams.RecordWriteSupport" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RecordWriteSupport.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RecordWriteSupport </td></tr>
@@ -42,7 +42,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.streams.RecordOutputStream
-	c6006 [label=<<table title="com.apporiented.hermesftp.streams.RecordOutputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RecordOutputStream.html">
+	c6004 [label=<<table title="com.apporiented.hermesftp.streams.RecordOutputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RecordOutputStream.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RecordOutputStream </td></tr>
 		</table></td></tr>
@@ -59,7 +59,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.streams.TextOutputStream
-	c6011 [label=<<table title="com.apporiented.hermesftp.streams.TextOutputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TextOutputStream.html">
+	c6009 [label=<<table title="com.apporiented.hermesftp.streams.TextOutputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TextOutputStream.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TextOutputStream </td></tr>
 		</table></td></tr>
@@ -76,7 +76,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.streams.RafOutputStream
-	c6012 [label=<<table title="com.apporiented.hermesftp.streams.RafOutputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RafOutputStream.html">
+	c6010 [label=<<table title="com.apporiented.hermesftp.streams.RafOutputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RafOutputStream.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RafOutputStream </td></tr>
 		</table></td></tr>
@@ -95,12 +95,12 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//com.apporiented.hermesftp.streams.BlockModeOutputStream implements com.apporiented.hermesftp.streams.RecordWriteSupport
-	c6004:p -> c6003:p [dir=back,arrowtail=empty,style=dashed];
+	c6002:p -> c6001:p [dir=back,arrowtail=empty,style=dashed];
 	//com.apporiented.hermesftp.streams.RecordOutputStream implements com.apporiented.hermesftp.streams.RecordWriteSupport
-	c6004:p -> c6006:p [dir=back,arrowtail=empty,style=dashed];
+	c6002:p -> c6004:p [dir=back,arrowtail=empty,style=dashed];
 	//com.apporiented.hermesftp.streams.TextOutputStream implements com.apporiented.hermesftp.streams.RecordWriteSupport
-	c6004:p -> c6011:p [dir=back,arrowtail=empty,style=dashed];
+	c6002:p -> c6009:p [dir=back,arrowtail=empty,style=dashed];
 	//com.apporiented.hermesftp.streams.RafOutputStream implements com.apporiented.hermesftp.streams.RecordWriteSupport
-	c6004:p -> c6012:p [dir=back,arrowtail=empty,style=dashed];
+	c6002:p -> c6010:p [dir=back,arrowtail=empty,style=dashed];
 }
 

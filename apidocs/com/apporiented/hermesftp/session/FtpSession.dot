@@ -9,58 +9,5 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// com.apporiented.hermesftp.session.FtpSession
-	c4749 [label=<<table title="com.apporiented.hermesftp.session.FtpSession" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FtpSession.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> FtpSession </td></tr>
-		</table></td></tr>
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="left" balign="left">  </td></tr>
-		</table></td></tr>
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="left" balign="left"> + setFtpContext(ctx : FtpSessionContext) </td></tr>
-<tr><td align="left" balign="left"> + getFtpContext() : FtpSessionContext </td></tr>
-<tr><td align="left" balign="left"> + setCmdReader(reader : FtpCmdReader) </td></tr>
-<tr><td align="left" balign="left"> + isTerminated() : boolean </td></tr>
-<tr><td align="left" balign="left"> + start() </td></tr>
-<tr><td align="left" balign="left"> + abort() </td></tr>
-		</table></td></tr>
-		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// com.apporiented.hermesftp.session.impl.FtpSessionImpl
-	c4751 [label=<<table title="com.apporiented.hermesftp.session.impl.FtpSessionImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./impl/FtpSessionImpl.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> FtpSessionImpl </td></tr>
-		</table></td></tr>
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="left" balign="left">  </td></tr>
-		</table></td></tr>
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="left" balign="left"> + FtpSessionImpl() </td></tr>
-<tr><td align="left" balign="left"> + run() </td></tr>
-<tr><td align="left" balign="left"> + getFtpContext() : FtpSessionContext </td></tr>
-<tr><td align="left" balign="left"> + setFtpContext(ftpContext : FtpSessionContext) </td></tr>
-<tr><td align="left" balign="left"> + setCmdReader(reader : FtpCmdReader) </td></tr>
-<tr><td align="left" balign="left"> + isTerminated() : boolean </td></tr>
-<tr><td align="left" balign="left"> + abort() </td></tr>
-		</table></td></tr>
-		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	//com.apporiented.hermesftp.session.FtpSession implements java.lang.Runnable
-	c4853:p -> c4749:p [dir=back,arrowtail=empty,style=dashed];
-	//com.apporiented.hermesftp.session.impl.FtpSessionImpl implements com.apporiented.hermesftp.session.FtpSession
-	c4749:p -> c4751:p [dir=back,arrowtail=empty,style=dashed];
-	// java.lang.Runnable
-	c4853 [label=<<table title="java.lang.Runnable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> Runnable </td></tr>
-		</table></td></tr>
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="left" balign="left">  </td></tr>
-		</table></td></tr>
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="left" balign="left"> + run() </td></tr>
-		</table></td></tr>
-		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 }
 

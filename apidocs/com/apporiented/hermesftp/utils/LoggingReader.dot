@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// com.apporiented.hermesftp.utils.LoggingReader
-	c16650 [label=<<table title="com.apporiented.hermesftp.utils.LoggingReader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./LoggingReader.html">
+	c16648 [label=<<table title="com.apporiented.hermesftp.utils.LoggingReader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./LoggingReader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LoggingReader </td></tr>
 		</table></td></tr>
@@ -24,9 +24,9 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//com.apporiented.hermesftp.utils.LoggingReader extends java.io.BufferedReader
-	c16660:p -> c16650:p [dir=back,arrowtail=empty];
+	c16658:p -> c16648:p [dir=back,arrowtail=empty];
 	// java.io.BufferedReader
-	c16660 [label=<<table title="java.io.BufferedReader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/BufferedReader.html">
+	c16658 [label=<<table title="java.io.BufferedReader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/BufferedReader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BufferedReader </td></tr>
 		</table></td></tr>

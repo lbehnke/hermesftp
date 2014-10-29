@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// com.apporiented.hermesftp.streams.RecordWriteSupport
-	c6253 [label=<<table title="com.apporiented.hermesftp.streams.RecordWriteSupport" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RecordWriteSupport.html">
+	c6251 [label=<<table title="com.apporiented.hermesftp.streams.RecordWriteSupport" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RecordWriteSupport.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RecordWriteSupport </td></tr>
@@ -24,7 +24,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.streams.RecordOutputStream
-	c6255 [label=<<table title="com.apporiented.hermesftp.streams.RecordOutputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RecordOutputStream.html">
+	c6253 [label=<<table title="com.apporiented.hermesftp.streams.RecordOutputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RecordOutputStream.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RecordOutputStream </td></tr>
 		</table></td></tr>
@@ -41,11 +41,11 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//com.apporiented.hermesftp.streams.RecordOutputStream extends java.io.OutputStream
-	c6347:p -> c6255:p [dir=back,arrowtail=empty];
+	c6345:p -> c6253:p [dir=back,arrowtail=empty];
 	//com.apporiented.hermesftp.streams.RecordOutputStream implements com.apporiented.hermesftp.streams.RecordWriteSupport
-	c6253:p -> c6255:p [dir=back,arrowtail=empty,style=dashed];
+	c6251:p -> c6253:p [dir=back,arrowtail=empty,style=dashed];
 	// java.io.OutputStream
-	c6347 [label=<<table title="java.io.OutputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/OutputStream.html">
+	c6345 [label=<<table title="java.io.OutputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/OutputStream.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> OutputStream </font></td></tr>
 		</table></td></tr>

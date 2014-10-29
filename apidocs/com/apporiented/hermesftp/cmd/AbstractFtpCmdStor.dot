@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// com.apporiented.hermesftp.cmd.AbstractFtpCmdStorFile
-	c10012 [label=<<table title="com.apporiented.hermesftp.cmd.AbstractFtpCmdStorFile" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AbstractFtpCmdStorFile.html">
+	c10010 [label=<<table title="com.apporiented.hermesftp.cmd.AbstractFtpCmdStorFile" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AbstractFtpCmdStorFile.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> AbstractFtpCmdStorFile </font></td></tr>
 		</table></td></tr>
@@ -26,7 +26,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.cmd.AbstractFtpCmd
-	c10020 [label=<<table title="com.apporiented.hermesftp.cmd.AbstractFtpCmd" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AbstractFtpCmd.html">
+	c10018 [label=<<table title="com.apporiented.hermesftp.cmd.AbstractFtpCmd" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AbstractFtpCmd.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> AbstractFtpCmd </font></td></tr>
 		</table></td></tr>
@@ -57,7 +57,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.cmd.AbstractFtpCmdStor
-	c10021 [label=<<table title="com.apporiented.hermesftp.cmd.AbstractFtpCmdStor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./AbstractFtpCmdStor.html">
+	c10019 [label=<<table title="com.apporiented.hermesftp.cmd.AbstractFtpCmdStor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./AbstractFtpCmdStor.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> AbstractFtpCmdStor </font></td></tr>
 		</table></td></tr>
@@ -81,8 +81,8 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//com.apporiented.hermesftp.cmd.AbstractFtpCmdStorFile extends com.apporiented.hermesftp.cmd.AbstractFtpCmdStor
-	c10021:p -> c10012:p [dir=back,arrowtail=empty];
+	c10019:p -> c10010:p [dir=back,arrowtail=empty];
 	//com.apporiented.hermesftp.cmd.AbstractFtpCmdStor extends com.apporiented.hermesftp.cmd.AbstractFtpCmd
-	c10020:p -> c10021:p [dir=back,arrowtail=empty];
+	c10018:p -> c10019:p [dir=back,arrowtail=empty];
 }
 

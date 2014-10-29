@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="../FtpSession.html" title="com.apporiented.hermesftp.session.FtpSession" alt="" coords="15,999,281,1180"/>
-<area shape="rect" id="node2_1" href="./FtpSessionImpl.html" title="com.apporiented.hermesftp.session.impl.FtpSessionImpl" alt="" coords="320,2227,629,2408"/>
-<area shape="rect" id="node3_2" href="../../common/FtpConstants.html" title="com.apporiented.hermesftp.common.FtpConstants" alt="" coords="327,11,623,2168"/>
-<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Thread.html" title="java.lang.Thread" alt="" coords="669,600,1169,1579"/>
-</map>

@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// com.apporiented.hermesftp.cmd.FtpCmd
-	c9520 [label=<<table title="com.apporiented.hermesftp.cmd.FtpCmd" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FtpCmd.html">
+	c9518 [label=<<table title="com.apporiented.hermesftp.cmd.FtpCmd" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FtpCmd.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> FtpCmd </td></tr>
@@ -30,7 +30,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.cmd.AbstractFtpCmd
-	c9523 [label=<<table title="com.apporiented.hermesftp.cmd.AbstractFtpCmd" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AbstractFtpCmd.html">
+	c9521 [label=<<table title="com.apporiented.hermesftp.cmd.AbstractFtpCmd" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AbstractFtpCmd.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> AbstractFtpCmd </font></td></tr>
 		</table></td></tr>
@@ -61,11 +61,11 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//com.apporiented.hermesftp.cmd.FtpCmd implements java.lang.Cloneable
-	c9586:p -> c9520:p [dir=back,arrowtail=empty,style=dashed];
+	c9584:p -> c9518:p [dir=back,arrowtail=empty,style=dashed];
 	//com.apporiented.hermesftp.cmd.AbstractFtpCmd implements com.apporiented.hermesftp.cmd.FtpCmd
-	c9520:p -> c9523:p [dir=back,arrowtail=empty,style=dashed];
+	c9518:p -> c9521:p [dir=back,arrowtail=empty,style=dashed];
 	// java.lang.Cloneable
-	c9586 [label=<<table title="java.lang.Cloneable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Cloneable.html">
+	c9584 [label=<<table title="java.lang.Cloneable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Cloneable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Cloneable </td></tr>

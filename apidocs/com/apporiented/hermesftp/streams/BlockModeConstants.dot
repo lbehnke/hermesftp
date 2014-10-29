@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// com.apporiented.hermesftp.streams.BlockModeOutputStream
-	c6627 [label=<<table title="com.apporiented.hermesftp.streams.BlockModeOutputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BlockModeOutputStream.html">
+	c6625 [label=<<table title="com.apporiented.hermesftp.streams.BlockModeOutputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BlockModeOutputStream.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BlockModeOutputStream </td></tr>
 		</table></td></tr>
@@ -28,7 +28,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.streams.BlockModeInputStream
-	c6631 [label=<<table title="com.apporiented.hermesftp.streams.BlockModeInputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BlockModeInputStream.html">
+	c6629 [label=<<table title="com.apporiented.hermesftp.streams.BlockModeInputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BlockModeInputStream.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BlockModeInputStream </td></tr>
 		</table></td></tr>
@@ -44,7 +44,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// com.apporiented.hermesftp.streams.BlockModeConstants
-	c6633 [label=<<table title="com.apporiented.hermesftp.streams.BlockModeConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BlockModeConstants.html">
+	c6631 [label=<<table title="com.apporiented.hermesftp.streams.BlockModeConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BlockModeConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> BlockModeConstants </td></tr>
@@ -60,8 +60,8 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//com.apporiented.hermesftp.streams.BlockModeOutputStream implements com.apporiented.hermesftp.streams.BlockModeConstants
-	c6633:p -> c6627:p [dir=back,arrowtail=empty,style=dashed];
+	c6631:p -> c6625:p [dir=back,arrowtail=empty,style=dashed];
 	//com.apporiented.hermesftp.streams.BlockModeInputStream implements com.apporiented.hermesftp.streams.BlockModeConstants
-	c6633:p -> c6631:p [dir=back,arrowtail=empty,style=dashed];
+	c6631:p -> c6629:p [dir=back,arrowtail=empty,style=dashed];
 }
 
