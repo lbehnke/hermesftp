@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./TextStreamTest.html" title="com.apporiented.hermesftp.streams.TextStreamTest" alt="" coords="15,11,150,123"/>
+<area shape="rect" id="node2_1" href="./RecordStreamTest.html" title="com.apporiented.hermesftp.streams.RecordStreamTest" alt="" coords="195,11,373,123"/>
+<area shape="rect" id="node3_2" href="./BlockModeStreamTest.html" title="com.apporiented.hermesftp.streams.BlockModeStreamTest" alt="" coords="418,11,595,123"/>
+</map>

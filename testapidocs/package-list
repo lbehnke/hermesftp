@@ -1,8 +1,8 @@
-de.apporiented.hermesftp
-de.apporiented.hermesftp.client
-de.apporiented.hermesftp.common
-de.apporiented.hermesftp.server.impl
-de.apporiented.hermesftp.streams
-de.apporiented.hermesftp.usermanager.impl
-de.apporiented.hermesftp.usermanager.model
-de.apporiented.hermesftp.utils
+com.apporiented.hermesftp
+com.apporiented.hermesftp.client
+com.apporiented.hermesftp.common
+com.apporiented.hermesftp.server.impl
+com.apporiented.hermesftp.streams
+com.apporiented.hermesftp.usermanager.impl
+com.apporiented.hermesftp.usermanager.model
+com.apporiented.hermesftp.utils

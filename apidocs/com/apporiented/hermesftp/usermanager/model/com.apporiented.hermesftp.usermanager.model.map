@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./UserManagerData.html" title="com.apporiented.hermesftp.usermanager.model.UserManagerData" alt="" coords="16,89,323,236"/>
+<area shape="rect" id="node2_1" href="./UserData.html" title="com.apporiented.hermesftp.usermanager.model.UserData" alt="" coords="368,11,661,314"/>
+<area shape="rect" id="node3_2" href="./PermissionData.html" title="com.apporiented.hermesftp.usermanager.model.PermissionData" alt="" coords="707,81,1165,245"/>
+<area shape="rect" id="node4_3" href="./GroupData.html" title="com.apporiented.hermesftp.usermanager.model.GroupData" alt="" coords="1210,72,1601,253"/>
+<area shape="rect" id="node5_4" href="./GroupDataList.html" title="com.apporiented.hermesftp.usermanager.model.GroupDataList" alt="" coords="1646,81,2069,245"/>
+</map>

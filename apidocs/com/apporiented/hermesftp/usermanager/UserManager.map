@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./UserManager.html" title="com.apporiented.hermesftp.usermanager.UserManager" alt="" coords="15,11,515,279"/>
+<area shape="rect" id="node2_1" href="./impl/XmlFileUserManager.html" title="com.apporiented.hermesftp.usermanager.impl.XmlFileUserManager" alt="" coords="15,339,515,642"/>
+</map>
