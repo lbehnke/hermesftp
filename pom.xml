@@ -402,7 +402,7 @@
 		<build.info>-</build.info>
 
         <spring.version>5.3.18</spring.version>
-        <junit.version>4.11</junit.version>
+        <junit.version>4.13.1</junit.version>
 	</properties>
 
 </project>
