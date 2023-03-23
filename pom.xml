@@ -401,7 +401,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<build.info>-</build.info>
 
-        <spring.version>5.3.18</spring.version>
+        <spring.version>5.3.26</spring.version>
         <junit.version>4.11</junit.version>
 	</properties>
 
